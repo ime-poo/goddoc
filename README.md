@@ -1,0 +1,4 @@
+goddoc
+======
+
+GOD project documentation
