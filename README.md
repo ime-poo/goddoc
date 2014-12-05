@@ -1,4 +1,4 @@
 goddoc
 ======
 
-GOD project documentation
+GOD project documentation.
