@@ -1,0 +1,146 @@
+\section{GODProcessors - Módulo de Processadores}
+\begin{center}
+Thiago Dias: tdsimao [at] gmail.com
+\end{center}
+
+
+O módulo \textbf{GODProcessors} tem a responsabilidade de realizar o processamento sobre
+coleções de dados.
+
+Possui duas classes principais, a \texttt{PCSStatisticsCalculator} que realiza os principais
+cálculos estatísticos e a \texttt{PCSTagger} que realiza classificação de texto através de
+métodos de recuperação de informação. Possui ainda duas classes auxiliares, a
+\texttt{PCSPreprocessor} que realiza tratamento de strings e a \texttt{PCSGODTagger} uma fachada
+para objetos \texttt{GODData}.
+
+\subsection{PCSStatisticsCalculator} 
+
+Esta classe calcula medidas estatísticas de tendencia central e dispersão para um determinada
+coleção. Possui ainda um método para contagem de palavras.
+
+
+\subsubsection{Métodos}
+Todos os cálculos dessa classe podem ser realizados de duas formas, com ou sem bloco. A chamada
+sem bloco realiza os cálculos sobre o valores absolutos da coleção, enquanto a chamada com
+bloco executa os cálculos sobre o resultado da execução do bloco nos elementos da coleção.
+
+Os cálculos que a classe realiza são:
+\begin{description}
+    \item[average] média 
+    \item[median] mediana
+    \item[std] desvio padrão
+    \item[var] variância
+\end{description}
+
+Além dos cálculos estatísticos, possui um método para contagem de palavras
+
+\begin{description}
+    \item[countIn: aString ocurrencesOf: aWord] conta o número de ocorrências da palavra
+                   \texttt{aWord} na \textit{string} \texttt{aString}.
+\end{description}
+
+\subsubsection{Exemplos}
+Para utilizar os métodos sobre uma coleção de números.
+    \begin{verbatim}
+    pcs := PCSStatisticsCalculator new.
+    pcs average: aCollection.
+    pcs median: aCollection.
+    pcs std: aCollection.
+    pcs var: aCollection.
+    \end{verbatim}
+
+Pode-se utilizar os métodos sobre os atributos de coleção uma coleção de objetos, passando um
+bloco como parâmetro.
+    \begin{verbatim}
+    pcs := PCSStatisticsCalculator new.
+    pcs average: aCollection key: [ :x | x width].
+    pcs median: aCollection key: [ :x | x width].
+    pcs std: aCollection key: [ :x | x width].
+    pcs var: aCollection key: [ :x | x width].
+    \end{verbatim}
+
+
+    
+\subsection{PCSTagger}
+
+Essa classe utiliza métodos de treinamento não supervisionado, que recebe uma coleção de
+\textit{strings} para treinamento e em seguida é capaz de retornar os objetos mais relevantes
+de uma nova \textit{string} em relação a toda a coleção.
+
+Essa classe usa a medida \textit{tf\_idf} para avaliar a relevância de cada termo. Detalhes sobre
+essa técnica podem ser encontrados no livro Introduction to Information Retrieval
+\footnote{http://nlp.stanford.edu/IR-book/}
+
+\subsubsection{Variáveis de Instância}
+    
+\begin{description}
+    \item[dictIdf] Dictionary<idf> -- um dicionário de \textit{idf}(raridade do termo na
+                   coleção)
+    \item[maxTf] float $[0..1]$ -- frequência máxima dos termos da string que será considerada
+                 pelo algoritmo.
+    \item[minTf] float $[0..1]$ -- frequência mínima dos termos da string que será considerada
+                 pelo algoritmo.
+    \item[minRelevance] float $[0..1]$ --  define o menor \textit{tf\_idf} (relevância) a ser
+                        considerada
+    
+\end{description}
+
+
+\subsubsection{Exemplos}
+Para utilizar os métodos sobre uma coleção de \textit{strings}.
+    \begin{verbatim}
+    pcsTagger = PCSTagger new.
+    pcsTagger createDictIdf: aStringCollection.
+    bag := Bag new.
+    bag := pcsTagger getMoreRelevantsOf: aString.
+    \end{verbatim}
+    
+\subsection{PCSGODTagger}
+Essa classe é uma fachada da classe \texttt{PCSTagger} para objetos \texttt{GODData}. A classe
+\texttt{PCSGODTaggerExample} mostra um exemplo completo de uso dessa classe.
+
+É importante notar que é possível alterar o \texttt{PCSTagger} segundo necessário.
+
+\subsubsection{Variáveis de Instância}
+\begin{description}
+ \item  [tagger] PCSTagger 
+\end{description}
+
+\subsubsection{Exemplos}
+    Para adicionar \textit{tags} a um objeto \texttt{GODData}.
+    \begin{verbatim}
+    pcsTagger := PCSGODTagger new.
+    pcsTagger training: aGODDataCollection.
+    pcsTagger addTagsTo: aGODData.
+    \end{verbatim}
+    
+    Para adicionar \textit{tags} a todos os elementos de uma coleção de \texttt{GODData} é
+    possível chamar o método \texttt{tagCollection}.
+    \begin{verbatim}
+    pcsTagger := PCSGODTagger new.
+    pcsTagger tagCollection: aGODDataCollection.
+    \end{verbatim}
+
+
+\subsection{PCSPreprocessor}
+Essa classe realiza operações comuns de pré-processamento de \textit{strings}.
+
+
+\subsubsection{Variáveis de Instância}
+\begin{description}
+ \item  [fileType] String $\in$ \{`TXT',`HTML'\} -- 
+ \item  [puctuation] String --
+ \item  [stopWords] Set<string>--
+ 
+\end{description}
+
+
+\subsubsection{Métodos}
+As operações que essa classe realiza são:
+\begin{description}
+    \item[removeStopwords] média 
+    \item[median] mediana
+    \item[std] desvio padrão
+    \item[var] variância
+\end{description}
+
