@@ -1,6 +1,8 @@
+
+
 \section{GODProcessors - Módulo de Processadores}
 \begin{center}
-Thiago Dias: tdsimao [at] gmail.com
+Thiago Dias: tdsimao [at] ime.usp.br
 \end{center}
 
 
@@ -26,7 +28,7 @@ bloco executa os cálculos sobre o resultado da execução do bloco nos elemento
 
 Os cálculos que a classe realiza são:
 \begin{description}
-    \item[average] média 
+    \item[average]  média 
     \item[median] mediana
     \item[std] desvio padrão
     \item[var] variância
@@ -82,14 +84,20 @@ essa técnica podem ser encontrados no livro Introduction to Information Retriev
                  pelo algoritmo.
     \item[minRelevance] float $[0..1]$ --  define o menor \textit{tf\_idf} (relevância) a ser
                         considerada
-    
+\end{description}
+
+\subsubsection{Métodos}
+
+\begin{description}
+    \item [createDictIdf: aStringCollection] cria o \texttt{dictIdf}
+    \item [getMoreRelevantsOf: aString] recupera os termos mais relevantes de \texttt{aString}
 \end{description}
 
 
 \subsubsection{Exemplos}
 Para utilizar os métodos sobre uma coleção de \textit{strings}.
     \begin{verbatim}
-    pcsTagger = PCSTagger new.
+    pcsTagger := PCSTagger new.
     pcsTagger createDictIdf: aStringCollection.
     bag := Bag new.
     bag := pcsTagger getMoreRelevantsOf: aString.
@@ -103,8 +111,23 @@ Essa classe é uma fachada da classe \texttt{PCSTagger} para objetos \texttt{GOD
 
 \subsubsection{Variáveis de Instância}
 \begin{description}
- \item  [tagger] PCSTagger 
+ \item  [tagger] PCSTagger -- objeto da classe \texttt{PCSTagger} que treina com uma coleção de 
+                              strings recuperadas de uma coleção de \texttt{GODData} e recupera
+                              os principais termos dessa \textit{String}
 \end{description}
+
+
+\subsubsection{Métodos}
+
+\begin{description}
+    \item [training: aGODDataCollection] realiza o treinamento com o atributo \texttt{content}                                  
+                                          dos objetos de \texttt{aGODDataCollection}
+    \item [addTagsTo: aGODData] define tags para o atributo \texttt{tags} de \texttt{aGODData}
+    \item [tagCollection: aGODDataCollection] atalho para realizar o treinamento sobre uma
+                                         coleção e em seguida adicionar tags a todos os objetos
+                                         da mesma
+ \end{description}
+
 
 \subsubsection{Exemplos}
     Para adicionar \textit{tags} a um objeto \texttt{GODData}.
@@ -123,24 +146,35 @@ Essa classe é uma fachada da classe \texttt{PCSTagger} para objetos \texttt{GOD
 
 
 \subsection{PCSPreprocessor}
-Essa classe realiza operações comuns de pré-processamento de \textit{strings}.
+Essa classe realiza operações comuns de pré-processamento de \textit{strings}. 
+Para utilizar essa classe você deve configurá-la definindo os valores de suas variáveis 
+\ref{pre-variaveis} através de seus métodos de acesso e em seguida usar o método
+\texttt{preprocess: aString} para recuperar uma coleção de \textit{tokens} da string 
+\textit{aString}
 
 
-\subsubsection{Variáveis de Instância}
+\subsubsection{Variáveis de Instância} \label{pre-variaveis}
 \begin{description}
- \item  [fileType] String $\in$ \{`TXT',`HTML'\} -- 
- \item  [puctuation] String --
- \item  [stopWords] Set<string>--
- 
+ \item  [fileType] String $\in$ \{`TXT',`HTML'\} -- define o tipo de arquivo de entrada
+ \item  [puctuation] String -- string com todos os caracteres de pontuação que  serão removidos,
+                     ex: `,.!?'
+ \item  [stopWords] Set<string>-- um conjunto com palavras comuns da língua que serão ignoradas 
 \end{description}
 
 
-\subsubsection{Métodos}
+\subsubsection{Métodos} 
+Além do método principal \texttt{preprocess:} 
 As operações que essa classe realiza são:
 \begin{description}
-    \item[removeStopwords] média 
-    \item[median] mediana
-    \item[std] desvio padrão
-    \item[var] variância
+    \item[treatType] realiza tratamento relativo ao tipo de arquivo, exemplo para arquivos HTML
+                     remove as \textit{tags} HTML
+    \item[removeStopwords] remove as palavras comuns de uma \textit{string}
+    \item[tokenizer] quebra a \textit{string} em uma coleção de \textit{tokens}
 \end{description}
+
+\subsubsection{Examplos}
+    \begin{verbatim}
+    preprocessor := PCSPreprocessor new.
+    aBag := preprocessor preprocess: aString.
+    \end{verbatim}  
 
