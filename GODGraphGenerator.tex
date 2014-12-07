@@ -1,15 +1,6 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[brazil]{babel}
-\usepackage[T1]{fontenc}
-\usepackage[margin=2.5cm]{geometry}
-\usepackage[pdftex]{graphicx}
-\graphicspath{ {figures/} }
-\setlength{\parindent}{0cm}               % Não gosto de indentação em paragrafos, prefiro pular uma linha
-
-\begin{document}
 \section{GODGraphGenerator}
 	Esta seção apresenta o documento de projeto do módulo do gerador de gráficos e está seccionada em tópicos de
-	interesse.\\
+	interesse.
 
 	Em caso de dúvidas, entre em contato com \emph{Renan Teruo Carneiro: renanteruoc@gmail.com}.
 
@@ -37,7 +28,7 @@
 		output de maneira simples e independente das funcionalidades já implementadas.
 
 	\subsection{Input}
-		O input é feito preenchendo uma espécie de formulário com os seguintes campos:\\
+		O input é feito preenchendo uma espécie de formulário com os seguintes campos:
 		\makebox[\linewidth]{
 			\begin{tabular}{l l}
 				Label horizontal: &   String \emph{opcional}\\
@@ -48,10 +39,10 @@
 
 		O campo Tabela de Dados deve ser um Dictionary no formato: \emph{palavra -> número}. E um ponto a
 		ser resaltado é que apesar de possível, não é recomendado a inclusão de novas palavras no após o
-		gráfico ter sido gerado.\\
+		gráfico ter sido gerado.
 
 		Apesar dos campos de labels serem opcionais, é recomendado o seu uso, pois aumenta o comprimento
-		dos eixos e gera mais espaço para o desenho do gráfico.\\
+		dos eixos e gera mais espaço para o desenho do gráfico.
 
 		É possível criar customizações, de modo que a Tabela de Dados seja de outro tipo. Para isso criamos
 		uma subclasse de \emph{GGGraph}, como se fosse um tipo diferente de gráfico. Dizemos o tipo do
@@ -61,10 +52,10 @@
 
 	\subsection{Output}
 		O output é uma instância do tipo do gráfico, e todos os gráficos são subclasses de Morph (mais
-		detalhes na seção 1.5).\\
+		detalhes na seção 1.5).
 
 		Esse objeto pode ser exportado para um arquivo de imagem PNG, que será salvo em
-		\emph{\$squeak\_dir/Contents/Resources}, ou aberto no Squeak world.\\
+		\emph{\$squeak\_dir/Contents/Resources}, ou aberto no Squeak world.
 
 		Casso seja necessário mudar a extenssão do arquivo de imagem, o output pode receber qualquer
 		mensagem destinada a objetos do tipo Morph.
@@ -75,16 +66,16 @@
 		terceira subclasse \emph{GGGraphOrderedCollectionDecorator} é uma customização de input.\\
 
 		A única especialização dos gráficos de barra e linha é a forma como eles são desenhados, todo o
-		resto da estrutura é comum para todos os gráficos.\\
+		resto da estrutura é comum para todos os gráficos.
 
-		Abaixo o digrama de classes descreve tal arquitetura:\\
+		Abaixo o digrama de classes descreve tal arquitetura:
 
 		\makebox[\linewidth]{
 			\includegraphics[scale=0.53]{gg_class_diagram}
 		}
 
 	\subsection{Exemplo de uso}
-		O código a seguir exemplifica a rotina para gerar o gráfico:\\
+		O código a seguir exemplifica a rotina para gerar o gráfico:
 
 		\makebox[\linewidth]{
 			\includegraphics[scale=0.78]{gg_code_gbar}
@@ -101,11 +92,9 @@
 		\end{enumerate}
 
 		OBS: Uma restrição do gráfico de linhas é que as chaves no Dictionary precisam ser números não
-		negativos. E recomendamos que sejam os itervalos $0 \bmod(100)$.\\
+		negativos. E recomendamos que sejam os itervalos $0 \bmod(100)$.
 
 		\makebox[\linewidth]{
 			\includegraphics[scale=1.10]{gg_code_gline}
 			\includegraphics[scale=0.88]{gg_gline}
 		}
-
-\end{document}
