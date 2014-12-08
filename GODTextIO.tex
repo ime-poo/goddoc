@@ -1,0 +1,154 @@
+\section{GODTextIO}
+
+O \verb|GODTextIO| é o módulo integrante do GOD (Grande Organizador de
+Dados) que se encarrega da conversão do conteúdo arquivos texto para
+um objeto do tipo \verb|GODData| e vice-versa. Atualmente, o módulo
+lida com arquivos \verb|odt|, \verb|pdf|, \verb|rtf| e \verb|txt|. A
+seguir, daremos uma descrição sobre os pré-requisitos para seu
+funcionamento e, logo depois, a composição do módulo, além de mostrar
+como lidamos com os diversos tipos de arquivos.
+
+\subsection{Equipe}
+
+João Paulo Camargo, John
+Gardenghi\footnote{\href{mailto:john@ime.usp.br}{john@ime.usp.br}},
+Marcello Oliveira, José Eurípedes.
+
+
+\subsection{Pré-requisitos}
+
+Para que este módulo funcione corretamente, é necessário
+\begin{itemize}
+\item Ter o módulo \verb|OSProcess| instalado no Squeak. Ele pode ser
+  obtido em \url{http://www.ime.usp.br/~john/OSProcessV4-3-7.sar}.
+\item Ter o \verb|pdflatex| e o \verb|abiword| devidamente instalados
+  e funcionando por chamada no terminal.
+\end{itemize}
+
+\subsection{Classes}
+
+\vspace{1em}
+\textbf{TXTIOConverter}
+
+É a interface com o GOD. Qualquer outro módulo que deseje usar alguma
+das nossas funcionalidades, deve fazer chamadas a métodos desta
+classe. Ela é apenas a porta de entrada do nosso módulo, portanto, as
+funcionalidades que ela implementa não estão codificadas nesta classe,
+mas apenas são feitas chamadas a métodos competentes para cada
+funcionalidade.
+
+Esta classe possui apenas um atributo, que é o \verb|types|. É um
+dicionário cujas chaves são os tipos suportados pelo módulo, a saber
+\verb|odt|, \verb|pdf|, \verb|rtf| e \verb|txt|, e os valores são as
+classes associadas a cada tipo de arquivo. Por outro lado, temos dez
+métodos. A seguir, descrevemos os que interessam a outros módulos do
+GOD. Logo depois, mostramos os demais métodos da classe, usados para
+finalidades específicas da própria classe.
+\begin{enumerate}
+
+\item \verb|readFromFile: aPath type: fileType| é responsável por ler
+  um arquivo cujo caminho é passado no argumento \verb|aPath| e cujo
+  tipo é passado no argumento \verb|fileType|. Os tipos de arquivos
+  válidos são \verb|odt|, \verb|pdf|, \verb|rtf| e \verb|txt|. Devolve
+  um objeto do tipo \verb|GODData|. Sua variação é o método
+  \verb|readFromFile: aPath|, em que o tipo do arquivo é extraído do
+  caminho passado.
+
+\item
+  \verb|write: godData toFile: aPath type: fileType append: app overwrite: ovwr|
+  é responsável por escrever o conteúdo do objeto \verb|godData| do
+  tipo \verb|GODData| em um arquivo cujo caminho é passado pelo
+  argumento \verb|aPath| do tipo \verb|fileType|. Os argumentos (a)
+  \verb|append| e (b) \verb|overwrite| são valores lógicos que
+  determinam, caso o arquivo a ser escrito já exista, se (a) o novo
+  conteúdo deve ser adicionado ao final do arquivo já existente e (b)
+  o arquivo deve ser sobrescrito. Suas variações são quatro métodos,
+  variando apenas a combinação dos argumentos, que são
+  \begin{itemize}
+
+  \item \verb|write: godData toFile: aPath|,
+  \item \verb|write: godData toFile: aPath type: fileType|,
+  \item \verb|write: godData toFile: aPath type: fileType append: app|,
+  \item \verb|write: godData toFile: aPath type: fileType overwrite: ovwr|.
+
+  \end{itemize}
+
+\end{enumerate}
+
+Além desses sete métodos, temos
+\begin{enumerate}
+
+\item \verb|getFileTypeFromPath: aPath| extrai o tipo do arquivo a
+  partir do caminho passado como argumento em \verb|aPath| e o
+  retorna.
+
+\item \verb|getPossibleTypes| retorna uma lista com as chaves do
+  dicionário \verb|types|.
+
+\item \verb|initialize| inicializa o dicionário \verb|types|.
+
+\end{enumerate}
+
+\vspace{1em}
+\textbf{TXTMainConverter}
+
+É a classe mãe que determina os métodos que cada classe filha deve
+implementar de forma ler ou escrever arquivos de tipos
+específicos. Possui sete atributos:
+\begin{enumerate}
+\item \verb|append| determina se o conteúdo novo deve ser adicionado
+  ao final de um arquivo existente (lógico),
+\item \verb|author| contém o autor do conteúdo (texto),
+\item \verb|contents| contém o conteúdo do arquivo (texto),
+\item \verb|date| contém a data (texto),
+\item \verb|overwrite| determina se o arquivo deve ser sobrescrito
+  (lógico),
+\item \verb|path| contém o caminho do arquivo (texto),
+\item \verb|title| contém o título (texto).
+\end{enumerate}
+
+Contém dois métodos principais:
+\begin{enumerate}
+\item \verb|readFile| lê um arquivo. Nesta classe, possui uma
+  implementação genérica, em que converte o tipo do arquivo para
+  \verb|odt|, usando o \verb|abiword|, e lê este arquivo usando o
+  leitor implementado na classe \verb|TXTIOOdtConverter|. Todavia, é
+  sobrescrito pelas classes filhas \verb|TXTIOOdtConverter| e
+  \verb|TXTIOTextConverter|. O conteúdo lido do arquivo é salvo no
+  atributo \verb|content| na classe, e este método retorna
+  \verb|true|.
+
+\item \verb|writeFile| é apenas um método abstrato.
+\end{enumerate}
+
+Além disso, temos \verb|convertFileType|, que faz a conversão do tipo
+do arquivo usando o \verb|abiword|, e os métodos de acesso aos
+atributos.
+
+As classes que lidam com os tipos suportados são:
+\begin{enumerate}
+\item \verb|TXTIOOdtConverter| lida com arquivos \verb|odt|. Explora o
+  padrão \textit{OpenDocument Format} (\verb|odf|). Esse formato é uma
+  forma compactada de alguns arquivos, dos quais nos interessam o
+  arquivo \verb|content.xml|. Na classe \verb|TXTOdtConverter|, o
+  método \verb|readFile|, se encarrega primeiro de chamar o
+  \verb|extractTextXML| para extrair o conteúdo interessante
+  (\textit{tags} office:*) desse arquivo, primeiro descompactando o
+  formato \verb|odt| (através da classe \verb|ZipArchive| do Squeak) e
+  depois lendo como uma \textit{stream}. Depois o \verb|readFile|
+  extrai a informação útil dessa \textit{stream}, verificando as
+  \textit{tags}. O \verb|writeFile|, cria um diretório temporário e os
+  arquivos que compoem o \verb|odt|, e escreve no \verb|content.xml| o
+  conteúdo (conforme o formato \verb|xml|), compacta para \verb|odt| e
+  o move para o caminho desejado pelo usuário.
+\item \verb|TXTIOPdfConventer| lida com arquivos \verb|pdf|. Escreve
+  arquivos usando o \verb|pdflatex| e lê usando o conversor do
+  \verb|abiword| implementado na classe mãe.
+\item \verb|TXTIORtfConverter| lida com arquivos \verb|rtf|. Para a
+  escrita, criamos algumas tags básicas do formato e escrevemos,
+  através da TXTTextConverter, em um arquivo, no formato rtf, todavia
+  os lê usando o conversor \verb|abiword| implementado na classe mãe.
+\item \verb|TXTIOTextConverter| lida com arquivos \verb|txt|. Escreve
+  e lê os arquivos usando a classe \verb|FileStream| do Squeak
+  Smalltalk.
+\end{enumerate}
