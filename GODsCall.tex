@@ -1,0 +1,109 @@
+\section{GOD's Call}
+\subsection{Equipe}
+	 Fabrício C. Machado\footnote{fabcm@ime.usp.br}, Phablo F. S. Moura e Camila M. de Sousa.
+
+\subsection{Descrição geral}
+  O GOD's Call é uma aplicação para o auxílio na decisão sobre qual conferência participar.
+  
+  Essa aplicação acessa diferentes fontes na internet (e.g. WikiCFP, ConfSearch e lista de classificação da CAPES-Qualis) e  combina os dados dessas fontes para criar uma lista de conferências com informações como Deadline, Palavras-Chave, Área, Ratings, Conceito Qualis, etc e permite que o usuário faça buscas nessa base de dados.
+
+\subsection{Tutorial de inicialização} %Fabricio
+
+\subsubsection{Dependências}
+
+Na versão atual do God's Call, usamos especialmente os seguintes pacotes (e versões):
+\texttt{GODBases-lacm.31.cmz}, \texttt{GODCall-pfsm.92.mcz}, \texttt{GODCallTests-pfsm.36.mcz}, \texttt{GODFilter-ym. 23.mcz}, \texttt{GODKernel-ER17.mcz}, \texttt{GODSpreadsheet-foa.29.mcz}, \texttt{GODWeb-has.21.mcz}.
+
+Também usamos um pacote adicional: Regex (versão \texttt{damienpollet.17}).
+
+\subsubsection{Arquivos de configuração e testes do God's Call}
+
+Usamos alguns arquivos de configuração e de entrada para nossos testes, que supomos salvos localmente. Os arquivos estão disponíveis em: \url{https://db.tt/sNX3zoa8}. A pasta em questão deve ser copiada para dentro do diretório do Squeak ( .../Squeak-4.4-All-in-One.app/Contents/Resources).
+
+Agora, você já deve ser capaz de rodar todos os 25 testes do God's Call (menu Apps, Test Runner, selecione no quadro esquerdo GODCallTests) e vê-los passar.
+
+\subsubsection{Banco de dados}
+
+Para o nosso banco de dados, usamos o Magma, para instalá-lo, siga os passos:
+
+\begin{enumerate}
+\item Abra o "SqueakMap Catalog" que está em "Apps" na barra de menu do Squeak.
+\item No SqueakMap, clique em Update.
+\item Faça click direito no quadro esquerdo superior e garanta que todas as opções estejam desmarcadas. Isso permitirá visualizar os pacotes do Magma.
+\item Faça click direito no pacote "client" (versão 1.4) do Magma e escolha a opção ``install".
+\item Repita o passo 4 para instalar os pacotes "server" e o "test" do Magma.
+\end{enumerate}
+
+Neste momento, você deve duplicar sua imagem do squeak (opção ``save as'' no menu). E manter duas imagens rodando em paralelo. Uma (que chamaremos de Server), servirá para rodar o banco de dados. A outra (que chamaremos de Client), servirá para rodar o Seaside e é onde o código do God's Call será executado.
+
+No Server, inicialize o banco de dados executando em um workspace o comando: \texttt{GDBServerController startServer.} Provavelmente, não será necessário fazer mais nada nessa imagem, exceto deixá-la rodando. Entretanto, os seguintes comandos também podem ser úteis: \texttt{GDBServerController isStarted.}, \texttt{GDBServerController stopServer.} e \texttt{GDBServerController deleteRepository.}
+
+
+\subsubsection{Inicialização do Seaside}
+
+Voltando para a imagem Client, vá no menu Apps e selecione Seaside Control Panel. Clique com o botão direito no quadro superior, selecione Add adaptor:, WAComancheAdaptor, 8080, Accept. Clique em Start.
+
+Execute em um workspace o comando: \texttt{GCFirstPage initialize.}
+%até hoje não sei se esse comando realmente é necessário...
+
+Pronto! Agora a página inicial do God's Call poderá ser visualizada em: \url{http://localhost:8080/godcall}.
+
+\subsubsection{ATENÇÃO!}
+
+Na primeira vez que tentar abrir a página inicial do God's Call, o banco de dados estará vazio e a aplicação começará a crawlear as páginas da web. Essa etapa pode demorar horas. Para testar a aplicação, recomendamos que altere os arquivos de configuração confSearch\_categories.txt e wikiCfp\_categories.txt. Deixando apenas a categoria open source em wikiCfp, o God's Call deve gastar apenas alguns minutos em sua inicialização.
+
+
+\subsection{Implementação}
+
+\subsubsection{Modelos do domínio}%phablo
+\begin{itemize}
+    \item \texttt{GCVenue} Essa classe modela as informações a respeito do local onde é realizada a conferência. Seus atributos de instância são: \texttt{place}, \texttt{city} e  \texttt{country}.
+    \item \texttt{GCRating} Nesta classe ficam informações a respeito da avaliação (ou classificação) de uma conferência. No atributo \texttt{qualis} é guardado o conceito Qualis-Capes e no atributo \texttt{hIndex} fica o Índice~H da conferência. 
+    \item \texttt{GCImportantDates} Representa as datas mais relevantes da conferência. No atributo \texttt{deadlineDate} é guardada a data limite para submissão de trabalhos. Os atributos \texttt{startDate} e \texttt{endDate} representam o período de realização (início e fim) da conferência.
+    \item \texttt{GCConference} Essa classe modela uma conferência. Como principais atributos de instância, ela possui  \texttt{acronym}, \texttt{name}, \texttt{url}, \texttt{identifier} e \texttt{content}. Claramente, os 3 primeiros atributos representam o acrônimo, o nome e a url da página da conferência. O atributo \texttt{identifier} identifica unicamente uma conferência. Ele é gerado automaticamente a partir do acrônimo. No atributo \texttt{content} fica guardado o texto do ``call for papers''.
+Além desses, a classe \texttt{GCConference} possui os atributos \texttt{venue} (um objeto da classe \texttt{GCVenue}), \texttt{rating} (um objeto da classe \texttt{GCRating}) e \texttt{importantDates} (um objeto da classe \texttt{GCImportantDates}).
+\end{itemize}
+
+
+\subsubsection{Crawling}%Camila
+Obtemos informações de três fontes: ConfSearch \footnote{Desde o dia 29/11 até a data desse documento o site www.confsearh.org não estava disponizando as conferências, todas as categorias
+apresenta uma lista vazia como resultado}, WikiCfp e lista de classificação CAPES-Qualis. O processo de consulta e unir as informações é orquestrado pela classe \texttt{GCCrawler}. 
+Uma classe estática que consulta todas as fontes existentes segundo a lista retornada por \texttt{GCSourceCreator>>createAll}. Essas fontes são instâncias da classe \texttt{GCSource}. 
+
+Cada instância de \texttt{GCSource} contém uma referência para um arquivo de texto que contém um dicionário de categorias. A chave é o nome da categoria na fonte e o valor o nome da 
+categoria no sistema GOD's Call. Cada linha é um mapeamento, sendo o formato \textit{chave=valor}. Linhas em branco resultam em uma quebra do formato e portanto possíveis 
+erros na execução. Além do arquivo de texto, a instância possui uma referência para uma instância de um \textit{crawler} que é capaz de buscar e transformar as conferências dessa 
+fonte em uma \texttt{GCConference}.
+
+Os \textit{crawlers} tem um método comum definido por sua superclasse \texttt{GCSourceCrawler>>crawl: categories}, que recebe uma lista de categorias e devolve uma lista de conferências.
+
+Atualmente temos implementado \texttt{GCConfSearchCrawler}, \texttt{GCWikiCfpCrawler} e \texttt{GCQualisCrawler}. 
+Os dois primeiros consultam os sites das fontes e tranformam os resultados obtidos em conferências. 
+Quanto a lista de classificação da Qualis, como ela é uma fonte que sofre poucas alterações decidimos por utilizar um arquivo csv. Esse arquivo foi adicionado ao repositório usando uma subclasse de \texttt{WAFileLibrary}, \texttt{GCFileLibrary} e está acessível pelo método \texttt{GCFileLibrary>> qualisConferencesCSV}. 
+
+Para adicionar uma nova fonte, crie uma instância de GCSource em \texttt{GCSourceCreator} e retorne-a no método \texttt{createAll}. Você provavelmente terá que criar um novo \textit{crawler} subclasse de \texttt{GCSourceCrawler}.
+
+\subsubsection{Web Application} %Fabricio
+
+A aplicação possui 3 páginas web, que são responsabilidade das classes \texttt{GCFirstPage}, \texttt{GCSecondPage} e \texttt{GCThirdPage}. Estas classes delegam a renderização das páginas para os métodos \texttt{GODCall>> renderFirstPage}, \texttt{GODCall>>renderSecondPage} e \texttt{GCConferenceResponse>>renderThirdPage} que usam as classes e métodos disponibilizados pelo pacote GODWeb.
+
+\texttt{GODCall} representa uma sessão de usuário e é instanciado no momento que a página é acessada (veja \texttt{GCFirstPage>> renderContentOn:}). No momento de sua inicialização, (veja \texttt{GODCall>>initialize:}) verifica se a base de dados está carregada e ativa o crawler, caso esteja vazia. Seus atributos armazenam os parâmetros relevantes para a sessão, em especial os parâmetros de busca que são preenchidos no formulário da primeira página.
+
+\texttt{GCConferenceResponse} é responsável pela renderização da terceira página, que é específica para uma conferência. É instanciado um objeto para cada conferência exibida na segunda página (veja \texttt{GODCall>>renderSecondPage}) e possui um método \texttt{save}, que é ativado quando seu respectivo botão na segunda página é selecionado.
+
+\subsubsection{Testes}%Camila
+Implementamos 25 testes unitários que possuem cobertura de 83\% do código. Praticamente todos os métodos que não possuem um teste são referentes à aplicação web.
+
+Para o teste de algums métodos recorremos a utilização de \textit{mocks}. Esses são disponibilizados por meio de arquivos e permitem que métodos como o \texttt{GCConfSearchCrawler>>parse:page} recebam uma página html sem a que a requisição à página 
+web seja realizada.
+
+Para testar o método \texttt{crawl} das fontes WikiCfp e ConfSearch substituímos a referência ao objeto \texttt{WEBPageFetcher} pelos objetos \texttt{FakeWikiCfpFetcher} e \texttt{FakeConfSearchFetcher}. Isso permite que os testes rodem sem internet e que não sejam afetados por possíveis erros no pacote GODWeb.
+
+\subsection{Sugestões para trabalhos futuros}
+\begin{enumerate}
+	\item A partir de um texto (por exemplo, o resumo do artigo), o GOD's Call deve sugerir as conferências com deadline vigente que mais são adequadas para submissão desse artigo. 
+    \item Buscar mais informações a respeito do número de publicações de uma conferência e o númerdo de citações de artigos dessa conferência. (Sugestão: extrair essas informações do Microsoft Research). A partir desses números, criar gráficos como: o número de citações x ano, o número de artigos aceitos x ano.
+    \item Fornecer histórico do tempo (Wikipedia), hotéis (Booking.com) e pontos turísticos (TripAdvisor) próximos ao local de realização da conferência.	
+    \item  ``Núvem de palavras-chave'' de uma conferência. Gerar uma núvem de palavras a partir das palavras-chave das publicações que são apresentadas na conferência.
+\end{enumerate}
+
