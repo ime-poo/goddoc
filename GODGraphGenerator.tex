@@ -1,72 +1,72 @@
 \section{GODGraphGenerator}
-	Esta seÁ„o apresenta o documento de projeto do mÛdulo do gerador de gr·ficos e est· seccionada em tÛpicos de
+	Esta se√ß√£o apresenta o documento de projeto do m√≥dulo do gerador de gr√°ficos e est√° seccionada em t√≥picos de
 	interesse.\\
 
-	Em caso de d˙vidas, entre em contato com \emph{Renan Teruo Carneiro: renanteruoc@gmail.com}.
+	Em caso de d√∫vidas, entre em contato com \emph{Renan Teruo Carneiro: renanteruoc@gmail.com}.
 
-	\subsection{Principais CaracterÌsticas}
-		O sistema em quest„o trata-se de um gerador de gr·ficos em lÌnguagem Squeak Smalltalk e apresenta as
-		seguintes caracterÌsticas:
+	\subsection{Principais Caracter√≠sticas}
+		O sistema em quest√£o trata-se de um gerador de gr√°ficos em l√≠nguagem Squeak Smalltalk e apresenta as
+		seguintes caracter√≠sticas:
 		\begin{itemize}
-			\item Necessidade de dados prÈviamente processados para gerar o gr·fico.
-			\item Flexibilidade com relaÁ„o ao output.
-			\item Expansibilidade com relaÁ„o aos tipos de gr·ficos.
-			\item O gerador funciona independentemente dos outros mÛdulos do GOD.
-			\item N„o necessita de bibliotecas externas.
+			\item Necessidade de dados pr√©viamente processados para gerar o gr√°fico.
+			\item Flexibilidade com rela√ß√£o ao output.
+			\item Expansibilidade com rela√ß√£o aos tipos de gr√°ficos.
+			\item O gerador funciona independentemente dos outros m√≥dulos do GOD.
+			\item N√£o necessita de bibliotecas externas.
 		\end{itemize}
 
 	\subsection{Funcionalidades}
 		As seguintes funcionalidades foram implementadas:
 		\begin{itemize}
-			\item Gerar gr·ficos de barra.
-			\item Gerar gr·ficos de linha.
-			\item Exportar o gr·fico como imagem PNG.
-			\item Abrir o gr·fico como um objeto do tipo Morph no Squeak world.
-			\item Mudar a cor do conte˙do do gr·fico.
+			\item Gerar gr√°ficos de barra.
+			\item Gerar gr√°ficos de linha.
+			\item Exportar o gr√°fico como imagem PNG.
+			\item Abrir o gr√°fico como um objeto do tipo Morph no Squeak world.
+			\item Mudar a cor do conte√∫do do gr√°fico.
 		\end{itemize}
-		Devido a arquitetura escolhida, È possÌvel expandir os tipos de gr·ficos gerados e as opÁıes de
-		output de maneira simples e independente das funcionalidades j· implementadas.
+		Devido a arquitetura escolhida, √© poss√≠vel expandir os tipos de gr√°ficos gerados e as op√ß√µes de
+		output de maneira simples e independente das funcionalidades j√° implementadas.
 
 	\subsection{Input}
-		O input È feito preenchendo uma espÈcie de formul·rio com os seguintes campos:\\
+		O input √© feito preenchendo uma esp√©cie de formul√°rio com os seguintes campos:\\
 		\makebox[\linewidth]{
 			\begin{tabular}{l l}
 				Label horizontal: &   String \emph{opcional}\\
 				Label vertical:   &   String \emph{opcional}\\
-				Tabela de Dados:  &   Dictionary \emph{mandatÛrio}
+				Tabela de Dados:  &   Dictionary \emph{mandat√≥rio}
 			\end{tabular}
 		}\\
 
-		O campo Tabela de Dados deve ser um Dictionary no formato: \emph{palavra -> n˙mero}. E um ponto a
-		ser resaltado È que apesar de possÌvel, n„o È recomendado a inclus„o de novas palavras no apÛs o
-		gr·fico ter sido gerado.\\
+		O campo Tabela de Dados deve ser um Dictionary no formato: \emph{palavra -> n√∫mero}. E um ponto a
+		ser resaltado √© que apesar de poss√≠vel, n√£o √© recomendado a inclus√£o de novas palavras no ap√≥s o
+		gr√°fico ter sido gerado.\\
 
-		Apesar dos campos de labels serem opcionais, È recomendado o seu uso, pois aumenta o comprimento
-		dos eixos e gera mais espaÁo para o desenho do gr·fico.\\
+		Apesar dos campos de labels serem opcionais, √© recomendado o seu uso, pois aumenta o comprimento
+		dos eixos e gera mais espa√ßo para o desenho do gr√°fico.\\
 
-		… possÌvel criar customizaÁıes, de modo que a Tabela de Dados seja de outro tipo. Para isso criamos
-		uma subclasse de \emph{GGGraph}, como se fosse um tipo diferente de gr·fico. Dizemos o tipo do
-		gr·fico com a mensagem \emph{delegate}, e "arrumamos" a entrada dentro do generateGraph dessa nova
+		√â poss√≠vel criar customiza√ß√µes, de modo que a Tabela de Dados seja de outro tipo. Para isso criamos
+		uma subclasse de \emph{GGGraph}, como se fosse um tipo diferente de gr√°fico. Dizemos o tipo do
+		gr√°fico com a mensagem \emph{delegate}, e "arrumamos" a entrada dentro do generateGraph dessa nova
 		subclasse.
 
 
 	\subsection{Output}
-		O output È uma inst‚ncia do tipo do gr·fico, e todos os gr·ficos s„o subclasses de Morph (mais
-		detalhes na seÁ„o 1.5).\\
+		O output √© uma inst√¢ncia do tipo do gr√°fico, e todos os gr√°ficos s√£o subclasses de Morph (mais
+		detalhes na se√ß√£o 1.5).\\
 
-		Esse objeto pode ser exportado para um arquivo de imagem PNG, que ser· salvo em
+		Esse objeto pode ser exportado para um arquivo de imagem PNG, que ser√° salvo em
 		\emph{\$squeak\_dir/Contents/Resources}, ou aberto no Squeak world.\\
 
-		Casso seja necess·rio mudar a extenss„o do arquivo de imagem, o output pode receber qualquer
+		Casso seja necess√°rio mudar a extenss√£o do arquivo de imagem, o output pode receber qualquer
 		mensagem destinada a objetos do tipo Morph.
 
 	\subsection{Arquitetura}
-		\emph{GGGraph} È uma classe abstrata que representa um gr·fico, ela por sua vez È um Morph do Squeak.
-		As duas subclasses \emph{GGBarGraph} e \emph{GGLineGraph} representam o tipo do gr·fico. E esta
-		terceira subclasse \emph{GGGraphOrderedCollectionDecorator} È uma customizaÁ„o de input.\\
+		\emph{GGGraph} √© uma classe abstrata que representa um gr√°fico, ela por sua vez √© um Morph do Squeak.
+		As duas subclasses \emph{GGBarGraph} e \emph{GGLineGraph} representam o tipo do gr√°fico. E esta
+		terceira subclasse \emph{GGGraphOrderedCollectionDecorator} √© uma customiza√ß√£o de input.\\
 
-		A ˙nica especializaÁ„o dos gr·ficos de barra e linha È a forma como eles s„o desenhados, todo o
-		resto da estrutura È comum para todos os gr·ficos.\\
+		A √∫nica especializa√ß√£o dos gr√°ficos de barra e linha √© a forma como eles s√£o desenhados, todo o
+		resto da estrutura √© comum para todos os gr√°ficos.\\
 
 		Abaixo o digrama de classes descreve tal arquitetura:\\
 
@@ -75,7 +75,7 @@
 		}
 
 	\subsection{Exemplo de uso}
-		O cÛdigo a seguir exemplifica a rotina para gerar o gr·fico:\\
+		O c√≥digo a seguir exemplifica a rotina para gerar o gr√°fico:\\
 
 		\makebox[\linewidth]{
 			\includegraphics[scale=0.78]{gg_code_gbar}
@@ -84,14 +84,14 @@
 
 		Rotina:
 		\begin{enumerate}
-			\item Instanciar o gr·fico que se quer gerar, \emph{GGBarGraph} ou \emph{GGLineGraph}
+			\item Instanciar o gr√°fico que se quer gerar, \emph{GGBarGraph} ou \emph{GGLineGraph}
 			\item Adicionar os labels utilizando as mensagens \emph{horizonlLabel} e \emph{verticalLabel}
 			\item Instanciar um Dictionary e adicionar as palavras e valores
-			\item Gerar o gr·fico com a mensagem \emph{generateGraph}
+			\item Gerar o gr√°fico com a mensagem \emph{generateGraph}
 			\item Exportar ou abrir com \emph{exportToFile} e \emph{openInWorld}
 		\end{enumerate}
 
-		OBS: Uma restriÁ„o do gr·fico de linhas È que as chaves no Dictionary precisam ser n˙meros n„o
+		OBS: Uma restri√ß√£o do gr√°fico de linhas √© que as chaves no Dictionary precisam ser n√∫meros n√£o
 		negativos. E recomendamos que sejam os itervalos $0 \bmod(100)$.\\
 
 		\makebox[\linewidth]{
