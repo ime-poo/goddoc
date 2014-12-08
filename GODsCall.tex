@@ -66,11 +66,14 @@ Além desses, a classe \texttt{GCConference} possui os atributos \texttt{venue} 
 
 
 \subsubsection{Crawling}%Camila
-Obtemos informações de três fontes: ConfSearch \footnote{Desde o dia 29/11 até a data desse documento o site www.confsearh.org não estava disponizando as conferências, todas as categorias
-apresenta uma lista vazia como resultado}, WikiCfp e lista de classificação CAPES-Qualis. O processo de consulta e unir as informações é orquestrado pela classe \texttt{GCCrawler}. 
-Uma classe estática que consulta todas as fontes existentes segundo a lista retornada por \texttt{GCSourceCreator>>createAll}. Essas fontes são instâncias da classe \texttt{GCSource}. 
+Obtemos informações de três fontes: ConfSearch\footnote{Desde o dia 29/11 até a data desse documento o site www.confsearh.org não estava disponizando as conferências, todas as categorias
+apresenta uma lista vazia como resultado}, WikiCfp e lista de classificação CAPES-Qualis. 
+Os processos de consultar e unir as informações é orquestrado pela classe \texttt{GCCrawler}. 
+Essa é uma classe estática que consulta todas as fontes existentes segundo a lista retornada por \texttt{GCSourceCreator>>createAll}. 
+Essas fontes são instâncias da classe \texttt{GCSource}. 
 
-Cada instância de \texttt{GCSource} contém uma referência para um arquivo de texto que contém um dicionário de categorias. A chave é o nome da categoria na fonte e o valor o nome da 
+Cada instância de \texttt{GCSource} contém uma referência para um arquivo de texto que contém um dicionário de categorias. 
+A chave é o nome da categoria na fonte e o valor o nome da 
 categoria no sistema GOD's Call. Cada linha é um mapeamento, sendo o formato \textit{chave=valor}. Linhas em branco resultam em uma quebra do formato e portanto possíveis 
 erros na execução. Além do arquivo de texto, a instância possui uma referência para uma instância de um \textit{crawler} que é capaz de buscar e transformar as conferências dessa 
 fonte em uma \texttt{GCConference}.
@@ -107,3 +110,4 @@ Para testar o método \texttt{crawl} das fontes WikiCfp e ConfSearch substituím
     \item  ``Núvem de palavras-chave'' de uma conferência. Gerar uma núvem de palavras a partir das palavras-chave das publicações que são apresentadas na conferência.
 \end{enumerate}
 
+\end{document}
