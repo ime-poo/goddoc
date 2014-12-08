@@ -1,0 +1,103 @@
+\section{GODFilter}
+
+\textbf{Grupo:}\textit{Carlos Ribas, Yoshio Mori, Larissa Moraes}
+
+\textbf{Contato:}larissam@ime.usp.br\\
+
+Uma das necessidades do projeto GOD era filtrar os objetos da classe GODData para serem utilizados por aplicações específicas. Nesse contexto, foi criado o pacote GODFilter que visa criar métodos para atender a necessidade de filtros dos grupos de aplicações.
+
+O pacote GODFilter contém três classes, FILTMainFilter, FILTTextFilter e FILTConferenceFilter, sendo que a primeira é uma superclasse e as duas últimas são subclasses da primeira. 
+
+Além disso, foram implementados testes de unidade para cada classe do GODFilter, sendo criadas as classes FILTMainFilterTest, FILTTextFilterTest e FILTConferenceFilterTest. Os testes facilitam a manutenção, pois indicam se a unidade ainda está funcional após a realização de alterações no código.
+
+Nas subseções abaixo serão detalhadas as características de cada classe.
+
+\subsection{Classe FILTMainFilter}
+
+A classe FILTMainFilter possui métodos para a realização de filtros em coleções de GODData que podem ser utilizados por qualquer aplicação. 
+Foram criados quatro métodos com as seguintes assinaturas:
+
+\begin{itemize}
+
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byContent:}content} 
+
+Esse método filtra uma coleção de objetos da classe GODData pelo seu conteúdo, ou seja, pelo atributo \textit{content}.\\
+
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byOrigin:}origin} 
+
+Esse método filtra uma coleção de objetos da classe GODData pela sua origem, ou seja, pelo atributo \textit{origin}.\\
+
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTags:}tags} 
+
+Esse método filtra uma coleção de objetos da classe GODData pelas suas tags, ou seja, pelo atributo \textit{tags}.\\
+
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTitle:}title} 
+
+Esse método filtra uma coleção de objetos da classe GODData pelo seu título, ou seja, pelo atributo \textit{title}.\\
+
+\end{itemize}
+
+Como foi utilizado o método \textit{\textbf{match:}text} de Smalltalk para encontrar as strings nos atributos dos objetos de GODData, pode ser passado como parâmetro cas* para encontrar strings como: casa, casado ou casamento, por exemplo. 
+
+\subsection{Classe FILTMainFilterTest}
+
+Esta classe possui um método chamado \textit{setUp} que contém uma coleção de \textit{GODData}. Estes dados são utilizados em todos os testes da classe \textit{FILTMainFilterTest}. Os seguintes testes foram implementados:
+
+\begin{itemize}
+\item \textit{testFIlterByTag}: testa a realização de filtro de GODData por Tags. 
+\item \textit{testFilterByContent}: testa a realização de filtro de GODData por Conteúdo. 
+\item \textit{testFilterByOrigin}: testa a realização de filtro de GODData por Origem. 
+\item \textit{testFilterByTitle}: testa a realização de filtro de GODData por Título. 
+\end{itemize}
+
+\subsection{Classe FILTTextFilter}
+
+A classe FILTTextFilter foi criada para atender os requisitos dos grupos de aplicação que precisavam filtrar uma página HTML. Como o HTML nada mais é que um texto contendo tags, esse filtro passou a servir para textos em geral.
+
+Para isso, foi criado um método que recebe um texto como parâmetro e duas marcações, inicial e final. Esse método retorna uma coleção de strings que foram encontradas entre a marca inicial e a marca final. Lembrando que a string retornada não pode conter nenhuma das marcações.\\
+
+O método criado tem como assinatura: 
+
+\textit{\textbf{filterText:} text \textbf{between:} startkMark \textbf{and:}endMark.}
+
+\subsection{Classe FILTTextFilterTest}
+
+Esta classe possui um método chamado \textit{setUp}. Este método contém uma variável chamada \textit{"text"} que recebe um texto em formato HTML e outra variável chamada \textit{"newtext"} que recebe um texto simples. Além disso, este método possui três \textit{OrderedCollection} com os resultados que são esperados para os testes. Os seguintes testes foram implementados:
+
+\begin{itemize}
+\item \textit{testFilterTextBetweenAnd}: este teste verifica o conteúdo de um texto que se encontra entre duas \textit{strings}. A primeira \textit{string} indica o início do filtro e a segunda \textit{string} determina o término do filtro. O resultado da busca deve ser igual ao valor armazenado nas \textit{OrderedCollections} presentes no método \textit{setUp}. 
+\item \textit{testFilterTextBetweenAndWithTextEmpty}: este teste realiza um filtro em uma variável que está vazia. Logo, espera-se que o resultado disso seja uma \textit{OrderedCollection} vazia. 
+\end{itemize}
+
+\subsection{Classe FILTConferenceFilter}
+
+A classe FILTConferenceFilter foi criada a pedido do grupo da aplicação God's Call, pois eles precisavam filtrar os dados de todas as conferências que eles tinham para saber quais delas atendiam à busca do usuário.
+
+Para isso, foi criado um método que recebe como parâmetro uma coleção de objetos da classe GODConference e uma chave de busca representada por um objeto da classe GCSearchFilter e retorna uma coleção de GODConference considerando as seguintes condições:
+\begin{itemize}
+\item keywords de GODConference contém keywords de GCSearchFilter;
+\item categories de GODConference contém categories de GCSearchFilter;
+\item deadlineDate de GODConference $ \le $ deadlineDate de GCSearchFilter;
+\item startDate de GODConference $ \ge $ startDate de GCSearchFilter;
+\item endDate de GODConference $ \le $ endDate de GCSearchFilter;
+\end{itemize}
+
+O método desconsidera os atributos do objeto GODConference ou do GCSearchFilter que são vazios, deixando de fazer a comparação entre os objetos.\\
+
+O método criado tem como assinatura:
+
+\textit{\textbf{filter:}collectionOfGodConference \textbf{byGCSearchFilter:}searchFilter}
+
+\subsection{Classe FILTConferenceFilterTest}
+
+Esta classe possui um método chamado \textit{setUp} que contém uma coleção de \textit{GCConference}. Estes dados são utilizados em todos os testes da classe \textit{FILTConferenceFilterTest}. Os seguintes testes foram implementados:
+
+\begin{itemize}
+\item \textit{testFilterBadObject}: testa uma coleção que possui objetos incorretos. Neste caso, o método deve ignorar os parâmetros que possuem valores incorretos. O resultado deste teste são todas as conferências que possuem a \textit{keyword} Automaton, pois este é único parâmetro que possui um valor válido.
+\item \textit{testFilterByGCSearchFilter}: teste com valores específicos. Busca as conferências cadastradas no método \textit{setUp} que atendem aos parâmetros passados.
+\item \textit{testFilterByGCSearchFilter02}: teste com valores específicos. Busca as conferências cadastradas no método \textit{setUp} que atendem aos parâmetros passados.
+\item \textit{testFilterByGCSearchFilter03}: teste com valores específicos. Busca as conferências cadastradas no método \textit{setUp} que atendem aos parâmetros passados. Neste teste não foi passado o parâmetro \textit{categories}.
+\item \textit{testFilterByGCSearchFilter04}: teste com valores específicos. Busca as conferências cadastradas no método \textit{setUp} que atendam aos parâmetros passados. Esse teste procura por conferências que possuem duas \textit{keywords} específicas.
+\item \textit{testFilterByGCSearchFilterWrongType}: verifica se o método gera exceção ao receber um atributo difierente da classe GCSearchFilter.
+\item \textit{testFilterWrongType}: verifica se o método gera exceção ao receber um atributo diferente da classe OrderedCollection.
+\end{itemize}
