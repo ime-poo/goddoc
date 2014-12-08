@@ -1,0 +1,197 @@
+{
+
+\def\godss{\textsc{GodSpreadsheet}}
+
+\def\classe#1{\textsc{#1}}
+\def\code#1{\texttt{#1}}
+
+
+\lstset{%
+ basicstyle=\small\ttfamily\color{black!85},
+ breaklines = true,
+ keywordstyle=\bfseries\color{black},
+ emphstyle=\color{blue},
+ columns=fullflexible,
+ showstringspaces=false,
+ numbers=left
+}%
+
+\lstdefinelanguage{GODSpreadsheet}
+  {keywords={SSSpreadsheetData, SSSheet, SSRow, SSCell},
+  morestring=[b]{'},
+  stringstyle=\color{purple},
+  alsoletter={:}, 
+  emph={new}
+  }
+
+
+% Python environment
+\lstnewenvironment{godSS}[1][]
+{
+\lstset{language=GODSpreadsheet,
+    #1}
+}
+{}
+
+
+\section{Spreadsheet}
+
+O grupo de Spreadsheet preocupou-se, principalmente, em prover
+funcionalidades de entrada e saída de planilhas, mas também implementou
+alguns métodos que auxiliem a manipulação das mesmas.
+
+Em caso de dúvida, entrar em contato com Diogo Haruki (\texttt{haruki} \textit{arroba} \texttt{ime} \textit{ponto} \texttt{usp} \textit{ponto} \texttt{br})
+
+\subsection{Estrutura}
+Nesta seção, explicaremos a organização das principais classes do
+\godss. Quase todos os objetos das classes apresentadas
+aqui possuem uma referência para seu pai (\code{parent})\footnote{Com
+exceção apenas da SSSpreadsheetData, que não tem pai}.
+
+\begin{tabular}{r p{0.6\textwidth}}
+\classe{SSCell} &  Classe que corresponde a uma célula da planilha.
+Assumimos que a célula tem sempre um conteúdo texto (\code{string}), e
+consideramos como célula vazia aquelas que possuem \code{value} $=$
+\texttt{nil}.\\
+
+\classe{SSRow} & Classe que corresponde a uma linha da tabela.
+Cada linha contém uma coleção de células, que foi mantida encapsulada.
+Dessa forma, podemos garantir a coerencia entre os elementos dentro dessa
+lista e a referência dos pais desses elementos.\\
+
+\classe{SSSheet} & Classe que corresponde a uma tabela. Uma tabela
+é formada por uma coleção de linhas (\classe{SSRow}), deve possuir um 
+nome e, assim como em \classe{SSRow}, a coleção de linhas é encapsulada
+para garantir a coesão.\\
+
+\classe{SSSpreadsheetData} & Classe que corresponde a uma coleção de
+tabelas. Cada tabela é indexida numericamente, mas há a possibilidade
+de acessá-las a partir de seu nome. A coleção de tabelas
+(\classe{SSSheet}) também é encapsulada, para manter a coesão entre os
+diversos objetos.
+\end{tabular}
+
+
+\subsubsection{Indexação em todos os níveis}
+Uma breve explicação dos modos de acesso aos filhos de cada classe.
+
+Em \classe{SSSpreadsheetData}, as \classe{SSSheets} estão indexadas numericamente, mas podem ser acessadas por seu nome.
+
+Em \classe{SSSheet}, as \classe{SSRows} estão indexadas numericamente, e seu acesso se dá unicamente pelo número da linha.
+
+Em \classe{SSRow}, as \classe{SSCells} estão indexadas numericamente, mas podem ser acessadas pelo nome da coluna (\code{'A', 'B', \dots, 'Z, 'AA', ...}).
+
+
+\subsection{How to do}
+Nesta seção, vamos tentar mostrar o que pode ser feito\footnote{coisas
+básicas que podem ser feitas} com o módulo e um modo de fazê-lo.
+
+\subsubsection{Abrir arquivos}
+A abertura de arquivos pelo módulo \godss~ é algo bem simples. Basta
+utilizar o método de classe \code{fromFile:} da classe \classe{SSSpreadsheetData}.
+
+Os formatos de arquivo suportados atualmente são: \code{csv, ods, xlsx}.
+
+\begin{godSS}[moreemph={fromFile:,}]
+csvSSData := SSSpreadsheetData fromFile: 'path/to/file.csv'.
+odsSSData := SSSpreadsheetData fromFile: 'path/to/file.ods'.
+xlsxSSData := SSSpreadsheetData fromFile: 'path/to/file.xlsx'.
+\end{godSS}
+
+\subsubsection{Salvar arquivos}
+Salvar arquivos também é tarefa fácil para o módulo \godss. Para isto,
+basta usar o método de instância \code{toFile:} de um objeto de
+\classe{SSSpreadsheetData}. Dessa forma, suportamos saída para arquivo
+\code{ods}.
+
+\begin{godSS}[moreemph={toFile:,}]
+ssData toFile: 'path/to/file.ods'.
+\end{godSS}
+
+Também podemos exportar uma \classe{SSSheet} para \code{csv}. Isso se deve
+ao fato de \code{csv} guardar uma planilha simples, e não uma coleção de
+planilhas como os outros formatos. Para isso, podemos usar o método de
+instância \code{exportToCSV:} de um objeto de \classe{SSSheet}.
+
+\begin{godSS}[moreemph={getSheet:,exportToCSV:}]
+sheet := ssData getSheet: 1.
+sheet exportToCSV: 'path/to/file.csv'.
+\end{godSS}
+
+\subsubsection{Criar uma SSSpreadsheetData e populá-la}
+Caso seja necessário, também é possível criar uma \classe{SSSpreadsheetData} 
+e populá-la manualmente de forma bem fácil. Primeiramente, para criar uma planilha (um objeto \classe{SSSheet}):
+
+\begin{godSS}[moreemph={new,createSheetWithName:,createCellAtRow:,atColumn:,atColumnIndex:,withValue:,createRow}]
+ssdata := SSSpreadsheetData new.
+sheet := ssdata createSheetWithName: 'sheet'.
+\end{godSS}
+
+Depois de criada podemos popular a planilha de vários jeitos. O mais simples é criando célula por célula
+diretamente:
+\begin{godSS}[moreemph={createCellAtRow:,atColumn:,atColumnIndex:,withValue:}]
+cell1 := sheet createCellAtRow: 1 atColumnIndex: 1 withValue: 'valor'.
+cell2 := sheet createCellAtRow: 1 atColumn: 'B' withValue: 'valor2'.
+\end{godSS}
+
+Mas também podemos criar uma \classe{SSRow}, e definir as célular pela linha:
+\begin{godSS}[moreemph={createRow,createRowAtIndex:,createCellAtColumn:,createCellAtColumnIndex:,withValue:}]
+row := sheet createRow.
+row := sheet createRowAtIndex: 3.
+row createCellAtColumn: 'A' withValue: 'valor'.
+row createCellAtColumnIndex: 2 withValue: 'valor2'.
+\end{godSS}
+
+Ou também podemos popular uma \classe{SSSheet} diretamente com valores de um tabela
+smalltalk, que é uma coleção de \textit{linhas}, onde cada \textit{linha} é uma coleção
+com os valores das suas células. Também é possível popular a planilha com um dicionário
+smalltalk - nesse caso, cada par \code{(chave, valor)} do dicionário vira uma linha
+da planilha, com as chaves na coluna ``A'' e os valores na coluna ``B''.
+\begin{godSS}[moreemph={fillFromCollection:,fillFromDictionary:}]
+sheet fillFromCollection: collection.
+sheet fillFromDictionary: dictionary.
+\end{godSS}
+
+\subsubsection{Executar alguma ação em todas as células da planilha}
+As classes \classe{SSSpreadsheetData}, \classe{SSSheet} e \classe{SSRow} contém
+coleções das classes seguintes, mas cada uma encapsula essa coleção para manter coesão.
+
+Porém, além das classes permitirem acesso de algum elemento específico dessas coleções
+por mensagens específicas de cada classe, elas também permitem que o usuário
+itere pelas coleções usando a mensagem \code{do:} do objeto.
+
+Partindo de um \classe{SSSpreadsheetData} é trivial iterar por todas células de uma planilha:
+\begin{godSS}[moreemph={getSheet:,do:,show:}]
+sheet := ssData getSheet: 1.
+sheet do: [ :row |
+  row do: [ :cell |
+    Transcript show: (cell value).
+    ].
+  ].
+\end{godSS}
+
+
+\subsubsection{Diferentes modos de acessar uma célula}
+Temos acesso às células em diferentes níveis. Tanto em \classe{SSSheet} como em \classe{SSRow}
+
+\begin{godSS}[moreemph={getCellAtRow:, atColumn:, atColumnIndex:, getCell:, getCellAtIndex:, getRow:}]
+cell1 := sheet getCellAtRow: 1 atColumn: 'A'
+cell2 := sheet getCellAtRow: 1 atColumnIndex: 3
+
+row := sheet getRow: 6
+cell3 := row getCell: 'C'
+cell4 := row getCellAtIndex: 2
+\end{godSS}
+
+\subsection{Próximos Passos}
+
+\begin{itemize}
+\item Saída para xlsx - É necessário implementar um método que produz um arquivo de saída xlsx como já é feito com o formato ods
+\item Suporte a formatação - Até o momento o módulo utiliza a formatação padrão de dados em uma planilha.\\ É necessário implementar métodos para configurar fonte, cor e tamanho dos caracteres, largura e altura da célula, etc.
+\item Tratamento de dados de diferentes tipos - O módulo trata todos os dados como string. Porém, é necessário fazer com que os métodos funcionem para dados em outros tipos como int, double, date. Isso é importante para que as funções de planilha funcionem para estes dados, por exemplo.
+\item Busca - O módulo não possui suporte a busca global de dados na planilha
+\item Gráficos - O módulo também não produz gráficos baseados nas informações presentes nele
+\item Fórmulas - É necessário oferecer funcionalidades que permitem o uso de fórmulas e funções matemáticas
+\end{itemize}
+
+}

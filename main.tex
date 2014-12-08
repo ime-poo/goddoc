@@ -14,9 +14,13 @@
 
 \usepackage{multicol}
 
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{listings}
+
 \graphicspath { {figures/} }
 \setlength{\parindent}{0cm}
-% Algum problema em manter o setlength em zero? Eu particularmente não gosto da indentação e normalmente pulo uma
+% Algum problema em manter o \parindent em zero? Eu particularmente não gosto da indentação e normalmente pulo uma
 % linha extra entre os paragrafos. --GraphGenerator
 
 \begin{document}
@@ -24,7 +28,11 @@
 \newpage
 
 \input{GODProcessors}
+\newpage % Adicionei quebras de página entre cada módulo. Se preferirem sem quebra, só tirar --Spreadsheet
 \input{GODGraphGenerator}
+\newpage
 \input{GODsCall}
+\newpage
+\input{GODSpreadsheet}
 
 \end{document}
