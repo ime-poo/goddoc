@@ -163,8 +163,6 @@ Representa um pesquisador.
 
   Similar à initializeFromHTMLPage, mas pega a pági na passada em aProfileURL. Esta URL   tem de ser um perfil do Google Scholar. Utilizamos um proxy para que o google scholar não   bloqueie nosso acesso, pois nosso programa age como um robô
 
-
-
   \item loadAttribute: aTag from: aHtmlPage
 
   Se a informação representada por aTag existir em aHtmlPage, retornamos ela.
@@ -187,5 +185,18 @@ Representa um pesquisador.
   \item totalNumberOfCitations
 
   Retorna o número total de citações ao pesquisador, isto é, a soma das citações de todos os  seus artigos.
+
+\end{itemize}
+
+\subsection{Classe ACADTag}
+
+Representa uma o início e o fim de uma TAG. Entre essas marcas encontra-se o conteúdo necessário para instancias ACADResearchers e ACADPapers.
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item star: marca de início
+
+  \item end: marca de fim
 
 \end{itemize}
