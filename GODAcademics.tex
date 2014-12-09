@@ -118,3 +118,74 @@ Representa a lista qualis de periódicos x fator de impacto.
   Se não existir no dicionário, unknown é retornado.
 
 \end{itemize}
+
+\subsection{Classe ACADResearcher}
+
+Representa um pesquisador.
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item name: nome do pesquisador
+
+  \item job: profissão do pesquisador
+
+  \item papers: lista de artigos
+
+  \item valid: variável booleana que indica se este é um objeto bem formado ou não.
+
+\end{itemize}
+
+\subsubsection{Métodos de instância}
+
+\begin{itemize}
+  \item barGraphOfPapersByImpact
+
+  Retorna um gráfico com os fatores de impacto no eixo x, e a quantidade de artigos com um  dado fator de impacto no eixo y.
+
+  \item forEachPaperDo: aBlock
+
+  Executa o bloco passado em toda a lista de artigos.
+
+  \item hasAttribute: aTag in: aHtmlPage
+
+  Verifica se a informação representada por aTag existe em aHtmlPage.
+
+  \item initialize
+
+  Aloca memória para a lista de artigos.
+
+  \item intitializeFromHTMLPage: aHtmlPage
+
+  Monta um pesquisador extraindo as informações de aHtmlPage.
+
+  \item initializeFromProfileURL: aProfileURL
+
+  Similar à initializeFromHTMLPage, mas pega a pági na passada em aProfileURL. Esta URL   tem de ser um perfil do Google Scholar. Utilizamos um proxy para que o google scholar não   bloqueie nosso acesso, pois nosso programa age como um robô
+
+
+
+  \item loadAttribute: aTag from: aHtmlPage
+
+  Se a informação representada por aTag existir em aHtmlPage, retornamos ela.
+
+  Caso contrário, retornamos um GODData vazio.
+
+  \item loadAttributesFrom: aHtmlPage
+
+  Carrega os atributos do pesquisador a partir de aHtmlPage.
+
+  \item LoadPapersFrom: aHtmlPage
+
+  Carrega os artigos do pesquisador a partir de aHtmlPage.
+
+
+  \item papersByImpactDictionary
+
+  Retorna um dicionário, onde as chaves são todos os possíveis valores de  fatores de impacto   e o valor é a quantidade de artigos que o pesquisador tem com cada fator de impacto.
+
+  \item totalNumberOfCitations
+
+  Retorna o número total de citações ao pesquisador, isto é, a soma das citações de todos os  seus artigos.
+
+\end{itemize}
