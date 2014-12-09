@@ -269,3 +269,38 @@ Componente utilizado pelo Seaside para renderizar a página inicial da aplicaç�
 
 Componente utilizado pelo Seaside para renderizar a página com o relatório final do pesquisador escolhido.
 
+\subsection{Classe ACADAcademics}
+
+Responsável por controlar o fluxo da aplicação GODAcademics.
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item component: um ACADAcademicsHome ou ACADAcademicsProfile
+
+  \item input: um textfield que contem a URL do perfil do Google Scholar de um pesquisador
+
+  \item profileUrl: URL do perfil do Google Scholar de um pesquisador
+
+\end{itemize}
+
+\subsubsection{Métodos de instância}
+
+\begin{itemize}
+  \item initialize: aComponent
+
+  Inicializa a instância.
+
+  \item renderHome
+
+  Renderiza a página inicial
+
+  \item renderProfile: researcher
+
+  Constrói o relatório do pesquisador
+
+  \item save
+
+  Captura o valor atribuido ao formulário da página inicial.
+
+\end{itemize}
