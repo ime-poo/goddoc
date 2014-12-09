@@ -1,0 +1,63 @@
+\section{GODAcademics}
+
+\textbf{Grupo:}\textit{Ígor Bonadio, Renato Cordeiro, Ruan Costa}
+
+\textbf{Contato:}ibonadio@ime.usp.br\\
+
+GOD Academics é um agregador de informações acadêmicas. A partir de um perfil do Google Scholar, esta aplicação constroi um relatório resumindo as informações obtidas de diversas fontes.
+
+Atualmente GOD Academics apenas utiliza como fonte de informação o Google Scholar e o CAPES-Qualis.
+
+\subsection{Classe ACADPaper}
+
+Representa um artigo de um pesquisador.
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item name: nome do artigo.
+
+  \item coauthors: string contendo os nomes de todos os autores.
+
+  \item year: ano em que o artigo foi publicado.
+
+  \item journal: é o nome do periódico onde o artigo foi publicado.
+
+  \item impactFactor: é o fator de impacto (estrato) do journal no qual o arrigo foi publicado. Essa é uma    medida do sistema webQualis, da capes.
+
+  \item NumberOfCitatioins: é o número de citacões que o artigo tem.
+\end{itemize}
+
+\subsubsection{Métodos de classe}
+
+Nenhum
+
+\subsubsection{Métodos de instância}
+
+\begin{itemize}
+
+  \item hasAttribute: aTag in: aHtmlPaper
+
+  Verifica se a informaçãoi representada por aTag, existe em aHtmlPaper
+
+  \item initializeFromHTML: aHtmlPaper
+
+  Monta um paper a partir de uma string contento html. Não deve ser usado diretamente, veja   Researcher>initializeFromProfileURL.
+
+  \item LoadAttribute: aTag from: aHtmlPaper
+
+  Dada uma tag, indicando qual informação está sendo pedido, e um pedaço de html, retorna a   informação pedida.
+
+  \item loadAttributesFrom: aHtmlPaper
+
+  Carrega os atributos de um paper a partir de um html.
+
+  \item loadImpactFactorFrom: journal
+
+  Acha o fator de impacto do journal passado
+
+  \item numberOfCitations
+
+  Retorna o número de citações do artigo.
+
+\end{itemize}
