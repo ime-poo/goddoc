@@ -200,3 +200,63 @@ Representa uma o início e o fim de uma TAG. Entre essas marcas encontra-se o co
   \item end: marca de fim
 
 \end{itemize}
+
+\subsection{Classe ACADTagPool}
+
+Representa a coleção de ACADTags necessárias para a aplicação GODAcademics.
+
+É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
+
+\subsubsection{Atributos de classe}
+
+\begin{itemize}
+  \item uniqueInstance: guarda a única instância da classe.
+\end{itemize}
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item pool: um dicionário de ACADTags.
+
+  \item filter: um FILTTextFilter
+
+\end{itemize}
+
+\subsubsection{Métodos de classe}
+
+\begin{itemize}
+
+  \item clear
+
+  Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
+
+  \item singleton
+
+  Cria uma instância da classe e a retorna.
+
+\end{itemize}
+
+\subsubsection{Métodos de instância}
+
+\begin{itemize}
+  \item get: aTagName
+
+  Retorna um ACADTag cujo nome é aTagName.
+
+  \item getAttributes: aTagName from: aHTML
+
+  Utilizando a tag aTagName, retorna o valor encontrado em aHTML.
+
+  \item initialize
+
+  Inicializa a instância.
+
+  \item initializePaperTags
+
+  Adiciona ao dicionário pool todas as tags de artigos
+
+  \item initializeResearcherTags
+
+  Adiciona ao dicionário poll todas as tags de pesquisadores.
+
+\end{itemize}
