@@ -28,10 +28,6 @@ Representa um artigo de um pesquisador.
   \item NumberOfCitatioins: é o número de citacões que o artigo tem.
 \end{itemize}
 
-\subsubsection{Métodos de classe}
-
-Nenhum
-
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
@@ -59,5 +55,66 @@ Nenhum
   \item numberOfCitations
 
   Retorna o número de citações do artigo.
+
+\end{itemize}
+
+\subsection{Classe ACADQualis}
+
+Representa a lista qualis de periódicos x fator de impacto.
+
+É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
+
+\subsubsection{Atributos de classe}
+
+\begin{itemize}
+  \item uniqueInstance: guarda a única instância da classe.
+\end{itemize}
+
+\subsubsection{Atributos de instância}
+
+\begin{itemize}
+  \item qualis: é um dicionário. As chaves são os periódicos e o valor é o fator de impacto do periódico.
+\end{itemize}
+
+\subsubsection{Métodos de classe}
+
+\begin{itemize}
+
+  \item clear
+
+  Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
+
+  \item singleton
+
+  Cria uma instância da classe e a retorna.
+
+\end{itemize}
+
+\subsubsection{Métodos de instância}
+
+\begin{itemize}
+
+  \item initialize
+
+  Carrega o hash qualis com a lista armazenada em listOfQualis
+
+  \item journalIsSomethingLike: aJournal
+
+  Dado o nome de um periódico, procura na no hash um periódico com nome parecido.
+  Retorna a primeira chave que dê match em um dos prefixos do nome do periódico   procurado. Se não houver match, é retornado \'unknown\'.
+
+  \item listOfQualis
+
+  String gigante com a última lista lançada pela capes, com o nome dos periódicos e seus  respectivos fatores de impacto
+
+  \item load: aQualisText
+
+  Carrega um  texto qualis (que esteja no mesmo formato de listOfQualis) no dicionário  qualis.
+
+  \item qualisOf: aJournal
+
+  Dado o nome de um periódico, retorna seu fator de impacto.
+
+  Se não existir no dicionário, unknown é retornado.
 
 \end{itemize}
