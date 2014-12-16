@@ -1,29 +1,82 @@
-\section{Features}
-\subsection{Emails}
+\section{Funcionalidades principais}
+
+\subsection{Módulos}
+
+\subsubsection{Kernel}
 \begin{enumerate}
-\item Recebimento de e-mails\\
-É possível receber e-mails utilizando uma conexão segura.
-
-\item Envio de e-mails\\
-É possível enviar e-mails utilizando uma conexão segura.
-
+\item Fornecer uma estrutura de dados básica para a manipulação das diferentes fontes de informação. A classe GODData representa essa estrutura, que é estendida pelos demais módulos para atender suas especificidades.
+\item Gerenciar o versionamento do projeto.
 \end{enumerate}
 
-\subsection{Redes sociais}
-\subsubsection{Facebook}
+\subsubsection{Banco de dados}
+\begin{enumerate}
+\item Armazenamento de objetos
+\item Realização de consultas sobre objetos armazenados
+\item Gerenciamento do servidor
+\item Gerenciamento de conexões de clientes
+\end{enumerate}
+
+\subsubsection{E-mails}
+\begin{enumerate}
+\item Recebimento de e-mails utilizando uma conexão segura
+\item Envio de e-mails utilizando uma conexão segura
+\end{enumerate}
+
+\subsubsection{Filtros}
+\begin{enumerate}
+\item Filtragem de dados por título
+\item Filtragem de dados por conteúdo
+\item Filtragem de dados por origem
+\item Filtragem de dados por tags
+\item Filtragem de string por marcadores de texto (por exemplo tags html)
+\end{enumerate}
+
+\subsubsection{Gráficos}
+\begin{enumerate}
+\item Geração de gráfico de barras no formato PNG
+\item Geração de gráfico de barras no Squeak (Morph)
+\item Geração de gráfico de linhas no formato PNG
+\item Geração de gráfico de linhas no Squeak (Morph)
+\end{enumerate}
+
+\subsubsection{Páginas web}
+\begin{enumerate}
+\item Criação de aplicações web
+\item Leitura de páginas HTML
+\end{enumerate}
+
+\subsubsection{Planilhas}
+\begin{enumerate}
+\item Leitura e escrita em CSV
+\item Leitura e escrita em ODS
+\item Leitura em XLSX
+\item Junção de duas planilhas
+\item Geração de planilhas a partir de dicionários e listas
+\end{enumerate}
+
+\subsubsection{Processadores}
+\begin{enumerate}
+\item Geração de tags relevantes. As tags são obtidas a partir de conteúdo de texto de entrada de acordo com a sua relevância usando o algoritmo de recuperação de informação tf-idf.
+\item Cálculo de média, mediana, variância e desvio padrão para dados numéricos
+\end{enumerate}
+
+\subsubsection{Redes sociais}
+Facebook
 \begin{enumerate}
 \item Busca de usuários
-\item Busca por posts de usuário\\
-É possível também filtrar os posts.
+\item Busca por posts de usuário
+\item Filtragem dos posts
 \item Busca de páginas
+\item Busca por grupos
 \end{enumerate}
 
-\subsubsection{Twitter}
+Twitter
 \begin{enumerate}
 \item Busca na timeline
 \item Busca por hashtags
-\item Busca de tweets\\
-Também é possível filtrar por data e por língua e realizar buscas avançadas:
+\item Busca de tweets
+\item Filtragem por data e por língua
+\item Realizar buscas avançadas:
 \begin{enumerate}
 \item Busca contendo todas as palavras
 \item Busca por qualquer uma das palavras
@@ -34,83 +87,45 @@ Também é possível filtrar por data e por língua e realizar buscas avançadas
 \end{enumerate}
 \end{enumerate}
 
-\subsection{Arquivos de texto}
-
+\subsubsection{Textos}
 \begin{enumerate}
-\item Entrada e saída em RTF
-\item Entrada e saída em ODT
-\item Entrada e saída em TXT
-\item Saída em PDF
+\item Leitura e escrita em ODT
+\item Leitura e escrita em TXT
+\item Leitura e escrita em RTF
+\item Leitura e escrita em PDF
 \end{enumerate}
 
-\subsection{Planilhas}
-\begin{enumerate}
-\item Entrada e saída em CSV
-\item Entrada e saída em ODS
-\item Merge de duas planilhas
-\item População de planilhas a partir de dicionários e listas
-\end{enumerate}
+\subsection{Aplicações}
 
-\subsection{Gráficos}
+\subsubsection{Agregação de conferências}
 \begin{enumerate}
-\item Saída de dados em gráfico de barras, em PNG
-\end{enumerate}
-
-\subsection{Páginas web}
-\begin{enumerate}
-\item Construção de páginas por meio de componentes
-\end{enumerate}
-
-\subsection{Filtros}
-\begin{enumerate}
-\item Filtragem de dados por título
-\item Filtragem por conteúdo
-\item Filtragem por origem
-\item Filtragem por tags
-\item Filtragem por começo e fim de string
-\end{enumerate}
-
-\subsection{Processadores}
-\begin{enumerate}
-\item Tratamento de HTML e TXT
-\item Geração de tags
-\item Cálculo de tf-idf
-\item Cálculo de média, mediana, variância e desvio padrão para números
-\end{enumerate}
-
-\subsection{Banco de dados}
-\begin{enumerate}
-\item Armazenamento de objetos
-\item Realização de consultas sobre objetos armazenados
-\end{enumerate}
-
-
-\subsection{Análise de sentimento de consumo}
-\begin{enumerate}
-\item Contagem de palavras positivas ou negativas em textos
-\item Saída da análise em gráfico
-\item Saída da análise em planilha
-\end{enumerate}
-
-\subsection{Análise de sentimento político}
-\begin{enumerate}
-\item Utilização de dados do TSE sobre candidatos e partidos
-\item Contagem de palavras positivas ou negativas
-\item Saída da análise em gráfico
-\item Saída da análise em planilha
-\end{enumerate}
-
-\subsection{Agregação de informações acadêmicas}
-\begin{enumerate}
-\item Cálculo de estatísticas sobre um pesquisador
-\item Geração de gráfico de fator de impacto e quantidade de papers publicados
-\end{enumerate}
-
-\subsection{Agregação de conferências}
-\begin{enumerate}
+\item Busca por conferências
+\item Agregação de informações sobre conferências
 \item Leitura de dados do ConfSearch
 \item Leitura de dados do WIKICFP
-\item Leitura de dados do Quallis
-\item Entrada e saída em planilha (CSV)
+\item Leitura de dados do Qualis
+\item Geração de planilha com as conferências resultantes da busca
 \item Geração de palavras-chave para conferências
+\end{enumerate}
+
+\subsubsection{Agregação de informações acadêmicas}
+\begin{enumerate}
+\item Busca por pesquisadores a partir de perfis do Google Scholar
+\item Cálculo de estatísticas sobre um pesquisador
+\item Geração de gráfico de fator de impacto e quantidade de artigos publicados
+\end{enumerate}
+
+\subsubsection{Análise de sentimento de consumo}
+\begin{enumerate}
+\item Contagem de palavras positivas, neutras ou negativas em textos
+\item Saída da análise em gráfico
+\item Saída da análise em planilha
+\end{enumerate}
+
+\subsubsection{Análise de sentimento político}
+\begin{enumerate}
+\item Contagem de palavras positivas, neutras ou negativas sobre candidatos ou partidos
+\item Validação de dados do TSE sobre candidatos e partidos
+\item Saída da análise em gráfico
+\item Saída da análise em planilha
 \end{enumerate}

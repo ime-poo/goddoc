@@ -7,47 +7,90 @@
 \usepackage{amssymb,amsmath}
 \usepackage[T1]{fontenc}
 \usepackage{verbatim}
-
 \usepackage{hyperref}
-
 \usepackage{fullpage}
-
 \usepackage{multicol}
-
 \usepackage{lmodern}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{fixltx2e}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{geometry}
+\geometry{left=0.7in,right=0.7in,top=1in,bottom=1in}
+\providecommand{\alert}[1]{\textbf{#1}}
+
 
 \graphicspath { {figures/} }
 \setlength{\parindent}{0cm}
 % Algum problema em manter o \parindent em zero? Eu particularmente não gosto da indentação e normalmente pulo uma
 % linha extra entre os paragrafos. --GraphGenerator
 
+
+\title{Grande Organizador de Dados (GOD) \\Great Data Organizer}
+\author{
+Programação Orientada a Objetos (MAC0441/5714)\\
+Departamento Ciência da Computação -- DCC\\
+Instituto de Matemática e Estatística -- IME\\
+Universidade de Sao Paulo -- USP
+}
+\date{Dezembro, 2014}
+
 \begin{document}
+\maketitle
+\newpage
 \tableofcontents
 \newpage
 
+\section{Introdução}
+Grande Organizador de Dados (GOD) é um sistema composto por módulos que realizam a entrada e saída de diversas fontes de informação, como arquivos texto, planilhas, html, emails e redes sociais, entre outros. 
+Essas informações podem ser utilizadas para a criação de aplicações que fazem a análise de dados de diferentes formas, como análise de sentimentos e agregadores de informações.
+O GOD foi desenvolvido em Smalltalk pelos alunos da disciplina de Programação Orientada a Objetos. A seguir são descritas as principais funcionalidades dos módulos e das aplicações do GOD.
+
+
 \input{features}
 \newpage
-\input{GODProcessors}
-\newpage % Adicionei quebras de página entre cada módulo. Se preferirem sem quebra, só tirar --Spreadsheet
-\input{GODGraphGenerator}
-\newpage
-\input{GODSpreadsheet}
+% \input{GODKernel}
+% \newpage
+\input{GODBases}
 \newpage
 \input{GODEmail}
 \newpage
+\input{GODFilter}
+\newpage
+\input{GODGraphGenerator}
+\newpage
+% \input{GODWeb}
+% \newpage
+\input{GODSpreadsheet}
+\newpage
+\input{GODProcessors}
+\newpage
+\input{GODSocialNetIO}
+\newpage
 \input{GODTextIO}
+\newpage
+\input{GODAcademics}
 \newpage
 \input{GODsCall}
 \newpage
-\input{GODFilter}
+\input{GODSentimentAnalysis}
 \newpage
-\input{GODAcademics}
-
 
 \input{falta_implementar}
 \newpage
 \input{sugestoes}
+\newpage
+\input{instalacao}
 
 \end{document}

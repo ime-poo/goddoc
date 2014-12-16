@@ -1,6 +1,6 @@
 {
 
-\def\godss{\textsc{GodSpreadsheet}}
+\def\godss{\textsc{GODSpreadsheet}}
 
 \def\classe#1{\textsc{#1}}
 \def\code#1{\texttt{#1}}
@@ -34,7 +34,7 @@
 {}
 
 
-\section{Spreadsheet}
+\section{Planilhas (GODSpreadsheet)}
 
 O grupo de Spreadsheet preocupou-se, principalmente, em prover
 funcionalidades de entrada e saída de planilhas, mas também implementou
@@ -183,15 +183,5 @@ cell3 := row getCell: 'C'
 cell4 := row getCellAtIndex: 2
 \end{godSS}
 
-\subsection{Próximos Passos}
-
-\begin{itemize}
-\item Saída para xlsx - É necessário implementar um método que produz um arquivo de saída xlsx como já é feito com o formato ods
-\item Suporte a formatação - Até o momento o módulo utiliza a formatação padrão de dados em uma planilha.\\ É necessário implementar métodos para configurar fonte, cor e tamanho dos caracteres, largura e altura da célula, etc.
-\item Tratamento de dados de diferentes tipos - O módulo trata todos os dados como string. Porém, é necessário fazer com que os métodos funcionem para dados em outros tipos como int, double, date. Isso é importante para que as funções de planilha funcionem para estes dados, por exemplo.
-\item Busca - O módulo não possui suporte a busca global de dados na planilha
-\item Gráficos - O módulo também não produz gráficos baseados nas informações presentes nele
-\item Fórmulas - É necessário oferecer funcionalidades que permitem o uso de fórmulas e funções matemáticas
-\end{itemize}
 
 }

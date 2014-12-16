@@ -1,79 +1,33 @@
-\section{GODGraphGenerator}
-	Esta seção apresenta o documento de projeto do módulo do gerador de gráficos e está seccionada em tópicos de
-	interesse.\\
-
-	Em caso de dúvidas, entre em contato com \emph{Renan Teruo Carneiro: renanteruoc@gmail.com}.
-
-	\subsection{Principais Características}
-		O sistema em questão trata-se de um gerador de gráficos em línguagem Squeak Smalltalk e apresenta as
-		seguintes características:
+\section{Gráficos (GODGraphGenerator)}
+	O módulo do gerador de gráficos recebe um Dictionary ou uma OrderedCollection e devolve um gráfico correspondente. O gráfico pode ser um objeto Morph ou uma imagem PNG. Quanto ao tipo de gráfico, pode ser gerado um gráfico de barras ou de linhas. Em caso de dúvidas, entre em contato com \emph{Renan Teruo Carneiro: renanteruoc@gmail.com}.
+	
+	\subsection{Classes}
 		\begin{itemize}
-			\item Necessidade de dados préviamente processados para gerar o gráfico.
-			\item Flexibilidade com relação ao output.
-			\item Expansibilidade com relação aos tipos de gráficos.
-			\item O gerador funciona independentemente dos outros módulos do GOD.
-			\item Não necessita de bibliotecas externas.
+		    \item \emph{GGGraph}: classe abstrata que representa um gráfico, ela por sua vez é um Morph do Squeak. Possui métodos para definir os nomes dos eixos do gráfico. Também é possível definir as dimensões do gráfico a ser gerado. O gráfico pode ser gerado no World do Squeak ou salvo como um arquivo PNG.
+		    \item \emph{GGBarGraph} e \emph{GGLineGraph}: subclasses de GGGraph que representam o tipo do gráfico. Recebem como entrada um Dictionary.
+		    \item \emph{GGGraphOrderedCollectionDecorator} esta subclasse de GGGraph recebe uma OrderedCollection\\
 		\end{itemize}
-
-	\subsection{Funcionalidades}
-		As seguintes funcionalidades foram implementadas:
-		\begin{itemize}
-			\item Gerar gráficos de barra.
-			\item Gerar gráficos de linha.
-			\item Exportar o gráfico como imagem PNG.
-			\item Abrir o gráfico como um objeto do tipo Morph no Squeak world.
-			\item Mudar a cor do conteúdo do gráfico.
-		\end{itemize}
-		Devido a arquitetura escolhida, é possível expandir os tipos de gráficos gerados e as opções de
-		output de maneira simples e independente das funcionalidades já implementadas.
-
-	\subsection{Input}
-		O input é feito preenchendo uma espécie de formulário com os seguintes campos:\\
-		\makebox[\linewidth]{
-			\begin{tabular}{l l}
-				Label horizontal: &   String \emph{opcional}\\
-				Label vertical:   &   String \emph{opcional}\\
-				Tabela de Dados:  &   Dictionary \emph{mandatório}
-			\end{tabular}
-		}\\
-
-		O campo Tabela de Dados deve ser um Dictionary no formato: \emph{palavra -> número}. E um ponto a
-		ser resaltado é que apesar de possível, não é recomendado a inclusão de novas palavras no após o
-		gráfico ter sido gerado.\\
-
-		Apesar dos campos de labels serem opcionais, é recomendado o seu uso, pois aumenta o comprimento
-		dos eixos e gera mais espaço para o desenho do gráfico.\\
-
-		É possível criar customizações, de modo que a Tabela de Dados seja de outro tipo. Para isso criamos
-		uma subclasse de \emph{GGGraph}, como se fosse um tipo diferente de gráfico. Dizemos o tipo do
-		gráfico com a mensagem \emph{delegate}, e "arrumamos" a entrada dentro do generateGraph dessa nova
-		subclasse.
-
-
-	\subsection{Output}
-		O output é uma instância do tipo do gráfico, e todos os gráficos são subclasses de Morph (mais
-		detalhes na seção 1.5).\\
-
-		Esse objeto pode ser exportado para um arquivo de imagem PNG, que será salvo em
-		\emph{\$squeak\_dir/Contents/Resources}, ou aberto no Squeak world.\\
-
-		Casso seja necessário mudar a extenssão do arquivo de imagem, o output pode receber qualquer
-		mensagem destinada a objetos do tipo Morph.
-
-	\subsection{Arquitetura}
-		\emph{GGGraph} é uma classe abstrata que representa um gráfico, ela por sua vez é um Morph do Squeak.
-		As duas subclasses \emph{GGBarGraph} e \emph{GGLineGraph} representam o tipo do gráfico. E esta
-		terceira subclasse \emph{GGGraphOrderedCollectionDecorator} é uma customização de input.\\
-
 		A única especialização dos gráficos de barra e linha é a forma como eles são desenhados, todo o
 		resto da estrutura é comum para todos os gráficos.\\
+	
+	\subsection{Entrada}
+		
+		O Dictionary com os dados de entrada precisa ter o formato: \emph{palavra -> número}. Não é recomendado a inclusão de novas palavras no após o
+		gráfico ter sido gerado.\\
 
-		Abaixo o digrama de classes descreve tal arquitetura:\\
+		Apesar dos campos de labels serem opcionais, é recomendado o seu uso, pois aumenta o comprimento dos eixos e gera mais espaço para o desenho do gráfico.\\
 
-		\makebox[\linewidth]{
-			\includegraphics[scale=0.53]{gg_class_diagram}
-		}
+		Outro tipo de dado de entrada pode ser uma OrderedCollection composta por duas OrderedCollections com o seguinte formato: \emph{OrderedCollection(palavra),OrderedCollection(valor)}. Esse tipo de coleção foi definido para tornar possível ordenar os dados de acordo com a necessidade do gráfico a ser gerado. O tipo do gráfico é definido pela mensagem \emph{delegate}, e "arrumamos" a entrada dentro do generateGraph dessa classe (GGGraphOrderedCollectionDecorator).
 
+	\subsection{Saída}
+	
+		A saída é uma instância do tipo do gráfico, e todos os gráficos são subclasses de Morph (mais detalhes na seção 1.5).\\
+
+		Esse objeto pode ser exportado para um arquivo de imagem PNG, que será salvo em\\\emph{\$squeak\_dir/Contents/Resources}, ou aberto no Squeak world.\\
+
+		Casso seja necessário mudar a extenssão do arquivo de imagem, a saída pode receber qualquer mensagem destinada a objetos do tipo Morph.
+
+	
 	\subsection{Exemplo de uso}
 		O código a seguir exemplifica a rotina para gerar o gráfico:\\
 
@@ -91,8 +45,7 @@
 			\item Exportar ou abrir com \emph{exportToFile} e \emph{openInWorld}
 		\end{enumerate}
 
-		OBS: Uma restrição do gráfico de linhas é que as chaves no Dictionary precisam ser números não
-		negativos. E recomendamos que sejam os itervalos $0 \bmod(100)$.\\
+		OBS: Uma restrição do gráfico de linhas é que as chaves no Dictionary precisam ser números não negativos. Recomendamos estejam no intervalo de $0 \bmod(100)$.\\
 
 		\makebox[\linewidth]{
 			\includegraphics[scale=1.10]{gg_code_gline}

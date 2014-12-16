@@ -21,6 +21,18 @@
 \item Criar testes com mocks
 \end{enumerate}
 
+\subsection{Planilhas}
+
+\begin{enumerate}
+\item Saída para xlsx - É necessário implementar um método que produz um arquivo de saída xlsx como já é feito com o formato ods
+\item Suporte a formatação - Até o momento o módulo utiliza a formatação padrão de dados em uma planilha.\\ É necessário implementar métodos para configurar fonte, cor e tamanho dos caracteres, largura e altura da célula, etc.
+\item Tratamento de dados de diferentes tipos - O módulo trata todos os dados como string. Porém, é necessário fazer com que os métodos funcionem para dados em outros tipos como int, double, date. Isso é importante para que as funções de planilha funcionem para estes dados, por exemplo.
+\item Busca - O módulo não possui suporte a busca global de dados na planilha
+\item Gráficos - O módulo também não produz gráficos baseados nas informações presentes nele
+\item Fórmulas - É necessário oferecer funcionalidades que permitem o uso de fórmulas e funções matemáticas
+\end{enumerate}
+
+
 \subsection{Processadores}
 \begin{enumerate}
 \item Busca de documentos utilizando tf-idf

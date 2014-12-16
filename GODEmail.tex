@@ -1,10 +1,10 @@
-\section{GODEmail}
+\section{E-mails (GODEmail)}
 %% Gabriel Ferreira Guilhoto &  4404279
 %% Luiz Fernando da Silva Armesto & 5176378
 %% Rafael Campos Cruz & 7991062
 %% Renan Fichberg & 7991131
 
-Pacote responsável pelo envio e recebimento de e-mails, tendo suporte a conexões seguras. É formado por 4 classes: uma abstrata (GODService), duas que implementam os serviços de envio e recebimento de e-mails (GODSender e GODReceiver, respectivamente) e uma que implementa o cliente do protocolo Post Office Protocol 3 (POP3) utilizando conexão segura (MAILSecurePOP3Client). Possui o pacote SqueakSSL como dependência externa. Para o envio de e-mails usando SSL é utilizada a classe SecureSMTPClient já implementada no SqueakSSL-SMTP.
+Pacote responsável pelo envio e recebimento de e-mails, tendo suporte a conexões seguras. É formado por 4 classes: uma abstrata (GODService), duas que implementam os serviços de envio e recebimento de e-mails (GODSender e GODReceiver, respectivamente) e uma que implementa o cliente do protocolo Post Office Protocol 3 (POP3) utilizando conexão segura (MAILSecurePOP3Client). Possui o pacote SqueakSSL como dependência externa. Para o envio de e-mails usando Secure Socket Layer (SSL) é utilizada a classe SecureSMTPClient já implementada no SqueakSSL-SMTP.
 
 Em caso de dúvidas, entre em contato com \emph{Luiz Armesto: luiz.armesto@gmail.com}.
 
@@ -23,7 +23,7 @@ Classe abstrata que reune o código compartilhado pela MAILSender e pela MAILRec
 		\item \textbf{user} - Getter para user.
 		\item \textbf{user:} - Setter para user.
 	\end{itemize}
-	\item \textbf{Métodos de Inicialização (initialize-release):}
+	\item \textbf{Métodos de inicialização (initialize-release):}
 	\begin{itemize}
 		\item \textbf{initialize} - Faz uma chamada para o método initializeConnectionInfo.
 		\item \textbf{initializeConnectionInfo} - Inicializa os dados pertinentes à conexão do usuário.
@@ -48,14 +48,14 @@ Os métodos estáticos estão organizados em duas categorias diferentes:
 
 \subsection{MAILSender}
 
-Classe responsável pelo envio de e-mail utilizando o protocolo Post Office Protocol 3 (POP3). Herda de MAILService. Os métodos de instância desta classe estão organizados em quatro categorias diferentes:
+Classe responsável pelo envio de e-mail utilizando o protocolo POP3. Herda de MAILService. Os métodos de instância desta classe estão organizados em quatro categorias diferentes:
 
 \begin{itemize}
 	\item \textbf{Métodos de acesso (accessing):}
 	\begin{itemize}
-		\item \textbf{smtpClient:} - Setter para um cliente SMTP (Simple Mail Transfer Protocol)
+		\item \textbf{smtpClient:} - Setter para um cliente do protocolo Simple Mail Transfer Protocol (SMTP)
 	\end{itemize}
-	\item \textbf{Métodos de Inicialização (initialize-release):}
+	\item \textbf{Métodos de inicialização (initialize-release):}
 	\begin{itemize}
 		\item \textbf{initializeConnectionInfo} - Realiza um chamada para o método initializeConnectionInfo da classe superior (MAILService), considerando que é um cliente SMTP.
 	\end{itemize}
@@ -89,14 +89,14 @@ Já os métodos estáticos estão organizados em três categorias diferentes:
 
 \subsection{MAILReceiver}
 
-Classe responsável pelo recebimento de emails utilizando o protocolo Simple Mail Transfer Protocol (SMTP). Herda de MAILService. Os métodos de instância desta classe estão organizados em quatro categorias diferentes:
+Classe responsável pelo recebimento de emails utilizando o protocolo SMTP. Herda de MAILService. Os métodos de instância desta classe estão organizados em quatro categorias diferentes:
 
 \begin{itemize}
 	\item \textbf{Métodos de acesso (accessing):}
 	\begin{itemize}
 		\item \textbf{pop3Client:} - Setter de um cliente POP3.
 	\end{itemize}
-	\item \textbf{Métodos de Inicialização (initialize-release):}
+	\item \textbf{Métodos de inicialização (initialize-release):}
 	\begin{itemize}
 		\item \textbf{initialize} - Faz uma chamada para o método initialize da super classe (MAILService) e inicializa os objetos relacionados ao recebimento de e-mails.
 		\item \textbf{initializeConnectionInfo} - Faz uma chamada para o método initializeConnectionInfo da super classe (MAILService) para um cliente POP3.
@@ -133,7 +133,7 @@ Os métodos estáticos estão organizados em três categorias diferentes:
 
 \subsection{MAILSecurePOP3Client}
 
-Classe responsável pela implementação do protocolo Post Office Protocol 3 (POP3) a patir do SqueakSSL para criar uma conexão segura. Herda da classe POP3Client do próprio Squeak e sobrescreve o método que cria a conexão com o servidor.
+Classe responsável pela implementação do protocolo POP3 a patir do SqueakSSL para criar uma conexão segura. Herda da classe POP3Client do próprio Squeak e sobrescreve o método que cria a conexão com o servidor.
 
 \begin{itemize}
 	\item \textbf{Possui apenas um método privado (private):}

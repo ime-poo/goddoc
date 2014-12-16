@@ -1,4 +1,4 @@
-\section{GODFilter}
+\section{Filtros (GODFilter)}
 
 \textbf{Grupo:}\textit{Carlos Ribas, Yoshio Mori, Larissa Moraes}
 
@@ -12,34 +12,26 @@ Além disso, foram implementados testes de unidade para cada classe do GODFilter
 
 Nas subseções abaixo serão detalhadas as características de cada classe.
 
-\subsection{Classe FILTMainFilter}
+\subsection{FILTMainFilter}
 
 A classe FILTMainFilter possui métodos para a realização de filtros em coleções de GODData que podem ser utilizados por qualquer aplicação. 
 Foram criados quatro métodos com as seguintes assinaturas:
 
 \begin{itemize}
 
-\item \textit{\textbf{filter:}collectionOfGodData \textbf{byContent:}content} 
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byContent:}content} - filtra uma coleção de objetos da classe GODData pelo seu conteúdo, ou seja, pelo atributo \textit{content}.
 
-Esse método filtra uma coleção de objetos da classe GODData pelo seu conteúdo, ou seja, pelo atributo \textit{content}.\\
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byOrigin:}origin} - filtra uma coleção de objetos da classe GODData pela sua origem, ou seja, pelo atributo \textit{origin}.
 
-\item \textit{\textbf{filter:}collectionOfGodData \textbf{byOrigin:}origin} 
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTags:}tags} - filtra uma coleção de objetos da classe GODData pelas suas tags, ou seja, pelo atributo \textit{tags}.
 
-Esse método filtra uma coleção de objetos da classe GODData pela sua origem, ou seja, pelo atributo \textit{origin}.\\
-
-\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTags:}tags} 
-
-Esse método filtra uma coleção de objetos da classe GODData pelas suas tags, ou seja, pelo atributo \textit{tags}.\\
-
-\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTitle:}title} 
-
-Esse método filtra uma coleção de objetos da classe GODData pelo seu título, ou seja, pelo atributo \textit{title}.\\
+\item \textit{\textbf{filter:}collectionOfGodData \textbf{byTitle:}title} - filtra uma coleção de objetos da classe GODData pelo seu título, ou seja, pelo atributo \textit{title}.
 
 \end{itemize}
 
 Como foi utilizado o método \textit{\textbf{match:}text} de Smalltalk para encontrar as strings nos atributos dos objetos de GODData, pode ser passado como parâmetro cas* para encontrar strings como: casa, casado ou casamento, por exemplo. 
 
-\subsection{Classe FILTMainFilterTest}
+\subsection{FILTMainFilterTest}
 
 Esta classe possui um método chamado \textit{setUp} que contém uma coleção de \textit{GODData}. Estes dados são utilizados em todos os testes da classe \textit{FILTMainFilterTest}. Os seguintes testes foram implementados:
 
@@ -50,7 +42,7 @@ Esta classe possui um método chamado \textit{setUp} que contém uma coleção d
 \item \textit{testFilterByTitle}: testa a realização de filtro de GODData por Título. 
 \end{itemize}
 
-\subsection{Classe FILTTextFilter}
+\subsection{FILTTextFilter}
 
 A classe FILTTextFilter foi criada para atender os requisitos dos grupos de aplicação que precisavam filtrar uma página HTML. Como o HTML nada mais é que um texto contendo tags, esse filtro passou a servir para textos em geral.
 
@@ -60,7 +52,7 @@ O método criado tem como assinatura:
 
 \textit{\textbf{filterText:} text \textbf{between:} startkMark \textbf{and:}endMark.}
 
-\subsection{Classe FILTTextFilterTest}
+\subsection{FILTTextFilterTest}
 
 Esta classe possui um método chamado \textit{setUp}. Este método contém uma variável chamada \textit{"text"} que recebe um texto em formato HTML e outra variável chamada \textit{"newtext"} que recebe um texto simples. Além disso, este método possui três \textit{OrderedCollection} com os resultados que são esperados para os testes. Os seguintes testes foram implementados:
 
@@ -69,7 +61,7 @@ Esta classe possui um método chamado \textit{setUp}. Este método contém uma v
 \item \textit{testFilterTextBetweenAndWithTextEmpty}: este teste realiza um filtro em uma variável que está vazia. Logo, espera-se que o resultado disso seja uma \textit{OrderedCollection} vazia. 
 \end{itemize}
 
-\subsection{Classe FILTConferenceFilter}
+\subsection{FILTConferenceFilter}
 
 A classe FILTConferenceFilter foi criada a pedido do grupo da aplicação God's Call, pois eles precisavam filtrar os dados de todas as conferências que eles tinham para saber quais delas atendiam à busca do usuário.
 
@@ -88,7 +80,7 @@ O método criado tem como assinatura:
 
 \textit{\textbf{filter:}collectionOfGodConference \textbf{byGCSearchFilter:}searchFilter}
 
-\subsection{Classe FILTConferenceFilterTest}
+\subsection{FILTConferenceFilterTest}
 
 Esta classe possui um método chamado \textit{setUp} que contém uma coleção de \textit{GCConference}. Estes dados são utilizados em todos os testes da classe \textit{FILTConferenceFilterTest}. Os seguintes testes foram implementados:
 
