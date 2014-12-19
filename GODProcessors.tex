@@ -2,42 +2,40 @@
 
 \section{Processadores (GODProcessors)}
 
-O módulo \textbf{GODProcessors} tem a responsabilidade de realizar o processamento sobre
-coleções de dados.
-
-Em caso de dúvidas, entre em contato com \emph{Thiago: tdsimao [at] ime.usp.br}.
-
+O módulo \textbf{GODProcessors} realiza o processamento de coleções de dados.
 Possui duas classes principais, a \texttt{PCSStatisticsCalculator} que realiza os principais
 cálculos estatísticos e a \texttt{PCSTagger} que realiza classificação de texto através de
-métodos de recuperação de informação. Possui ainda duas classes auxiliares, a
+um método estatístico de recuperação de informação conhecido como tf-idf. Possui ainda duas classes auxiliares, a 
 \texttt{PCSPreprocessor} que realiza tratamento de strings e a \texttt{PCSGODTagger} uma fachada
 para objetos \texttt{GODData}.
 
+Em caso de dúvidas, entre em contato com \emph{Thiago: tdsimao [at] ime.usp.br}.
+
+
 \subsection{PCSStatisticsCalculator} 
 
-Esta classe calcula medidas estatísticas de tendencia central e dispersão para um determinada
+Esta classe calcula medidas estatísticas de tendência central e dispersão para um determinada
 coleção. Possui ainda um método para contagem de palavras.
 
 
 \subsubsection{Métodos}
-Todos os cálculos dessa classe podem ser realizados de duas formas, com ou sem bloco. A chamada
+Todos os cálculos dessa classe podem ser realizados de duas formas: com ou sem bloco. A chamada
 sem bloco realiza os cálculos sobre o valores absolutos da coleção, enquanto a chamada com
 bloco executa os cálculos sobre o resultado da execução do bloco nos elementos da coleção.
 
 Os cálculos que a classe realiza são:
-\begin{description}
-    \item[average]  média 
-    \item[median] mediana
-    \item[std] desvio padrão
-    \item[var] variância
-\end{description}
+\begin{itemize}
+    \item \textbf{average}: média 
+    \item \textbf{median}: mediana
+    \item \textbf{std}: desvio padrão
+    \item \textbf{var}: variância
+\end{itemize}
 
 Além dos cálculos estatísticos, possui um método para contagem de palavras
-
-\begin{description}
-    \item[countIn: aString ocurrencesOf: aWord] conta o número de ocorrências da palavra
-                   \texttt{aWord} na \textit{string} \texttt{aString}.
-\end{description}
+\begin{itemize}
+    \item \textbf{countIn: aString ocurrencesOf: aWord}: conta o número de ocorrências da palavra
+                   \textbf{aWord} na \textit{string} \textbf{aString}.
+\end{itemize}
 
 \subsubsection{Exemplos}
 Para utilizar os métodos sobre uma coleção de números.
@@ -63,33 +61,29 @@ bloco como parâmetro.
     
 \subsection{PCSTagger}
 
-Essa classe utiliza métodos de treinamento não supervisionado, que recebe uma coleção de
-\textit{strings} para treinamento e em seguida é capaz de retornar os objetos mais relevantes
-de uma nova \textit{string} em relação a toda a coleção.
-
-Essa classe usa a medida \textit{tf\_idf} para avaliar a relevância de cada termo. Detalhes sobre
-essa técnica podem ser encontrados no livro Introduction to Information Retrieval
+Essa classe utiliza uma técnica estatistica de recuperação de informaçao conhecida como \textbf{tf-idf} 
+(term frequency-inverse document frequency). Esse método de treinamento não supervisionado recebe uma coleção de
+\textit{strings} para treinamento e retorna os termos mais relevantes em relação a toda a coleção. 
+Detalhes sobre essa técnica podem ser encontrados no livro Introduction to Information Retrieval
 \footnote{http://nlp.stanford.edu/IR-book/}
 
 \subsubsection{Variáveis de Instância}
     
-\begin{description}
-    \item[dictIdf] Dictionary<idf> -- um dicionário de \textit{idf}(raridade do termo na
+\begin{itemize}
+    \item \textbf{dictIdf}: Dictionary<idf> -- um dicionário de \textit{idf}(raridade do termo na
                    coleção)
-    \item[maxTf] float $[0..1]$ -- frequência máxima dos termos da string que será considerada
-                 pelo algoritmo.
-    \item[minTf] float $[0..1]$ -- frequência mínima dos termos da string que será considerada
-                 pelo algoritmo.
-    \item[minRelevance] float $[0..1]$ --  define o menor \textit{tf\_idf} (relevância) a ser
-                        considerada
-\end{description}
+    \item \textbf{maxTf}: float $[0..1]$ -- frequência máxima dos termos da string a ser considerada.
+    \item \textbf{minTf}: float $[0..1]$ -- frequência mínima dos termos da string a ser considerada.
+    \item \textbf{minRelevance}: float $[0..1]$ --  define o menor \textit{tf\_idf} (relevância) a ser
+                        considerada.
+\end{itemize}
 
 \subsubsection{Métodos}
 
-\begin{description}
-    \item [createDictIdf: aStringCollection] cria o \texttt{dictIdf}
-    \item [getMoreRelevantsOf: aString] recupera os termos mais relevantes de \texttt{aString}
-\end{description}
+\begin{itemize}
+    \item \textbf{createDictIdf: aStringCollection}: cria o \texttt{dictIdf}.
+    \item \textbf{getMoreRelevantsOf: aString}: recupera os termos mais relevantes de \texttt{aString}.
+\end{itemize}
 
 
 \subsubsection{Exemplos}
@@ -108,23 +102,23 @@ Essa classe é uma fachada da classe \texttt{PCSTagger} para objetos \texttt{GOD
 É importante notar que é possível alterar o \texttt{PCSTagger} segundo necessário.
 
 \subsubsection{Variáveis de Instância}
-\begin{description}
- \item  [tagger] PCSTagger -- objeto da classe \texttt{PCSTagger} que treina com uma coleção de 
+\begin{itemize}
+ \item \textbf{tagger}: PCSTagger -- objeto da classe \texttt{PCSTagger} que treina com uma coleção de 
                               strings recuperadas de uma coleção de \texttt{GODData} e recupera
-                              os principais termos dessa \textit{String}
-\end{description}
+                              os principais termos dessa \textit{String}.
+\end{itemize}
 
 
 \subsubsection{Métodos}
 
-\begin{description}
-    \item [training: aGODDataCollection] realiza o treinamento com o atributo \texttt{content}                                  
-                                          dos objetos de \texttt{aGODDataCollection}
-    \item [addTagsTo: aGODData] define tags para o atributo \texttt{tags} de \texttt{aGODData}
-    \item [tagCollection: aGODDataCollection] atalho para realizar o treinamento sobre uma
+\begin{itemize}
+    \item \textbf{training: aGODDataCollection}: realiza o treinamento com o atributo \texttt{content}                                  
+                                          dos objetos de \texttt{aGODDataCollection}.
+    \item \textbf{addTagsTo: aGODData}: define tags para o atributo \texttt{tags} de \texttt{aGODData}
+    \item \textbf{tagCollection: aGODDataCollection}: atalho para realizar o treinamento sobre uma
                                          coleção e em seguida adicionar tags a todos os objetos
-                                         da mesma
- \end{description}
+                                         da mesma.
+ \end{itemize}
 
 
 \subsubsection{Exemplos}
@@ -152,25 +146,25 @@ Para utilizar essa classe você deve configurá-la definindo os valores de suas 
 
 
 \subsubsection{Variáveis de Instância} \label{pre-variaveis}
-\begin{description}
- \item  [fileType] String $\in$ \{`TXT',`HTML'\} -- define o tipo de arquivo de entrada
- \item  [puctuation] String -- string com todos os caracteres de pontuação que  serão removidos,
-                     ex: `,.!?'
- \item  [stopWords] Set<string>-- um conjunto com palavras comuns da língua que serão ignoradas 
-\end{description}
+\begin{itemize}
+ \item  \textbf{fileType}: String $\in$ \{`TXT',`HTML'\} -- define o tipo de arquivo de entrada.
+ \item  \textbf{puctuation}: String -- string com todos os caracteres de pontuação que  serão removidos,
+                     ex: `,.!?'.
+ \item  \textbf{stopWords}: Set<string>-- um conjunto com palavras comuns da língua que serão ignoradas.
+\end{itemize}
 
 
 \subsubsection{Métodos} 
 Além do método principal \texttt{preprocess:} 
 As operações que essa classe realiza são:
-\begin{description}
-    \item[treatType] realiza tratamento relativo ao tipo de arquivo, exemplo para arquivos HTML
-                     remove as \textit{tags} HTML
-    \item[removeStopwords] remove as palavras comuns de uma \textit{string}
-    \item[tokenizer] quebra a \textit{string} em uma coleção de \textit{tokens}
-\end{description}
+\begin{itemize}
+    \item \textbf{treatType}: realiza tratamento relativo ao tipo de arquivo, exemplo para arquivos HTML
+                     remove as \textit{tags} HTML.
+    \item \textbf{removeStopwords}: remove as palavras comuns de uma \textit{string}.
+    \item \textbf{tokenizer}: quebra a \textit{string} em uma coleção de \textit{tokens}.
+\end{itemize}
 
-\subsubsection{Examplos}
+\subsubsection{Exemplos}
     \begin{verbatim}
     preprocessor := PCSPreprocessor new.
     aBag := preprocessor preprocess: aString.

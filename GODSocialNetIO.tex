@@ -7,1303 +7,230 @@
 \subsection{Description}
 \label{sec-1-2}
 
-  Our module for the GOD Project is to allow others modules to communicate with the Facebook and Twitter servers. It does that by implementing both public APIs.\\
+  GODSocialNetIO allows others modules to communicate with the Facebook and Twitter servers. It does that by implementing both public APIs.
+  The module is divided in two main parts: the fetchers classes and the GODData classes. The fetchers classes are responsable for the communication with the APIs.
+  The GODData classes receive the JSON response from a request returned by a fetcher and transform it into subclasses of GODData.\\
+  
+  It's important to mention that both Facebook and Twitter APIs need a client id and password to work, this can be done creating a specific type of user in the developer section of both APIs.
+  Last but not least, we have classes responsible for testing all methods within the fetchers and GODDatas, keep in mind that we don't have control of the Facebook and Twitter servers, so some test may fail some times simply because the server response is not what was expected.\\
+  
+  If you have questions, contact us: thd.araujo@gmail.com.
 
-  The module is divided in two main parts, first are the fetchers, these classes are responsable to all the communication with the APIs.\\
-
-  Then there are the GODData clases, these ones receive the JSON response from a request made by a fetcher and transforms it into a GODData type of object.\\
-
-  It's important to mention that both Facebook and Twitter APIs need a client id and secret to work, this can be done creating a specific type of user in the developer section of both APIs.\\
-
-  Last but not least, we have classes responsable to test all the methods within the fetchers and GODDatas, keep in mind that we don't have control of the Facebook and Twitter servers, so some test may fail some times simply because the server response is not what was spected.
-\subsection{Class Diagram}
-\label{sec-1-3}
-
-\begin{center}
-\includegraphics[width=.9\textwidth]{SocialNetIO-1.png}
-\end{center}
-
-\begin{center}
-\includegraphics[width=.9\textwidth]{SocialNetIO-2.png}
-\end{center}
-\subsection{Documentation}
+\subsection{Classes of Fetchers}
 \label{sec-1-4}
-\subsubsection{Fetchers}
+\subsubsection{SNETFetcher}
 \label{sec-1-4-1}
+SNETFetcher is a abstract class that contains the common parts used by SNETFacebookFetcher and SNETTwitterFetcher. The methods are described below.
 \begin{itemize}
-
-\item Class SNETFetcher\\
-\label{sec-1-4-1-1}%
-SNETFetcher is a abstract class that contains the common parts used by SNETFacebookFetcher and SNETTwitterFetcher.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-1-1-1}%
-\begin{itemize}
-\item \verb~accessToken~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the access token necessary to access Facebook or Twitter servers.
-\end{itemize}
-
-
-\item Class Variables
-\label{sec-1-4-1-1-2}%
-\begin{itemize}
-\item \verb~ApiUrl~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the full URL to either Facebook or Twitter servers.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-1-1-3}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-1-1-3-1}%
-\begin{itemize}
-\item \verb~sendRequest: url~\\\\
-\textbf{Description:}\\
-      This abstract function job is to send some HTTP request to some url, it will be specialized in SNETFacebookFetcher and SNETTwitterFetcher.
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-1-1-3-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item connection
-\label{sec-1-4-1-1-3-3}%
-\begin{itemize}
-\item \verb~connection~\\\\
-\textbf{Description:}\\
-      This abstract function job is to connect to some server.
-\end{itemize}
-
-
-\end{itemize} % ends low level
+\item \textbf{private} - This abstract method sends some HTTP request to some url, it will be specialized in SNETFacebookFetcher and SNETTwitterFetcher.
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{connection} - This abstract method connects to some server.
 \end{itemize} % ends low level
 
-\item Class SNETFacebookFetcher\\
-\label{sec-1-4-1-2}%
-SNETFacebookFetcher is a class that controls all the access to the Facebook API.\\
-   
-   It sends requests to the facebook server and returns the result as a SNETFacebookUsersData object, SNETFacebookPostsData, SNETFacebookPagesData, SNETFacebookPageDescriptionData, SNETFacebookGroupsData, SNETFacebookGroupDescriptionData and SNETFacebookEventsData.
-
-\begin{itemize}
-
-\item Class Variables
-\label{sec-1-4-1-2-1}%
-\begin{itemize}
-\item \verb~ClientId~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the client id needed to connect to the Facebook API.\\
-\item \verb~ClientSecret~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the client secret needed to connect to the Facebook API.\\
-\item \verb~UserAgent~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the user agent used by \verb~sendRequest~ function to send HTTP requests to the Facebook API.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-1-2-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-1-2-2-1}%
-\begin{itemize}
-\item \verb~sendRequest: url~\\\\
-\textbf{Description:}\\
-      This function job is to send some HTTP request to Facebook API.\\
-\item \verb~byId: id~\\\\
-\textbf{Description:}\\
-      This function job is to be a helper to some functions that search in the Facebook API using some id.
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-1-2-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class, it will initialize all the class variables.
-\end{itemize}
-
-
-\item connection
-\label{sec-1-4-1-2-2-3}%
-\begin{itemize}
-\item \verb~connection~\\\\
-\textbf{Description:}\\
-      This function job is to connect to Facebook API.\\
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-1-2-2-4}%
-\begin{itemize}
-\item \verb~events: event~\\\\
-\textbf{Description:}\\
-      This function job is to search for events with the parameter name.\\
-\end{itemize}
-
-
-\begin{itemize}
-\item \verb~events: event since: since~\\\\
-\textbf{Description:}\\
-      This function job is to search for events with the parameter name since some date.\\
-\item \verb~events: event since: since until: until~\\\\
-\textbf{Description:}\\
-      This function job is to search for events with the parameter name since some date until another date.\\
-\item \verb~groupDescription: groupId~\\\\
-\textbf{Description:}\\
-      This function job is to get group information by id.\\
-\item \verb~groups: group~\\\\
-\textbf{Description:}\\
-      This function job is to search for groups with the parameter name.\\
-\item \verb~pageDescription: pageId~\\\\
-\textbf{Description:}\\
-      This function job is to get page information by id.\\
-\item \verb~pages: page~\\\\
-\textbf{Description:}\\
-      This function job is to search for pages with the parameter name.\\
-\item \verb~posts: user~\\\\
-\textbf{Description:}\\
-      This function job is to get posts from user.\\
-\item \verb~posts: user since: since~\\\\
-\textbf{Description:}\\
-      This function job is to get posts from user since some date.\\
-\item \verb~posts: user since: since until: until~\\\\
-\textbf{Description:}\\
-      This function job is to get posts from user since some date until another date.\\
-\item \verb~users: user~\\\\
-\textbf{Description:}\\
-      This function job is to search for users with the parameter name.\\
-\end{itemize}
-
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETTwitterFetcher\\
-\label{sec-1-4-1-3}%
-SNETTwitterFetcher is a class that control all the access to the Twitter API.\\
-
-   It send requests to the twitter server and return the result as data class SNETTwitterTweetsData.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-1-3-1}%
-\begin{itemize}
-\item \verb~tokenType~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the token type necessary to perform different requests from the Twitter server.\\
-\item \verb~lang~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the language used when searching for tweets.
-\end{itemize}
-
-
-\item Class Variables
-\label{sec-1-4-1-3-2}%
-\begin{itemize}
-\item \verb~ClientId~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the client id needed to connect to the Twitter API.
-\item \verb~ClientSecret~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the client secret needed to connect to the Twitter API.
-\item \verb~UserAgent~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the user agent used by \verb~sendRequest~ function to send HTTP requests to the Twitter API.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-1-3-3}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-1-3-3-1}%
-\begin{itemize}
-\item \verb~sendRequest: url~\\\\
-\textbf{Description:}\\
-      This function job is to send some HTTP request to Twitter API.\\
-\item \verb~sendRequest: url method: method~\\\\
-\textbf{Description:}\\
-      This function job is to send some HTTP request with either GET or POST method to Twitter API.\\
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-1-3-3-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class, it will initialize all the class and instance variables.
-\end{itemize}
-
-
-\item connection
-\label{sec-1-4-1-3-3-3}%
-\begin{itemize}
-\item \verb~connection~\\\\
-\textbf{Description:}\\
-      This function job is to connect to Twitter API.\\
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-1-3-3-4}%
-\begin{itemize}
-\item \verb~posts: user~\\\\
-\textbf{Description:}\\
-      This function job is to get posts from user.\\
-\item \verb~posts: user maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get posts from user specifying the maximum amount of posts.\\
-\item \verb~tweets: text~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text.\\
-\item \verb~tweets: text maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text specifying the maximum amount of tweets.\\
-\item \verb~tweets: text since: date maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text since date specifying the maximum amount of tweets.\\
-\item \verb~tweets: text since: initDate until: endDate maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text since date until another date specifying the maximum amount of tweets.\\
-\item \verb~tweets: text until: date~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text until date.\\
-\item \verb~tweets: text until: date maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text until date specifying the maximum amount of tweets.\\
-\item \verb~tweetsFrom: text user: user~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user.\\
-\item \verb~tweetsFrom: text user: user maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user specifying the maximum amount of tweets.\\
-\item \verb~tweetsFrom: text user: user since: date~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user since date.\\
-\item \verb~tweetsFrom: text user: user since: date maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user since date specifying the maximum amount of tweets.\\
-\item \verb~tweetsFrom: text user: user since: initDate until: endDate maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user since date until another date specifying the maximum amount of tweets.\\
-\item \verb~tweetsFrom: text user: user until: date~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user until date.\\
-\item \verb~tweetsFrom: text user: user until: date maximum: max~\\\\
-\textbf{Description:}\\
-      This function job is to get tweets from text from user until date specifying the maximum amount of tweets.
-\end{itemize}
-
-
-\item setting
-\label{sec-1-4-1-3-3-5}%
-\begin{itemize}
-\item \verb~language: newLanguage~\\\\
-\textbf{Description:}\\
-      This function job is to set the language limiting the tweets searched by it.
-\end{itemize}
-
-
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-\subsubsection{GODDatas}
+\subsubsection{SNETFacebookFetcher}
 \label{sec-1-4-2}
+SNETFacebookFetcher is a class that controls all the access to the Facebook API.
+It sends requests to the facebook server and returns the result as a SNETFacebookUsersData object, SNETFacebookPostsData, SNETFacebookPagesData, SNETFacebookPageDescriptionData, SNETFacebookGroupsData, SNETFacebookGroupDescriptionData and SNETFacebookEventsData.
+The methods are described below.
 \begin{itemize}
-
-\item Class SNETTwitterTweetsData\\
-\label{sec-1-4-2-1}%
-SNETTwitterTweetsData is a class that contains a list of SNETTwitterTweet.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-1-1}%
-\begin{itemize}
-\item \verb~tweets~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of tweets.
+\item \textbf{sendRequest} - sends some HTTP request to Facebook API.
+\item \textbf{byId: id} - is a helper to some methods that search in the Facebook API using some id.
+\item \textbf{initialize} - This is the default method to initialize the class, it will initialize all the class variables.
+\item \textbf{connection} - connects to Facebook API.
+\item \textbf{events: event} - searches for events with the parameter name.
+\item \textbf{events: event since: since} - searches for events with the parameter name since some date.
+\item \textbf{events: event since: since until: until} - searches for events with the parameter name since some date until another date.
+\item \textbf{groupDescription: groupId} - gets group information by id.
+\item \textbf{groups: group} - searches for groups with the parameter name.
+\item \textbf{pageDescription: pageId} - gets page information by id.
+\item \textbf{pages: page} - searches for pages with the parameter name.
+\item \textbf{posts: user} - gets posts of a user.
+\item \textbf{posts: user since: since} - gets posts of a user since some date.
+\item \textbf{posts: user since: since until: until} - gets posts of a user since some date until another date.
+\item \textbf{users: user} - searches for users with the parameter name.
 \end{itemize}
 
-
-\item Functions
-\label{sec-1-4-2-1-2}%
+\subsubsection{SNETTwitterFetcher}
+\label{sec-1-4-3}
+SNETTwitterFetcher is a class that control all the access to the Twitter API.
+It send requests to the twitter server and return the result as data class SNETTwitterTweetsData.
+The methods are described below.
 \begin{itemize}
-
-\item private
-\label{sec-1-4-2-1-2-1}%
-\begin{itemize}
-\item \verb~addTweet: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new tweet from a json to the collection.\\
+\item \textbf{sendRequest: url} - sends some HTTP request to Twitter API.
+\item \textbf{sendRequest: url method: method} - sends some HTTP request with either GET or POST method to Twitter API.
+\item \textbf{initialize} - This is the default method to initialize the class, it will initialize all the class and instance variables.
+\item \textbf{connection} - connects to Twitter API.
+\item \textbf{posts: user} - gets posts of a user.
+\item \textbf{posts: user maximum: max} - gets posts of a user specifying the maximum amount of posts.
+\item \textbf{tweets: text} - gets tweets from text.
+\item \textbf{tweets: text maximum: max} - gets tweets from text specifying the maximum amount of tweets.
+\item \textbf{tweets: text since: date maximum: max} - gets tweets from text since date specifying the maximum amount of tweets.
+\item \textbf{tweets: text since: initDate until: endDate maximum: max} - gets tweets from text since date until another date specifying the maximum amount of tweets.
+\item \textbf{tweets: text until: date} - gets tweets from text until date.
+\item \textbf{tweets: text until: date maximum: max} - gets tweets from text until date specifying the maximum amount of tweets.
+\item \textbf{tweetsFrom: text user: user} - gets tweets from text from user.
+\item \textbf{tweetsFrom: text user: user maximum: max} - gets tweets from text from user specifying the maximum amount of tweets.
+\item \textbf{tweetsFrom: text user: user since: date} - gets tweets from text from user since date.
+\item \textbf{tweetsFrom: text user: user since: date maximum: max} - gets tweets from text from user since date specifying the maximum amount of tweets.
+\item \textbf{tweetsFrom: text user: user since: initDate until: endDate maximum: max} - gets tweets from text from user since date until another date specifying the maximum amount of tweets.
+\item \textbf{tweetsFrom: text user: user until: date} - gets tweets from text from user until date.
+\item \textbf{tweetsFrom: text user: user until: date maximum: max} - gets tweets from text from user until date specifying the maximum amount of tweets.
+\item \textbf{language: newLanguage} - sets the language of the tweets.
 \end{itemize}
 
-
-\item initialize-release
-\label{sec-1-4-2-1-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-1-2-3}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much tweets the collection contains.\\
-\item \verb~tweet: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a tweet at a position in the collection.\\
-\item \verb~tweets~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of tweets.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETTwitterTweet\\
-\label{sec-1-4-2-2}%
-SNETTwitterTweet is a class that contains a Twitter tweet.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-2-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the tweet.\\
-\item \verb~message~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the message of the tweet.\\
-\item \verb~retweets~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the number of retweets of the tweet.\\
-\item \verb~favorited~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the number of favorited of the tweet.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-2-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-2-2-1}%
-\begin{itemize}
-\item \verb~favorited: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the number of favorited from tweet.\\
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id from tweet.\\
-\item \verb~message: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the message from tweet.\\
-\item \verb~retweets: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the number of retweets from tweet.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-2-2-2}%
-\begin{itemize}
-\item \verb~favorited~\\\\
-\textbf{Description:}\\
-      This function job is to get the number of favorited from tweet.\\
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id from tweet.\\
-\item \verb~message~\\\\
-\textbf{Description:}\\
-      This function job is to get the message from tweet.\\
-\item \verb~retweets~\\\\
-\textbf{Description:}\\
-      This function job is to get the number of retweets from tweet.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookPostsData\\
-\label{sec-1-4-2-3}%
-SNETFacebookPostsData is a class that contains a list of SNETFacebookPost.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-3-1}%
-\begin{itemize}
-\item \verb~posts~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of posts.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-3-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-3-2-1}%
-\begin{itemize}
-\item \verb~addPost: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new post from a json to the collection.\\
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-2-3-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-3-2-3}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much posts the collection contains.\\
-\item \verb~post: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a post at a position in the collection.\\
-\item \verb~posts~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of posts.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookPost\\
-\label{sec-1-4-2-4}%
-SNETFacebookPost is a class that contains a Facebook post.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-4-1}%
-\begin{itemize}
-\item \verb~message~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the message of the post.\\
-\item \verb~type~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the type of the post.\\
-\item \verb~caption~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the caption of the post.\\
-\item \verb~description~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the description of the post.\\
-\item \verb~picture~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the picture URL of the post.\\
-\item \verb~likes~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the number of likes of the post.\\
-\item \verb~shares~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the number of shares of the post.\\
-\item \verb~comments~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of comments of the post.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-4-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-4-2-1}%
-\begin{itemize}
-\item \verb~addComment: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new comment from a json to the collection.\\
-\item \verb~caption: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the caption from post.\\
-\item \verb~description: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the description from post.\\
-\item \verb~likes: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the number of likes from post.\\
-\item \verb~message: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the message from post.\\
-\item \verb~picture: url~\\\\
-\textbf{Description:}\\
-      This function job is to set the picture url from post.\\
-\item \verb~shares: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the number of shares from post.\\
-\item \verb~type: postType~\\\\
-\textbf{Description:}\\
-      This function job is to set the type of post from post.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-4-2-2}%
-\begin{itemize}
-\item \verb~comment: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a comment from the collection.\\
-\item \verb~caption~\\\\
-\textbf{Description:}\\
-      This function job is to get the caption from post.\\
-\item \verb~description~\\\\
-\textbf{Description:}\\
-      This function job is to get the description from post.\\
-\item \verb~likes~\\\\
-\textbf{Description:}\\
-      This function job is to get the number of likes from post.\\
-\item \verb~message~\\\\
-\textbf{Description:}\\
-      This function job is to get the message from post.\\
-\item \verb~picture~\\\\
-\textbf{Description:}\\
-      This function job is to get the picture url from post.\\
-\item \verb~shares~\\\\
-\textbf{Description:}\\
-      This function job is to get the number of shares from post.\\
-\item \verb~type~\\\\
-\textbf{Description:}\\
-      This function job is to get the type of post from post.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookComment\\
-\label{sec-1-4-2-5}%
-SNETFacebookComment is a class that contains a Facebook comment.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-5-1}%
-\begin{itemize}
-\item \verb~message~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the message of the comment.\\
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the comment.\\
-\item \verb~likes~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the number of likes of the comment.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-5-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-5-2-1}%
-\begin{itemize}
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id from comment.\\
-\item \verb~likes: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the number of likes from comment.\\
-\item \verb~message: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the message from comment.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-5-2-2}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id from comment.\\
-\item \verb~likes~\\\\
-\textbf{Description:}\\
-      This function job is to get the number of likes from comment.\\
-\item \verb~message~\\\\
-\textbf{Description:}\\
-      This function job is to get the message from comment.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookPagesData\\
-\label{sec-1-4-2-6}%
-SNETFacebookPagesData is a class that contains a list of SNETFacebookPage.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-6-1}%
-\begin{itemize}
-\item \verb~pages~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of pages.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-6-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-6-2-1}%
-\begin{itemize}
-\item \verb~addPage: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new page from a json to the collection.\\
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-2-6-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-6-2-3}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much pages the collection contains.\\
-\item \verb~page: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a page at a position in the collection.\\
-\item \verb~pages~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of pages.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookPage\\
-\label{sec-1-4-2-7}%
-SNETFacebookPage is a class that contains a Facebook page.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-7-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the page.\\
-\item \verb~category~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the category of the page.\\
-\item \verb~name~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the name of the page.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-7-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-7-2-1}%
-\begin{itemize}
-\item \verb~category: pageCategory~\\\\
-\textbf{Description:}\\
-      This function job is to set the category from page.\\
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id from page.\\
-\item \verb~name: pageName~\\\\
-\textbf{Description:}\\
-      This function job is to set the name from page.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-7-2-2}%
-\begin{itemize}
-\item \verb~category~\\\\
-\textbf{Description:}\\
-      This function job is to get the category from page.\\
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id from page.\\
-\item \verb~name~\\\\
-\textbf{Description:}\\
-      This function job is to get the name from page.
-\end{itemize}
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookPageDescriptionData\\
-\label{sec-1-4-2-8}%
-SNETFacebookPageDescriptionData is a class that contains the description of a certain Facebook page.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-8-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the page.\\
-\item \verb~category~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the category of the page.\\
-\item \verb~name~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the name of the page.
-\item \verb~description~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the description of the page.
-\item \verb~likes~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the likes of the page.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-8-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-8-2-1}%
-\begin{itemize}
-\item \verb~category: pageCategory~\\\\
-\textbf{Description:}\\
-      This function job is to set the category of page.\\
-\item \verb~description: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the description of page.\\
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id of page.\\
-\item \verb~name: pageName~\\\\
-\textbf{Description:}\\
-      This function job is to set the name of page.\\
-\item \verb~likes: number~\\\\
-\textbf{Description:}\\
-      This function job is to set the likes of page.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-8-2-2}%
-\begin{itemize}
-\item \verb~category~\\\\
-\textbf{Description:}\\
-      This function job is to get the category of page.\\
-\item \verb~description~\\\\
-\textbf{Description:}\\
-      This function job is to get the description of page.\\
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id of page.\\
-\item \verb~name~\\\\
-\textbf{Description:}\\
-      This function job is to get the name of page\\
-\item \verb~likes~\\\\
-\textbf{Description:}\\
-      This function job is to get the likes of page.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookGroupsData\\
-\label{sec-1-4-2-9}%
-SNETFacebookGroupsData is a class that contains a list of SNETFacebookGroup.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-9-1}%
-\begin{itemize}
-\item \verb~groups~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of groups.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-9-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-9-2-1}%
-\begin{itemize}
-\item \verb~addGroup: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new group from a json to the collection.\\
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-2-9-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-9-2-3}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much groups the collection contains.\\
-\item \verb~group: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a group at a position in the collection.\\
-\item \verb~groups~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of groups.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookGroup\\
-\label{sec-1-4-2-10}%
-SNETFacebookGroup is a class that contains a Facebook group.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-10-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the group.\\
-\item \verb~name~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the name of the group.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-10-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-10-2-1}%
-\begin{itemize}
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id from group.\\
-\item \verb~name: groupName~\\\\
-\textbf{Description:}\\
-      This function job is to set the name from group.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-10-2-2}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id from group.\\
-\item \verb~name~\\\\
-\textbf{Description:}\\
-      This function job is to get the name from group.
-\end{itemize}
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookGroupDescriptionData\\
-\label{sec-1-4-2-11}%
-SNETFacebookGroupDescriptionData is a class that contains the description of a certain Facebook group.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-11-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the group.\\
-\item \verb~name~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the name of the group.
-\item \verb~description~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the description of the group.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-11-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-11-2-1}%
-\begin{itemize}
-\item \verb~description: text~\\\\
-\textbf{Description:}\\
-      This function job is to set the description of group.\\
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id of group.\\
-\item \verb~name: groupName~\\\\
-\textbf{Description:}\\
-      This function job is to set the name of group.\\
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-11-2-2}%
-\begin{itemize}
-\item \verb~description~\\\\
-\textbf{Description:}\\
-      This function job is to get the description of group.\\
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id of group.\\
-\item \verb~name~\\\\
-\textbf{Description:}\\
-      This function job is to get the name of group\\
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookEventsData\\
-\label{sec-1-4-2-12}%
-SNETFacebookEventsData is a class that contains a list of SNETFacebookEvent.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-12-1}%
-\begin{itemize}
-\item \verb~events~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of events.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-12-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-12-2-1}%
-\begin{itemize}
-\item \verb~addEvent: json~\\\\
-\textbf{Description:}\\
-      This function job is to add a new event from a json to the collection.\\
-\end{itemize}
-
-
-\item initialize-release
-\label{sec-1-4-2-12-2-2}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-12-2-3}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much events the collection contains.\\
-\item \verb~event: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a event at a position in the collection.\\
-\item \verb~events~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of events.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookEvent\\
-\label{sec-1-4-2-13}%
-SNETFacebookEvent is a class that contains a Facebook event.
-   
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-13-1}%
-\begin{itemize}
-\item \verb~id~\\\\
-\textbf{Type:}\\
-     Integer.\\
-
-     \textbf{Description:}\\
-     This variable will store the id of the event.\\
-\item \verb~location~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the location of the event.\\
-\item \verb~name~\\\\
-\textbf{Type:}\\
-     String.\\
-
-     \textbf{Description:}\\
-     This variable will store the name of the event.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-13-2}%
-\begin{itemize}
-
-\item private
-\label{sec-1-4-2-13-2-1}%
-\begin{itemize}
-\item \verb~location: eventLocation~\\\\
-\textbf{Description:}\\
-      This function job is to set the location from event.\\
-\item \verb~id: idNumber~\\\\
-\textbf{Description:}\\
-      This function job is to set the id from event.\\
-\item \verb~name: eventName~\\\\
-\textbf{Description:}\\
-      This function job is to set the name from event.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-13-2-2}%
-\begin{itemize}
-\item \verb~location~\\\\
-\textbf{Description:}\\
-      This function job is to get the location from event.\\
-\item \verb~id~\\\\
-\textbf{Description:}\\
-      This function job is to get the id from event.\\
-\item \verb~name~\\\\
-\textbf{Description:}\\
-      This function job is to get the name from event.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-
-\item Class SNETFacebookUsersData\\
-\label{sec-1-4-2-14}%
-SNETFacebookUsersData is a class that contains a list of SNETFacebookUser.
-
-\begin{itemize}
-
-\item Instance Variables
-\label{sec-1-4-2-14-1}%
-\begin{itemize}
-\item \verb~users~\\\\
-\textbf{Type:}\\
-     Collection.\\
-
-     \textbf{Description:}\\
-     This variable will store a list of users.
-\end{itemize}
-
-
-\item Functions
-\label{sec-1-4-2-14-2}%
-\begin{itemize}
-
-\item initialize-release
-\label{sec-1-4-2-14-2-1}%
-\begin{itemize}
-\item \verb~initialize~\\\\
-\textbf{Description:}\\
-      This is the default function to initialize the class.
-\end{itemize}
-
-
-\item accessing
-\label{sec-1-4-2-14-2-2}%
-\begin{itemize}
-\item \verb~size~\\\\
-\textbf{Description:}\\
-      This function job is to show how much users the collection contains.\\
-\item \verb~user: position~\\\\
-\textbf{Description:}\\
-      This function job is to get a user at a position in the collection.\\
-\item \verb~users~\\\\
-\textbf{Description:}\\
-      This function job is to get the list of users.
-\end{itemize}
-
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-\end{itemize} % ends low level
-\subsection{Contact}
+\subsection{Classes of GODDatas}
 \label{sec-1-5}
+\subsubsection{SNETTwitterTweetsData}
+\label{sec-1-5-1}
+SNETTwitterTweetsData is a class that contains a list of SNETTwitterTweet. The methods are:
+\begin{itemize}
+\item \textbf{addTweet: json} - adds a new tweet from a json to the collection.
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{size} - shows the number of tweets in the collection.
+\item \textbf{tweetAt: position} - gets a tweet at a position in the collection.
+\item \textbf{tweets} - gets the list of tweets.
+\end{itemize}
 
-  thd.araujo@gmail.com
+\subsubsection{SNETTwitterTweet}
+\label{sec-1-5-2}
+SNETTwitterTweet is a class that contains a Twitter tweet. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{favorited: number} - number of favorited of tweet.
+\item \textbf{id: idNumber} - tweet id.
+\item \textbf{message: text} - tweet message.
+\item \textbf{retweets: number} - number of retweets.
+\end{itemize}
+
+\subsubsection{SNETFacebookPostsData}
+\label{sec-1-5-3}
+SNETFacebookPostsData is a class that contains a list of SNETFacebookPost. The methods are:
+\begin{itemize}
+\item \textbf{addPost: json} - adds a new post from a json to the collection.
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{size} - shows how much posts the collection contains.
+\item \textbf{postAt: position} - gets a post at a position in the collection.
+\item \textbf{posts} - gets the list of posts.
+\end{itemize}
+
+\subsubsection{SNETFacebookPost}
+\label{sec-1-5-4}
+SNETFacebookPost is a class that contains a Facebook post. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{addComment: json} - adds a new comment to the collection.
+\item \textbf{caption: text} - post caption.
+\item \textbf{description: text} - post description.
+\item \textbf{likes: number} - number of likes of post.
+\item \textbf{message: text} - post message.
+\item \textbf{picture: url} - picture url from post.
+\item \textbf{shares: number} - post shares.
+\item \textbf{type: postType} - type of post.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookComment}
+\label{sec-1-5-5}
+SNETFacebookComment is a class that contains a Facebook comment. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{id: idNumber} - comment id.
+\item \textbf{likes: number} - number of likes of a comment.
+\item \textbf{message: text} - comment message.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookPagesData}
+\label{sec-1-5-6}
+SNETFacebookPagesData is a class that contains a list of SNETFacebookPage. The methods are:
+\begin{itemize}
+\item \textbf{addPage: json} - adds a new page from a json to the collection.
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{size} - shows the number of pages in the collection.
+\item \textbf{pageAt: position} - gets a page at a position in the collection.
+\item \textbf{pages} - gets the list of pages.
+\end{itemize}
+
+\subsubsection{SNETFacebookPage}
+\label{sec-1-5-7}
+SNETFacebookPage is a class that contains a Facebook page. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{category: pageCategory} - page category.
+\item \textbf{id: idNumber} - page id.
+\item \textbf{name: pageName} - page name.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookPageDescriptionData}
+\label{sec-1-5-8}
+SNETFacebookPageDescriptionData is a class that contains the description of a certain Facebook page. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{category: pageCategory} - page category.
+\item \textbf{description: text} - page description.
+\item \textbf{id: idNumber} - page id.
+\item \textbf{name: pageName} - page name.
+\item \textbf{likes: number} - likes of a page.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookGroupsData}
+\label{sec-1-5-9}
+SNETFacebookGroupsData is a class that contains a list of SNETFacebookGroup. The methods are:
+\begin{itemize}
+\item \textbf{addGroup: json} - adds a new group from a json to the collection.
+\item initialize - This is the default method to initialize the class.
+\item size - shows the number of groups in the collection.
+\item \textbf{groupAt: position} - gets a group at a position in the collection.
+\item \textbf{groups} - gets the list of groups.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookGroup}
+\label{sec-1-5-10}
+SNETFacebookGroup is a class that contains a Facebook group. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{id: idNumber} - group id.
+\item \textbf{name: groupName} - group name.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookGroupDescriptionData}
+\label{sec-1-5-11}
+SNETFacebookGroupDescriptionData is a class that contains the description of a certain Facebook group. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{description: text} - group description.
+\item \textbf{id: idNumber} - group id.
+\item \textbf{name: groupName} - group name.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookEventsData}
+\label{sec-1-5-12}
+SNETFacebookEventsData is a class that contains a list of SNETFacebookEvent. The methods are:
+\begin{itemize}
+\item \textbf{addEvent: json} - adds a new event from a json to the collection.
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{size} - shows the number of events in the collection.
+\item \textbf{eventAt: position} - gets a event at a position in the collection.
+\item \textbf{events} - gets the list of events.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookEvent}
+\label{sec-1-5-13}
+SNETFacebookEvent is a class that contains a Facebook event. There are getters and setters for the following variables:
+\begin{itemize}
+\item \textbf{location: eventLocation} - event location.
+\item \textbf{id: idNumber} - event id.
+\item \textbf{name: eventName} - event name.
+\end{itemize}
+
+
+\subsubsection{SNETFacebookUserData}
+\label{sec-1-5-14}
+SNETFacebookUsersData is a class that contains a list of SNETFacebookUser. The methods are:
+\begin{itemize}
+\item \textbf{initialize} - This is the default method to initialize the class.
+\item \textbf{size} - show the number ofusers in the collection.
+\item \textbf{userAt: position} - gets a user at a position in the collection.
+\item \textbf{users} - gets the list of users.
+\end{itemize}
+\\
+A more detailed information about this module can be found in the Appendix section~\ref{}.
