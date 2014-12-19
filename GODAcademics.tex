@@ -23,46 +23,32 @@ Representa um artigo de um pesquisador.
 
   \item journal: é o nome do periódico onde o artigo foi publicado.
 
-  \item impactFactor: é o fator de impacto (estrato) do journal no qual o arrigo foi publicado. Essa é uma    medida do sistema webQualis, da capes.
+  \item impactFactor: é o fator de impacto (estrato) do journal no qual o artigo foi publicado. Essa é uma  medida do sistema webQualis da capes.
 
-  \item NumberOfCitatioins: é o número de citacões que o artigo tem.
+  \item NumberOfCitatioins: é o número de citacões do artigo.
 \end{itemize}
 
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
 
-  \item hasAttribute: aTag in: aHtmlPaper
-
-  Verifica se a informaçãoi representada por aTag, existe em aHtmlPaper
-
-  \item initializeFromHTML: aHtmlPaper
-
-  Monta um paper a partir de uma string contento html. Não deve ser usado diretamente, veja   Researcher>initializeFromProfileURL.
-
-  \item LoadAttribute: aTag from: aHtmlPaper
-
-  Dada uma tag, indicando qual informação está sendo pedido, e um pedaço de html, retorna a   informação pedida.
-
-  \item loadAttributesFrom: aHtmlPaper
-
-  Carrega os atributos de um paper a partir de um html.
-
-  \item loadImpactFactorFrom: journal
-
-  Acha o fator de impacto do journal passado
-
-  \item numberOfCitations
-
-  Retorna o número de citações do artigo.
+    \item hasAttribute: aTag in: aHtmlPaper - Verifica se a informação representada por aTag existe em aHtmlPaper
+ 
+   \item initializeFromHTML: aHtmlPaper - Monta um paper a partir de uma string contendo código html. Não deve ser usado diretamente, veja Researcher>initializeFromProfileURL.
+  
+  \item loadAttribute: aTag from: aHtmlPaper - Retorna o conteúdo da aTag a partir de um html.
+  
+  \item loadAttributesFrom: aHtmlPaper - Carrega os atributos de um paper a partir de um html.
+  
+  \item loadImpactFactorFrom: journal - Carrega o fator de impacto do journal passado
+  
+  \item numberOfCitations - Retorna o número de citações do artigo.
 
 \end{itemize}
 
 \subsection{Classe ACADQualis}
 
-Representa a lista qualis de periódicos x fator de impacto.
-
-É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
+Representa a lista qualis de periódicos x fator de impacto. É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
 
 \subsubsection{Atributos de classe}
 
@@ -80,13 +66,8 @@ Representa a lista qualis de periódicos x fator de impacto.
 
 \begin{itemize}
 
-  \item clear
-
-  Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
-
-  \item singleton
-
-  Cria uma instância da classe e a retorna.
+  \item clear - Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
+  \item singleton - Cria uma instância da classe e a retorna.
 
 \end{itemize}
 
@@ -94,28 +75,15 @@ Representa a lista qualis de periódicos x fator de impacto.
 
 \begin{itemize}
 
-  \item initialize
+  \item initialize - Carrega o hash qualis com a lista armazenada em listOfQualis
 
-  Carrega o hash qualis com a lista armazenada em listOfQualis
+  \item journalIsSomethingLike: aJournal - Dado o nome de um periódico, procura na no hash um periódico com nome parecido. Retorna a primeira chave que dê match em um dos prefixos do nome do periódico procurado. Se não houver match, é retornado \'unknown\'.
 
-  \item journalIsSomethingLike: aJournal
-
-  Dado o nome de um periódico, procura na no hash um periódico com nome parecido.
-  Retorna a primeira chave que dê match em um dos prefixos do nome do periódico   procurado. Se não houver match, é retornado \'unknown\'.
-
-  \item listOfQualis
-
-  String gigante com a última lista lançada pela capes, com o nome dos periódicos e seus  respectivos fatores de impacto
-
-  \item load: aQualisText
-
-  Carrega um  texto qualis (que esteja no mesmo formato de listOfQualis) no dicionário  qualis.
-
-  \item qualisOf: aJournal
-
-  Dado o nome de um periódico, retorna seu fator de impacto.
-
-  Se não existir no dicionário, unknown é retornado.
+  \item listOfQualis - String com a última lista lançada pela capes, com o nome dos periódicos e seus  respectivos fatores de impacto
+  
+  \item load: aQualisText - Carrega um texto qualis (que esteja no mesmo formato de listOfQualis) no dicionário  qualis.
+  
+  \item qualisOf: aJournal - Dado o nome de um periódico, retorna seu fator de impacto. Se não existir no dicionário, unknown é retornado.
 
 \end{itemize}
 
@@ -139,58 +107,33 @@ Representa um pesquisador.
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
-  \item barGraphOfPapersByImpact
+  \item barGraphOfPapersByImpact - Retorna um gráfico com os fatores de impacto no eixo x, e a quantidade de artigos com um  dado fator de impacto no eixo y.
 
-  Retorna um gráfico com os fatores de impacto no eixo x, e a quantidade de artigos com um  dado fator de impacto no eixo y.
+  \item forEachPaperDo: aBlock - Executa o bloco passado em toda a lista de artigos.
 
-  \item forEachPaperDo: aBlock
+  \item hasAttribute: aTag in: aHtmlPage - Verifica se a informação representada por aTag existe em aHtmlPage.
 
-  Executa o bloco passado em toda a lista de artigos.
+  \item initialize - Aloca memória para a lista de artigos.
 
-  \item hasAttribute: aTag in: aHtmlPage
+  \item intitializeFromHTMLPage: aHtmlPage - Monta um pesquisador extraindo as informações de aHtmlPage.
 
-  Verifica se a informação representada por aTag existe em aHtmlPage.
+  \item initializeFromProfileURL: aProfileURL - Similar à initializeFromHTMLPage, mas pega a página passada em aProfileURL. Esta URL tem de ser um perfil do Google Scholar. Utilizamos um proxy para que o google scholar não bloqueie nosso acesso, pois nosso programa age como um robô
 
-  \item initialize
+  \item loadAttribute: aTag from: aHtmlPage - Se a informação representada por aTag existir em aHtmlPage, retornamos ela. Caso contrário, retornamos um GODData vazio.
 
-  Aloca memória para a lista de artigos.
+  \item loadAttributesFrom: aHtmlPage - Carrega os atributos do pesquisador a partir de aHtmlPage.
 
-  \item intitializeFromHTMLPage: aHtmlPage
+  \item LoadPapersFrom: aHtmlPage - Carrega os artigos do pesquisador a partir de aHtmlPage.
 
-  Monta um pesquisador extraindo as informações de aHtmlPage.
+  \item papersByImpactDictionary - Retorna um dicionário, onde as chaves são todos os possíveis valores de  fatores de impacto e o valor é a quantidade de artigos que o pesquisador tem com cada fator de impacto.
 
-  \item initializeFromProfileURL: aProfileURL
-
-  Similar à initializeFromHTMLPage, mas pega a pági na passada em aProfileURL. Esta URL   tem de ser um perfil do Google Scholar. Utilizamos um proxy para que o google scholar não   bloqueie nosso acesso, pois nosso programa age como um robô
-
-  \item loadAttribute: aTag from: aHtmlPage
-
-  Se a informação representada por aTag existir em aHtmlPage, retornamos ela.
-
-  Caso contrário, retornamos um GODData vazio.
-
-  \item loadAttributesFrom: aHtmlPage
-
-  Carrega os atributos do pesquisador a partir de aHtmlPage.
-
-  \item LoadPapersFrom: aHtmlPage
-
-  Carrega os artigos do pesquisador a partir de aHtmlPage.
-
-
-  \item papersByImpactDictionary
-
-  Retorna um dicionário, onde as chaves são todos os possíveis valores de  fatores de impacto   e o valor é a quantidade de artigos que o pesquisador tem com cada fator de impacto.
-
-  \item totalNumberOfCitations
-
-  Retorna o número total de citações ao pesquisador, isto é, a soma das citações de todos os  seus artigos.
+  \item totalNumberOfCitations - Retorna o número total de citações ao pesquisador, isto é, a soma das citações de todos os  seus artigos.
 
 \end{itemize}
 
 \subsection{Classe ACADTag}
 
-Representa uma o início e o fim de uma TAG. Entre essas marcas encontra-se o conteúdo necessário para instancias ACADResearchers e ACADPapers.
+Representa uma o início e o fim de uma TAG. Entre essas marcas encontra-se o conteúdo necessário para carregar as classes ACADResearchers e ACADPapers.
 
 \subsubsection{Atributos de instância}
 
@@ -203,9 +146,7 @@ Representa uma o início e o fim de uma TAG. Entre essas marcas encontra-se o co
 
 \subsection{Classe ACADTagPool}
 
-Representa a coleção de ACADTags necessárias para a aplicação GODAcademics.
-
-É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
+Representa a coleção de ACADTags necessárias para a aplicação GODAcademics. É um singleton. Não deve ser instanciado com new, mas sim com o método de classe singleton.
 
 \subsubsection{Atributos de classe}
 
@@ -226,38 +167,24 @@ Representa a coleção de ACADTags necessárias para a aplicação GODAcademics.
 
 \begin{itemize}
 
-  \item clear
+  \item clear - Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
 
-  Limpa o atributo de classe que guarda a instancia da classe. Faz isso atribuindo null.
-
-  \item singleton
-
-  Cria uma instância da classe e a retorna.
+  \item singleton - Cria uma instância da classe e a retorna.
 
 \end{itemize}
 
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
-  \item get: aTagName
+  \item get: aTagName - Retorna um ACADTag cujo nome é aTagName.
 
-  Retorna um ACADTag cujo nome é aTagName.
+  \item getAttributes: aTagName from: aHTML - Utilizando a tag aTagName, retorna o valor encontrado em aHTML.
 
-  \item getAttributes: aTagName from: aHTML
+  \item initialize - Inicializa a instância.
 
-  Utilizando a tag aTagName, retorna o valor encontrado em aHTML.
+  \item initializePaperTags - Adiciona ao dicionário pool todas as tags de artigos
 
-  \item initialize
-
-  Inicializa a instância.
-
-  \item initializePaperTags
-
-  Adiciona ao dicionário pool todas as tags de artigos
-
-  \item initializeResearcherTags
-
-  Adiciona ao dicionário poll todas as tags de pesquisadores.
+  \item initializeResearcherTags - Adiciona ao dicionário pool todas as tags de pesquisadores.
 
 \end{itemize}
 
@@ -287,20 +214,12 @@ Responsável por controlar o fluxo da aplicação GODAcademics.
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
-  \item initialize: aComponent
+  \item initialize: aComponent - Inicializa a instância.
 
-  Inicializa a instância.
+  \item renderHome - Renderiza a página inicial
 
-  \item renderHome
+  \item renderProfile: researcher - Constrói o relatório do pesquisador
 
-  Renderiza a página inicial
-
-  \item renderProfile: researcher
-
-  Constrói o relatório do pesquisador
-
-  \item save
-
-  Captura o valor atribuido ao formulário da página inicial.
+  \item save - Captura o valor atribuido ao formulário da página inicial.
 
 \end{itemize}
