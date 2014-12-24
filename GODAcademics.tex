@@ -25,16 +25,16 @@ Representa um artigo de um pesquisador.
 
   \item impactFactor: é o fator de impacto (estrato) do journal no qual o artigo foi publicado. Essa é uma  medida do sistema webQualis da capes.
 
-  \item NumberOfCitatioins: é o número de citacões do artigo.
+  \item numberOfCitatioins: é o número de citacões do artigo.
 \end{itemize}
 
 \subsubsection{Métodos de instância}
 
 \begin{itemize}
 
-    \item hasAttribute: aTag in: aHtmlPaper - Verifica se a informação representada por aTag existe em aHtmlPaper
+  \item hasAttribute: aTag in: aHtmlPaper - Verifica se a informação representada por aTag existe em aHtmlPaper
  
-   \item initializeFromHTML: aHtmlPaper - Monta um paper a partir de uma string contendo código html. Não deve ser usado diretamente, veja Researcher>initializeFromProfileURL.
+  \item initializeFromHTML: aHtmlPaper - Monta um paper a partir de uma string contendo código html. Não deve ser usado diretamente, veja Researcher>initializeFromProfileURL.
   
   \item loadAttribute: aTag from: aHtmlPaper - Retorna o conteúdo da aTag a partir de um html.
   
@@ -123,7 +123,7 @@ Representa um pesquisador.
 
   \item loadAttributesFrom: aHtmlPage - Carrega os atributos do pesquisador a partir de aHtmlPage.
 
-  \item LoadPapersFrom: aHtmlPage - Carrega os artigos do pesquisador a partir de aHtmlPage.
+  \item loadPapersFrom: aHtmlPage - Carrega os artigos do pesquisador a partir de aHtmlPage.
 
   \item papersByImpactDictionary - Retorna um dicionário, onde as chaves são todos os possíveis valores de  fatores de impacto e o valor é a quantidade de artigos que o pesquisador tem com cada fator de impacto.
 
@@ -223,3 +223,14 @@ Responsável por controlar o fluxo da aplicação GODAcademics.
   \item save - Captura o valor atribuido ao formulário da página inicial.
 
 \end{itemize}
+
+
+\subsection{Exemplos}
+\begin{godCode}
+'Iniciando um ACADResearcher a partir de um perfil do Google Scholar'
+researcher:= ACADResearcher new initialize.
+researcher initializeFromHTMLPage: 'http://scholar.google.com/citations?user=12SqSAsAAAAJ?hl=pt-BR&oi=ao'.
+
+'Gerando um grafico com os papers do pesquisador'
+researcher barGraphOfPapersByImpact.
+\end{godCode}

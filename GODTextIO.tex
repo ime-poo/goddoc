@@ -19,10 +19,8 @@ Marcello Oliveira, José Eurípedes.
 
 Para que este módulo funcione corretamente, é necessário
 \begin{itemize}
-\item Ter o módulo \verb|OSProcess| instalado no Squeak. Ele pode ser
-  obtido em \url{http://www.ime.usp.br/~john/OSProcessV4-3-7.sar}.
-\item Ter o \verb|pdflatex| e o \verb|abiword| devidamente instalados
-  e funcionando por chamada no terminal.
+\item Ter o pacote \verb|OSProcess| instalado no Squeak. O \verb|OSProcess| é usado para executar comandos no terminal do SO. Ele está incluído nos pacotes dependências do repositório do GOD.
+\item Ter o \verb|pdflatex| e o \verb|abiword| devidamente instalados e funcionando por chamada no terminal.
 \end{itemize}
 
 \subsection{Classes}
@@ -152,3 +150,15 @@ As classes que lidam com os tipos suportados são:
   e lê os arquivos usando a classe \verb|FileStream| do Squeak
   Smalltalk.
 \end{enumerate}
+
+\subsection{Exemplos}
+
+\begin{godCode}
+'Criando um arquivo texto a partir de um GODData' 
+txtio:=TXTIOConverter new.
+txtio write: godData toFile:'/path/to/file.txt'.
+
+'Lendo um arqwuivo ODT e adicionando a um GODData'
+gOdt:=txtio readFromFile:'/path/to/file.odt'.
+
+\end{godCode}

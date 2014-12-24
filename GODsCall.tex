@@ -3,9 +3,8 @@
 	 Fabrício C. Machado\footnote{fabcm@ime.usp.br}, Phablo F. S. Moura e Camila M. de Sousa.
 
 \subsection{Descrição geral}
-  O GOD's Call é uma aplicação para o auxílio na decisão sobre qual conferência participar.
-  
-  Essa aplicação acessa diferentes fontes na internet (e.g. WikiCFP, ConfSearch e lista de classificação da CAPES-Qualis) e  combina os dados dessas fontes para criar uma lista de conferências com informações como Deadline, Palavras-Chave, Área, Ratings, Conceito Qualis, etc e permite que o usuário faça buscas nessa base de dados.
+  O GOD's Call é uma aplicação para o auxílio na decisão sobre qual conferência participar. 
+  Essa aplicação acessa diferentes fontes na internet (e.g. WikiCFP, ConfSearch e lista de classificação da CAPES-Qualis) e combina os dados dessas fontes para criar uma lista de conferências com informações como Deadline, Palavras-Chave, Área, Ratings, Conceito Qualis, permitindo que o usuário faça buscas nessa base de dados.
 
 \subsection{Tutorial de inicialização} %Fabricio
 
@@ -16,46 +15,13 @@ Na versão atual do God's Call, usamos especialmente os seguintes pacotes (e ver
 
 Também usamos um pacote adicional: Regex (versão \texttt{damienpollet.17}).
 
-\subsubsection{Arquivos de configuração e testes do God's Call}
+\subsubsection{inicialização da aplicação}
 
-Usamos alguns arquivos de configuração e de entrada para nossos testes, que supomos salvos localmente. Os arquivos estão disponíveis em: \url{https://db.tt/sNX3zoa8}. A pasta em questão deve ser copiada para dentro do diretório do Squeak ( .../Squeak-4.4-All-in-One.app/Contents/Resources).
-
-Agora, você já deve ser capaz de rodar todos os 25 testes do God's Call (menu Apps, Test Runner, selecione no quadro esquerdo GODCallTests) e vê-los passar.
-
-\subsubsection{Banco de dados}
-
-Para o nosso banco de dados, usamos o Magma, para instalá-lo, siga os passos:
-
-\begin{enumerate}
-\item Abra o "SqueakMap Catalog" que está em "Apps" na barra de menu do Squeak.
-\item No SqueakMap, clique em Update.
-\item Faça click direito no quadro esquerdo superior e garanta que todas as opções estejam desmarcadas. Isso permitirá visualizar os pacotes do Magma.
-\item Faça click direito no pacote "client" (versão 1.4) do Magma e escolha a opção ``install".
-\item Repita o passo 4 para instalar os pacotes "server" e o "test" do Magma.
-\end{enumerate}
-
-Neste momento, você deve duplicar sua imagem do squeak (opção ``save as'' no menu). E manter duas imagens rodando em paralelo. Uma (que chamaremos de Server), servirá para rodar o banco de dados. A outra (que chamaremos de Client), servirá para rodar o Seaside e é onde o código do God's Call será executado.
-
-No Server, inicialize o banco de dados executando em um workspace o comando: \texttt{GDBServerController startServer.} Provavelmente, não será necessário fazer mais nada nessa imagem, exceto deixá-la rodando. Entretanto, os seguintes comandos também podem ser úteis: \texttt{GDBServerController isStarted.}, \texttt{GDBServerController stopServer.} e \texttt{GDBServerController deleteRepository.}
-
-
-\subsubsection{Inicialização do Seaside}
-
-Voltando para a imagem Client, vá no menu Apps e selecione Seaside Control Panel. Clique com o botão direito no quadro superior, selecione Add adaptor:, WAComancheAdaptor, 8080, Accept. Clique em Start.
-
-Execute em um workspace o comando: \texttt{GCFirstPage initialize.}
-%até hoje não sei se esse comando realmente é necessário...
-
-Pronto! Agora a página inicial do God's Call poderá ser visualizada em: \url{http://localhost:8080/godcall}.
-
-\subsubsection{ATENÇÃO!}
-
-Na primeira vez que tentar abrir a página inicial do God's Call, o banco de dados estará vazio e a aplicação começará a crawlear as páginas da web. Essa etapa pode demorar horas. Para testar a aplicação, recomendamos que altere os arquivos de configuração confSearch\_categories.txt e wikiCfp\_categories.txt. Deixando apenas a categoria open source em wikiCfp, o God's Call deve gastar apenas alguns minutos em sua inicialização.
-
+Na primeira vez que tentar abrir a página inicial do God's Call, o banco de dados estará vazio e a aplicação começará a rastrear as páginas da web. Essa etapa pode demorar algumas horas. 
 
 \subsection{Implementação}
 
-\subsubsection{Modelos do domínio}%phablo
+\subsubsection{Modelos do domínio}
 \begin{itemize}
     \item \texttt{GCVenue} Essa classe modela as informações a respeito do local onde é realizada a conferência. Seus atributos de instância são: \texttt{place}, \texttt{city} e  \texttt{country}.
     \item \texttt{GCRating} Nesta classe ficam informações a respeito da avaliação (ou classificação) de uma conferência. No atributo \texttt{qualis} é guardado o conceito Qualis-Capes e no atributo \texttt{hIndex} fica o Índice~H da conferência. 
@@ -102,11 +68,20 @@ web seja realizada.
 
 Para testar o método \texttt{crawl} das fontes WikiCfp e ConfSearch substituímos a referência ao objeto \texttt{WEBPageFetcher} pelos objetos \texttt{FakeWikiCfpFetcher} e \texttt{FakeConfSearchFetcher}. Isso permite que os testes rodem sem internet e que não sejam afetados por possíveis erros no pacote GODWeb.
 
-\subsection{Sugestões para trabalhos futuros}
-\begin{enumerate}
-	\item A partir de um texto (por exemplo, o resumo do artigo), o GOD's Call deve sugerir as conferências com deadline vigente que mais são adequadas para submissão desse artigo. 
-    \item Buscar mais informações a respeito do número de publicações de uma conferência e o númerdo de citações de artigos dessa conferência. (Sugestão: extrair essas informações do Microsoft Research). A partir desses números, criar gráficos como: o número de citações x ano, o número de artigos aceitos x ano.
-    \item Fornecer histórico do tempo (Wikipedia), hotéis (Booking.com) e pontos turísticos (TripAdvisor) próximos ao local de realização da conferência.	
-    \item  ``Núvem de palavras-chave'' de uma conferência. Gerar uma núvem de palavras a partir das palavras-chave das publicações que são apresentadas na conferência.
-\end{enumerate}
+\subsection{Exemplos}
+\begin{godCode}
+
+'Obtendo informacoes de conferencias do ConfSearch para software engineering'
+csCrawler:=GCConfSearchCrawler new.
+categCS:=Dictionary new.
+categCS at:'category' put:'software engineering'.
+csList:= csCrawler crawl: categCS.
+
+'Obtendo informacoes de conferencias do WikiCfp para computer science'
+wCrawler:=GCWikiCfpCrawler new.
+categW:=Dictionary new.
+categW at:'computer science' put:'computer science'.
+wList:= wCrawler crawl: categW.
+
+\end{godCode}
 

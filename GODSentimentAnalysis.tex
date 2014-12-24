@@ -1,33 +1,18 @@
-\section{Análise de sentimentos de coonsumo e político (GODSentimentAnalysis)}
+\section{Análise de sentimentos de consumo e político (GODSentimentAnalysis)}
 
-\textbf{Grupo:}\textit{Ana Luisa de Almeida Losnak, Arthur Branco Costa, Daniel Costa Bucher, Diego de Araújo Martinez Camarinha, Rafael Batista Carmo}
+\textbf{Grupo: }\textit{Ana Luisa de Almeida Losnak, Arthur Branco Costa, Daniel Costa Bucher, Diego de Araújo Martinez Camarinha, Rafael Batista Carmo}
 
-\textbf{Contato:}analosnak@gmail.com
+\textbf{Contato: }analosnak@gmail.com
 
 
 \subsection{Introdução}
-GOD Project é um sistema desenvolvido em \texttt{Smalltalk} que captura dados de diversas fontes da internet, como páginas web e redes sociais. GOD processa esses dados e fornece informações para diferentes aplicações.
+Análise de Sentimento de Consumo: Aplicação na qual o usuário faz uma busca por determinado produto e o GOD devolve as estatísticas a respeito dele. Há dois formatos de saída: planilha ou gráfico.
+Nos resultados são mostrados quantas postagens nas redes sociais foram a favor, contra e neutras a respeito desse produto.\\
 
-Nosso grupo ficou responsável pelo desenvolvimento das seguintes aplicações:
+Análise de Sentimento Político: Nesta aplicação a busca consiste em dois campos: o nome de um candidato e seu partido político. É possível ainda procurar apenas pelo partido e ver as opiniões sobre 
+ele de um modo geral. Também indica-se o formato de saída desejado (planilha ou gráfico).\\
 
-\begin{itemize}
-	\item Análise de Sentimento de Consumo:
-	
-	Aplicação na qual o usuário faz uma busca por determinado produto, e o GOD devolve as estatísticas a respeito dele, no formato desejado (planilha ou gráfico).
-	
-	Nos resultados são mostrados quantas postagens nas redes sociais foram a favor, contra e neutras a respeito desse produto.
-	
-	\item Análise de Sentimento Político:
-	
-	Nesta aplicação a busca consiste em dois campos: o nome de um candidato e seu partido político. É possível ainda procurar apenas pelo partido e ver as opiniões sobre ele de um modo geral.
-
-	Também indica-se o formato de saída desejado (planilha ou gráfico) e após apertar o botão ``Go'', a pesquisa inicia-se.
-\end{itemize}
-
-
-A seguir listamos as classes que criamos (nos pacotes GODSentimentAnalysis e GODSentimentAnalysisTests) e redigimos um breve descrição sobre cada um dos seus principais métodos, tanto os de classe quanto os de instância. A saber suas diferenças:
-
-Métodos de instância operam em objetos e conseguem acessar, processar e até modificar o estado do objeto tratado; em contrapartida, ainda que métodos de classe operem sobre a classe como um todo e também possa modificar atributos de classe, eles não têm acesso a variáveis de uma instância em particular. Em \texttt{Smalltalk}, métodos de classe correspondem a mensagens para o objeto representativo da classe, ao passo que métodos de instância correspondem a mensagens enviadas para um determinado objeto da classe em questão.
+A seguir descrevemos as classes do módulo, assim como os seus principais métodos.
 
 \subsection{SAInterface}
 Classe principal que chama todas as outras, deve ser a única utilizada por outros pacotes. Ou seja, é a única classe que seria pública.
@@ -90,45 +75,12 @@ Contudo, após essa contagem e analisada a proporção entre os dois tipos de pa
 \subsection{SASentimentTable}
 Esta classe é responsável por fazer uma tabela de sentimentos (GOOD, BAD ou NEUTRAL). Ela leva em consideração as avaliações feitas.
 
-\subsection{UML}
-Afim de esclarecer ainda mais as coisas, optamos por fazer um diagrama UML para facilitar a compreensão da  modelagem adotada por nosa equipe. A seguir pode-se observar a relação entre as classes, bem como todos os seus métodos que listamos anteriormente e ainda, é possível conferir os parâmetros passados e seus tipos, bem como o tipo de retorno de cada função.
-
-\begin{figure}[h]
-\caption{Diagrama UML}
-\centering
-\includegraphics[width=16cm]{figures/UML.png}
-\label{fig:uml}
-\end{figure}
-
-\newpage
 \subsection{Rodando as Aplicações}
-Para iniciar as aplicações de Análise de Sentimento basta seguir o simples passo-a-passo abaixo:
-
-\begin{enumerate}
-	\item No Squeak, abrir o Seaside Control Panel
-	
-	\item Dentro dele, clicar com o botão direito e então na opção Add adaptor...
-	
-	\item Escolher o tipo: WAComancheAdaptor
-	
-	\item Pressionar o botão ``Start''
-	
-	\item Abrir o navegador no endereço: localhost:8080/god
-\end{enumerate}
-
-Feito isso aparecerá a tela inicial, figura \ref{fig:ini}.
-
-\begin{figure}[h]
-\caption{Tela Inicial}
-\centering
-\includegraphics[width=14cm]{figures/inicio.png}
-\label{fig:ini}
-\end{figure}
 
 \subsubsection{Análise de Sentimento de Consumo}
 Para iniciar essa aplicação, basta clicar na opção do cabeçalho GODConsumptionSentimentAnalysis, que então surgirá a tela para pesquisar algum produto, figura \ref{fig:cons-pesq}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \caption{Análise de Sentimento de Consumo}
 \centering
 \includegraphics[width=14cm]{figures/consumo-pesquisa.png}
@@ -137,7 +89,7 @@ Para iniciar essa aplicação, basta clicar na opção do cabeçalho GODConsumpt
 
 Um possível resultado dessa pesquisa seria, por exemplo, o da figura \ref{fig:cons-result}, mostrado a seguir:
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \caption{Pesquisa - Galaxy s4}
 \centering
 \includegraphics[width=14cm]{figures/consumo-resultado.png}
@@ -147,7 +99,7 @@ Um possível resultado dessa pesquisa seria, por exemplo, o da figura \ref{fig:c
 \subsubsection{Análise de Sentimento de Político}
 Para rodar essa aplicação é preciso selecionar a opção: GODPoliticalSentimentAnalysis, no cabeçalho. Assim, aparecerá a seguinte tela:
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \caption{Análise de Sentimento Político}
 \centering
 \includegraphics[width=14cm]{figures/politico-pesquisa.png}
@@ -156,9 +108,26 @@ Para rodar essa aplicação é preciso selecionar a opção: GODPoliticalSentime
 
 Um possível resultado dessa pesquisa seria, por exemplo, o da figura \ref{fig:pol-result}, mostrado a seguir:
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \caption{Pesquisa - Dilma PT}
 \centering
 \includegraphics[width=14cm]{figures/politico-resultado.png}
 \label{fig:pol-result}
 \end{figure}
+
+\subsection{Exemplos de código}
+
+\begin{godCode}
+'Iniciando os dicionarios positivos e negativos'
+SAInterface init.
+
+'Contando palavras que aparecem no dicionario positivo a partir de uma string'
+SASentimentAnalyser countOfWordsOf: (SAInterface positiveDictionary) in: 'aceita aceita aceita aceita aceito azar'.
+
+'Classificando uma string de acordo com a frequencia de seus termos positivos e negativos'
+SASentimentAnalyser classify: 'aceita ladro chifrudo' using: (SAInterface positiveDictionary) and: (SAInterface negativeDictionary).
+
+'Analisando um termo e retornando ele como spreadsheet'
+political:= SAInterface new.
+sheetP:=political analyse:'Dilma' as: 'spreadsheet'.
+\end{godCode}

@@ -1,23 +1,115 @@
-\section{O que falta implementar}
-\subsection{Arquivos de texto}
+\section{Requisitos não implementados e sugestões de requisitos futuros}
+
+Alguns requisitos previstos para o projeto não foram desenvolvidos. Também foram identificados requisitos que podem ser desenvolvidos no futuro para acrescentar novas funcionalidades ao projeto. Abaixo são listados esses requisitos de acordo com cada módulo.
+
+\subsection{Banco de dados (GODBases)}
 \begin{enumerate}
-\item Entrada e saída em DOC,
-\item Leitura de arquivos RTF sem o uso de um \textit{parser} externo,
-\item Escrita de arquivos PDF sem o uso do \verb|pdflatex|,
-\item Leitura de arquivos PDF sem o uso de um \textit{parser} externo.
+\item Busca por tags de um GODData.
+\item Realizaçã de backups do banco de dados.
 \end{enumerate}
 
-\subsection{Planilhas}
+\subsection{E-mails (GODEmail)}
 \begin{enumerate}
-\item Entrada e saída em XLSX
+\item Envio de arquivos como anexos.
+\item Envio de emails em HTML.
 \end{enumerate}
 
-\subsection{Gráficos}
+\subsection{Filtros (GODFilter)}
 \begin{enumerate}
-\item Saída em gráfico de pizza
+\item Realizar buscas por uma coleção de strings, retornando GODDatas que contenham todas elas.
+\item Uso de expressões regulares.
+\item Integração com o banco de dados.
+\item Filtrar HTML: Criar um método que recebe como parâmetro um arquivo HTML e um XPath e retorna o que encontrar com aquele caminho em todo o HTML.
+\item Filtro completo: Criar um método de filtro da classe FILTMainFilter que receberia como parâmetro uma coleção de GODData e uma lista de Strings e retornaria todas as coleções de GODData que contém alguma das Strings em qualquer um dos seus atributos. Ou seja, o filtro buscaria em 'content', 'tags', 'title' e 'origin' ao mesmo tempo, sem precisar especificar em qual campo buscar.
 \end{enumerate}
 
-\subsection{Agregação de conferências}
+\subsection{Gráficos (GODGraphGenerator)}
 \begin{enumerate}
-\item Utilização de tags sobre as publicações que devem ser apresentadas em uma conferência
+\item Geração de gráfico de pizza.
+\item Uso de um pacote de geração de gráfico para melhorar a qualidade visual.
+\item Salvar os gráficos como byteArray no Squeak (usando a classe WAFileLibrary do Seaside).
+\end{enumerate}
+
+\subsection{Planilhas (GODSpreadsheet)}
+\begin{enumerate}
+\item Escrita em XLSX.
+\item  Tratamento de caracteres especiais Os caracteres \&, \>, \< e alguns outros tem uma representação diferente em um xml. Portanto, faz-se necessário um tratamento especial para eles. Talvez o método asHtml da classe String resolva.
+\end{enumerate}
+
+\subsection{Processadores (GODProcessors)}
+\begin{enumerate}
+\item Uso do tf-idf como medidor de relevância: É possível utilizar o tf-idf (já implementado) para definir uma medida de relevância para os termos de um documento, isso pode ser interessante para ponderar a análise de um texto.
+\item Extender PCSTagger para uma classe de busca de documentos: Criar um método para comparação de consulta e documentos. Esse método precisará de um vetor para cada documento e cada consulta onde as dimensões serão os termos da coleção e o valor será dado pelo tdidf daquele termo no respectivo documento ou consulta. Por fim a similaridade entre documento e consulta é dada pela distância angular dos mesmos, quanto menor a distância mais relevante aquele documento é para a consulta.
+\item Stemming ou lemmatization: Na classe PCSPreprocessor criar meios para extrair o radical das palavras. Ex: 'processar' e 'processamento' devem ser tratados pelo mesmo radical, um exemplo pode ser 'processo' isso pode melhorar os resultados do PCSTagger. Esses métodos podem estar vinculados a língua, dessa forma é melhor adicioná-los nas subclasses de PCSPreprocessor.
+\item Implementar novas técnicas de análise de recuperação de informação.
+\end{enumerate}
+
+\subsection{Redes sociais (GODSocialNetIO)}
+\begin{enumerate}
+\item Twitter - Pesquisa por mais tweets: O twitter limita a quantidade de tweets retornados em 100. Existem formas de contornar isso, pois ele permite paginar o resultado. Isso é interessante quando o resultado é muito grande, e poderia ser implementado como uma melhoria.
+\item FB - Usuário de teste é limitado: É preciso utilizar um usuário ao fazer algumas buscas na APi do facebook. Como utilizamos um usuário de teste (criado no developer.facebook.com), ele tem acesso a poucas informações. Isso tem impacto em buscas de eventos, posts e principalmente de usuários. Talvez seja interessante utilizar um usuário real para essas buscas.
+\item Twitter - Limite semanal: O twitter retorna apenas os tweets da última semana. Datas muito antigas não são retornadas. Por isso, talvez seja interessante salvar as buscas mais utilizadas semanalmente em algum banco de dados, para que pudessem ser utilizadas pelas aplicações.
+\item FB - busca de usuários: A busca de usuários não retorna dados, provvelmente pois a API exige que um usuário seja autenticado e utilizado nas buscas. Portanto, só são retornados dados que esse usuário tem acesso. Como utilizamos um usuário de teste do app, ele não tem acesso a muitas coisas, e usuários reais é uma delas.
+\end{enumerate}
+
+\subsection{Textos (GODTextIO)}
+\begin{enumerate}
+\item Leitura e escrita em DOCX.
+\item Escrita de arquivos PDF sem o uso do \verb|pdflatex|.
+\item Leitura de arquivos RTF sem o uso de um \textit{parser} externo (abiword).
+\item Leitura de arquivos PDF sem o uso de um \textit{parser} externo (abiword).
+\end{enumerate}
+
+\subsection{Web (GODWeb)}
+\begin{enumerate}
+\item Permitir o posicionamento de componentes web em diferentes lugares de uma página: Inicialmente a ideia era usar um grid do objeto GODData para isso, mas esse grid pode ser colocado na classe WEBPage. A ideia é permitir definir um tamanho e posição para os componentes web dinamicamente.
+\item Incluir a string do conteúdo html em um objeto GODData, e retornar esse objeto ao invés da String. Isso é feito na classe WEBPageFetcher.
+\item Criar classes para tags html que ainda não tenham sido criadas.
+\item Disponibilizar páginas para upload de arquivos.
+\end{enumerate}
+
+\subsection{Agregação de conferências (GODAcademics)}
+\begin{enumerate}
+\item Uso de tags sobre as publicações que devem ser apresentadas em uma conferência.
+\item Busca mais informações: Usar outras fontes além do Google Scholar para obtenção de informações.
+\item Busca fuzzy por journals: Hoje a busca é feita apenas pelos prefixos dos nomes dos journals. Seria interessante que essa busca fosse melhorada. Uma ideia é a busca fuzzy, onde, por exemplo, "plos comp biology" seria encontrado como "plos computational biology". Link: \url{http://en.wikipedia.org/wiki/Approximate_string_matching}.
+\end{enumerate}
+
+\subsection{Agregação de informações acadêmicas (GODsCall)}
+\begin{enumerate}
+\item Crawler incremental: Criar um sistema de crawling incremental, para que possa ser feito aos poucos. A ideia é reduzir o tempo para carregar a aplicação.
+\item Pesquisa em novas fontes: Enriquecer mais o banco de dados, buscando conferências em novas fontes, como o \url{http://academic.research.microsoft.com}.
+\item Buscar novos tipos de informação: Enriquecer as informações de uma conferência, com informações sobre o local da conferência, transporte, clima... Também informações acadêmicas, como estatísticas sobre os trabalhos apresentados.
+\end{enumerate}
+
+\subsection{Análise de sentimentos de consumo e político (GODSentimentAnalysis)}
+\begin{enumerate}
+\item Melhorar a análise de sentimentos: Atualmente a análise é feita somente pela frequência dos termos positivos e negativos em um texto.
+\item Usar o método tf-idf de GODProcessors na análise de sentimentos.
+\item Melhorar o layout: Deixar o leiaute mais amigável ao usuário.
+\item Mostrar a planilha e o gráfico na mesma busca.
+\item Adicionar cores à planilha: Usar cores para diferenciar melhor os rótulos (verde para GOOD, amarelo para NEUTRAL e vermelho para BAD).
+\item Adicionar cores ao gráfico: Usar cores para diferenciar melhor os rótulos (verde para GOOD, amarelo para NEUTRAL e vermelho para BAD).
+\item Melhorar as técnicas de análise de sentimento: Aprimorar a análise, avaliando relações de uma palavra com a outra.
+\item Adicionar autocomplete para os candidatos e partidos: Ao invés de validar se o candidato/partido informado pelo usuário é válido somente após o envio do formulário, implementar uma opção de autocomplete no campo de busca. Assim, o usuário começa a digitar o nome de um partido/candidato e o campo vai buscando na base de dados quais opções casam com os caractéres já informados de forma que o usuário possa selecionar uma opção.
+\item Criar opção de selecionar período de tempo: Permitir ao usuário selecionar o período de tempo que este quer realizar a análise. Para tanto, pode-se permitir que este especifique um intervalo de dada, ou selecione períodos pré-determinados, como por exemplo, primeiro turno das eleições do ano X. É provável que seja necessário alterar a forma como é feita a análise e coletar e persistir tweets periodicamente ao invés de buscar tweets no momento da pesquisa.
+\item Adicionar técnicas alternativas de análise de sentimentos: Adicionar a opção de técnicas de análise de sentimento que não utilizem dicionários.
+\end{enumerate}
+
+\subsection{Sugestões de novos módulos de fontes de dados}
+\begin{enumerate}
+ \item Módulo para obtenção de dados a partir de web services.
+\end{enumerate}
+
+
+
+\subsection{Sugestões de novas aplicações}
+
+Diversas aplicações podem ser implementadas usando os recursos fornecidos pelos módulos do GOD. O uso de fontes de emails, web-sites, arquivos texto, planilhas e redes sociais permite criar aplicações para diversos domínios.
+
+\begin{enumerate}
+\item Análise de informações sobre dados públicos do governo.
+\item Análise de sentimmento de sobre empresas, usando fontes como o site reclameaqui.
+\item Análise de dados da bovespa.
+\item Criação de corpus com base em artigos de um domínio de interesse. A partir de um conjunto de artigos, que podem ser carregados em um repositório do GOD, pode-se permitir a verificação de frases e termos frequentes usando GODTextIO e GODProcessors.
 \end{enumerate}

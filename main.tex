@@ -30,6 +30,31 @@
 \geometry{left=0.7in,right=0.7in,top=1in,bottom=1in}
 \providecommand{\alert}[1]{\textbf{#1}}
 
+\lstset{%
+ basicstyle=\small\ttfamily\color{black!85},
+ breaklines = true,
+ keywordstyle=\bfseries\color{black},
+ emphstyle=\color{blue},
+ columns=fullflexible,
+ showstringspaces=false
+}%
+
+\lstdefinelanguage{GODSmalltalk}
+  {keywords={SSSpreadsheetData, SSSheet, SSRow, SSCell},
+  morestring=[b]{'},
+  stringstyle=\color{purple},
+  alsoletter={:}, 
+  emph={new}
+}
+
+% Python environment
+\lstnewenvironment{godCode}[1][]
+{
+\lstset{language=GODSmalltalk,
+    #1}
+}
+{}
+
 
 \graphicspath { {figures/} }
 \setlength{\parindent}{0cm}
@@ -60,8 +85,8 @@ O GOD foi desenvolvido em Smalltalk pelos alunos da disciplina de Programação 
 
 \input{features}
 \newpage
-% \input{GODKernel}
-% \newpage
+\input{GODKernel}
+\newpage
 \input{GODBases}
 \newpage
 \input{GODEmail}
@@ -70,8 +95,8 @@ O GOD foi desenvolvido em Smalltalk pelos alunos da disciplina de Programação 
 \newpage
 \input{GODGraphGenerator}
 \newpage
-% \input{GODWeb}
-% \newpage
+\input{GODWeb}
+\newpage
 \input{GODSpreadsheet}
 \newpage
 \input{GODProcessors}
@@ -87,7 +112,7 @@ O GOD foi desenvolvido em Smalltalk pelos alunos da disciplina de Programação 
 \input{GODSentimentAnalysis}
 \newpage
 
-\input{falta_implementar}
+\input{diagramas}
 \newpage
 \input{sugestoes}
 \newpage

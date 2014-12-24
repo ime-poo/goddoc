@@ -232,5 +232,25 @@ SNETFacebookUsersData is a class that contains a list of SNETFacebookUser. The m
 \item \textbf{userAt: position} - gets a user at a position in the collection.
 \item \textbf{users} - gets the list of users.
 \end{itemize}
-\\
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Initializing a facebook fetcher'
+faceFetcher := SNETFacebookFetcher new.
+faceFetcher connect.
+
+'fetching by group'
+snetGroupData:= faceFetcher groups: 'rock'.
+
+'fetching by posts'
+snetPostData := faceFetcher posts: 'running'.
+
+'Initializing and getting tweets.'
+twFetcher := SNETTwitterFetcher new.
+twFetcher connect.
+twData:=twFetcher tweets: 'Obama'.
+
+\end{godCode}
+
 A more detailed information about this module can be found in the Appendix section.

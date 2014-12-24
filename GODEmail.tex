@@ -6,6 +6,8 @@
 
 Pacote responsável pelo envio e recebimento de e-mails, tendo suporte a conexões seguras. É formado por 4 classes: uma abstrata (GODService), duas que implementam os serviços de envio e recebimento de e-mails (GODSender e GODReceiver, respectivamente) e uma que implementa o cliente do protocolo Post Office Protocol 3 (POP3) utilizando conexão segura (MAILSecurePOP3Client). Possui o pacote SqueakSSL como dependência externa. Para o envio de e-mails usando Secure Socket Layer (SSL) é utilizada a classe SecureSMTPClient já implementada no SqueakSSL-SMTP.
 
+Para receber e enviar emails pode ser necessário configurar a conta de emails para permitir receber/enviar emails via POP3/SMTP.
+
 Em caso de dúvidas, entre em contato com \emph{Luiz Armesto: luiz.armesto@gmail.com}.
 
 \subsection{MAILService}
@@ -141,3 +143,29 @@ Classe responsável pela implementação do protocolo POP3 a patir do SqueakSSL 
 		\item \textbf{ensureConnection} - Cria conexão com o servidor do mesmo modo que a classe POP3Client faria, com a única diferença de utilizar o SqueakSSL para permitir uma conexão segura.
 	\end{itemize}
 \end{itemize}
+
+\subsection{Exemplos}
+
+\begin{godCode}
+'Recebendo emails' 
+rcv := MAILReceiver new.
+emailsRec := OrderedCollection new.
+rcv hostname: 'pop.server.com'.
+rcv user: 'username@server.com'.
+rcv port: 110.
+rcv password: 'password'.
+emailsRec := rcv receive.
+
+'Enviando email'
+gdata := GODData new.
+gdata author: 'GODEmail';
+	content: 'The content of a GODData';
+	title: 'GODData Test'.
+
+snd := MAILSender new.
+snd hostname: 'smtp.server.com'.
+snd user: 'username@server.com'.
+snd password: 'password'.
+snd port: 465.
+snd send: gdata1 to: 'anotheruser@server.com'.
+\end{godCode}

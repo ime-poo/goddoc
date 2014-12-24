@@ -93,3 +93,28 @@ Esta classe possui um método chamado \textit{setUp} que contém uma coleção d
 \item \textit{testFilterByGCSearchFilterWrongType}: verifica se o método gera exceção ao receber um atributo difierente da classe GCSearchFilter.
 \item \textit{testFilterWrongType}: verifica se o método gera exceção ao receber um atributo diferente da classe OrderedCollection.
 \end{itemize}
+
+\subsection{Exemplos}
+
+\begin{godCode}
+
+'Filtering GODConference objects'
+gcfilt:= GCSearchFilter new.
+gcfilt keywords: (Set with: 'software'; with: 'engineering').
+gcfilt deadlineDate: (Date readFromString: '01 Jan 2014').
+
+fconf:= FILTConferenceFilter new.
+fconf filter: collectionOfConferences byGCSearchFilter: gcfilt.
+
+'Filtering text between tags'
+txtDiv:= '<div> blablabla bla <div> XXX <div> YYY </div> </div><a>content</a><div> ZZZ </div></div>'.
+ftf:=FILTTextFilter new.
+ftf filterText: txtDiv between: 'div>' and:'<'.
+
+'Filtering text in a GODData collection'
+f1:=FILTMainFilter new.
+f1 filter: collectionOfGODData byTitle: 'A handbook for dummies'.
+f1 filter: collectionOfGODData byContent: '*text*'.
+
+\end{godCode}
+
