@@ -1,69 +1,135 @@
 \section{Instalação}
 
-O projeto GOD funciona no Squeak 4.4, que pode ser obtido em \url{http://ftp.squeak.org/4.4/Squeak-4.4-All-in-One.zip}. 
-O sistema operacional usado foi o Ubuntu. 
+O projeto GOD é compatível com o Squeak 4.4, que pode ser obtido em \url{http://ftp.squeak.org/4.4/Squeak-4.4-All-in-One.zip}. 
+O GOD roda sobre o sistema operacional Ubuntu. Isso ocorre devido a algumas dependências externas à máquina virtual do Squeak. Mais detalhes sobre a instalação do projeto serão detalhadas a seguir.
+
 
 \subsection{Pré-requisitos}
 
 \subsubsection{Instalação do Metacello}
 
+O pacote metacello é usado para gerenciar o controle de versões do projeto GOD. Para instalá-lo digite os seguintes comandos no workspace:
+\begin{godCode}
+Installer squeaksource
+    project: 'MetacelloRepository';
+    install: 'ConfigurationOfMetacello'. 
+(Smalltalk at: #ConfigurationOfMetacello) perform: #load.
+\end{godCode}
 
 \subsubsection{Instalação do Seaside}
 
+O Seaside é o framework web usado para construir a interface visual do GOD. Para instalá-lo, acesse o menu \textbf{Apps>>SqueakMap Catalog}. Em seguida digite ``seaside'' em Search Packages. Selecione a versão 3.0 e clique em Install.\\
+Outra opção é fazer o download pelo Metacello. Basta executar os comandos abaixo em um workspace do Squeak.
+\begin{godCode}
+Installer squeaksource
+ project: 'MetacelloRepository';
+ install: 'ConfigurationOfSeaside30'.
+ (Smalltalk at: #ConfigurationOfSeaside30) load.
+ \end{godCode}
+Execute os comandos (``do it'') e aguarde a finalização do processo. Para conferir se a instalação foi feita com sucesso, clique em Apps veja se aparece a opção Seaside Control Panel.\\
+O Seaside vem com o servidor web chamado \textbf{comanche}. Para ativar o comanche, abra \textbf{Apps>>Seaside Control Panel}, clique com o botão direito do mouse em \textbf{Add adaptor}, selecione a porta e clique em \textbf{Start}.
 
 \subsubsection{Instalação do Magma}
-Nesta seção são descritos os requisitos para instalação e instruções principais para trabalhar com a biblioteca.
-
-Para o uso do magma, é recomendável a instalação de uma máquina virtual (Virtual Machine - VM) para lidar com problemas de sistema operacional na parte de persistência de informações (uso de imagens). De uma forma geral, a VM proporciona um ganho significativo de performance.
-
-
-\subsubsection{SqueakSSL-bin}
-
-
-
-\subsubsection{Passos de Instalação}
-
-Um modo de instalar é usando o "SqueakMap Catalog" que está em "Apps" na barra de menu do Squeak (ver Fig.~\ref{fig:passo1_InstallMagma1}).
+O Magma é o banco de dados orientado a objetos usado pelo GOD. Para instalar o Magma, acesse o menu \textbf{Apps>>SqueakMap Catalog}. Em seguida digite ``magma'' em Search Packages. Selecione a versão 1.4 e clique em \textbf{Install} (ver Fig.~\ref{fig:passo1_InstallMagma1} e Fig.~\ref{fig:passo2_InstallMagma2}).
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.7\textwidth]{passo1_InstallMagma1.png}
-\caption{Instruções para instalação do magma.}
+\caption{Instalação do magma}
 \label{fig:passo1_InstallMagma1}
 \end{figure}
-
-Logo, seguir os seguintes passos:
-\begin{itemize}
-\item{No SqueakMap clique com o botão direito do mouse no quadro esquerdo superior e garantir que todas as opções estejam desmarcadas. Isso permitirá visualizar os pacotes do Magma (Ver Fig.~\ref{fig:passo2_InstallMagma2}).}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.7\textwidth]{passo2_InstallMagma2.png}
-\caption{Instruções passo 2.}
+\caption{Instalação do magma (2)}
 \label{fig:passo2_InstallMagma2}
 \end{figure}
 
-
-\item{Clique com o botão direito do mouse no pacote "client" (versão 1.4) do Magma e escolher a opção "install".(Ver Fig.~\ref{fig:passo3_InstallMagmaClient})}
+A seguir, selecione o pacote \textbf{client} e escolha a opção \textbf{install}.(Ver Fig.~\ref{fig:passo3_InstallMagmaClient}). Repetir o passo anterior para instalar os pacotes  \textbf{server} e o \textbf{test}. (Ver Fig.~\ref{fig:passo4_InstallMagmaServer})
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.8\textwidth]{passo3_InstallMagmaClient.png}
-\caption{Instruções passo 3.}
+\caption{Instalação do magma (3)}
 \label{fig:passo3_InstallMagmaClient}
 \end{figure}
-
-
-\item{Repetir o ponto 2 para instalar os pacotes  "server" e o "test" do Magma. (Ver Fig.~\ref{fig:passo4_InstallMagmaServer})}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.8\textwidth]{passo4_InstallMagmaServer.png}
-\caption{Instruções passo 4.}
+\caption{Instalação do magma (4)}
 \label{fig:passo4_InstallMagmaServer}
 \end{figure}
 
+
+\subsubsection{SqueakSSL-bin}
+O SqueakSSL é um conjunto de pacotes usados para acessar conteúdo HTTPS. Alguns módulos do GOD usam o SqueakSSL: GODEmail, GODSocialNetIO e GODWeb.
+Esse pacote é instalado junto com os demais módulos do GOD. No entanto, é necessário instalar um arquivo binário do SqueakSSL antes de fazer a instalação do GOD.
+Baixe o arquivo em \url{https://squeakssl.googlecode.com/files/SqueakSSL-bin-0.1.5.zip}. A seguir, copie o arquivo \textbf{so.SqueakSSL} dentro dos diretórios do Squeak em 
+\textbf{Contents/Linux-i686/lib/squeak/4.4.7-2357}. \\
+Existem também os arquivos binários para OS X e Windows. Porém, nos testes que fizemos com o OS X o procedimento não funcionou.
+
+\subsubsection{pdflatex e abiword}
+
+Para realizar a leitura e escrita dos formatos de texto PDF e RTF é necessário ter instalado os programas pdflatex e abiword (em sua versão 2.9.2).  Ambos programas devem 
+estar funcionando por linha de comando. O pacote \textbf{OSProcess} faz a chamada desses programas pelo Squeak para realizar as conversões. Infelizmente não existe uma 
+versão do abiword compatível com as versões atuais do OS X.\\
+
+O Abiword pode ser obtido em \url{http://www.abisource.com/downloads/abiword/2.9.2/source/abiword-2.9.2.tar.gz} e o pdflatex acompanha as principais distribuições latex.
+
+\subsubsection{Repositórios do GOD}
+
+O repositório do GOD fica no SmalltalkHub \url{http://smalltalkhub.com/mc/higoramario/GOD/main}. 
+Há também um repositório usado para backup do projeto no SqueakSource3 (\url{http://ss3.gemstone.com/ss/GOD/}).
+
+\subsubsection{Instalação do GOD}
+
+Para instalar o GOD, inclua o repositório do projeto no Monticello. Clique em \textbf{Tools>>Monticello Browser>>+Repository>>HTTP} e digite a url. 
+Selecione a url e clique em \textbf{open}. Na janela seguinte, selecione o pacote \textbf{GODKernel} do lado esquerdo e selecione o pacote mais atual na janela do lado direito.
+Clique em \textbf{load}. \\
+Para obter todos os pacotes mais atuais do projeto, digite os seguintes comandos no \textbf{workspace}:\\
+
+\begin{godCode}
+(ConfigurationOfGOD project version: '0.1-baseline') load.
+\end{godCode}
+
+
+As dependências externas necessárias para o funcionamento do GOD estão listadas abaixo. Todas elas são incluídas no download dos pacotes do GOD.
+\begin{itemize}
+ \item JSON
+ \item OSProcess (Tests-OSProcess)
+ \item SqueakSSL (SqueakSSL-Core, SqueakSSL-SMTP, SqueakSSL-Tests)
+ \item VB-Regex
+ \item WebClient (WebClient-Core)
 \end{itemize}
 
+\subsubsection{Inicialização do GOD}
+
+Inicialize o servidor web do seaside. Em seguida, para iniciar o GOD digite no workspace o comando:
+
+\begin{godCode}
+WEBGodHome initialize.
+\end{godCode}
+
+Todas as aplicações e o GOD serão registrados no Seaside e estarão disponíveis para uso.
+
+\subsubsection{Problemas identificados}
+
+\begin{description}
+ \item[Versões do Squeak:] A versão 4.5 do Squeak apresentou problema com o uso do Magma. Por esse motivo optamos por usar a versão 4.4 do Squeak. 
+ Por sua vez, tivemos problemas com o uso do SqueakSSL na versão 4.4 (como descrito anteriormente), o que limita o uso do GOD ao Linux, no qual esse 
+ problema de compatibilidade pode ser resolvido.
+ \item[Abiword:] A versão 2.9.2 do abiword deve ser usada no projeto, já que a versão dos repositóprios oficiais do Ubuntu (3.0.0) não funciona via 
+ linha de comando. Além disso, não existe versão compatível do programa para OS X em suas versões mais atuais. Esse é outro fator que limita o uso do GOD 
+ ao Linux.
+ \item[GODAcademics x Google Scholar:] O Google Scholar é usado pelo módulo GODAcademics como fonte de informação para os dados processados pelo módulo. 
+ Em algumas tentativas de acesso o Google reconheceu a aplicação como um robô, impedindo a obtenção dos dados.
+ \item[GODSocialNetIO:] As APIs do Facebbok e do Twitter possuem algumas limitações quanto às consultas que podem ser feitas. Há restrições de tempo e quantidade 
+ de posts/tweets que podem ser acessados. No facebook só é possível visualizar dados dentro do escopo do usuário que é usado para o acesso à api. Além disso, 
+ há rumores dizendo que a API do Twitter será cancelada.
+ \item[GODsCall:] Durante o final da fase de desenvolvimento do projeto, o ConfSearch, uma das fontes de informação do módulo, ficou indisponível, limitando as 
+ informações do GODsCall aos dados do WikiCFP.
+\end{description}
 
 

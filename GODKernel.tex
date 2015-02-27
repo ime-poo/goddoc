@@ -1,0 +1,85 @@
+\def\godkernel{\textbf{GODKernel}}
+\def\goddata{\textbf{GODData}}
+\def\configGod{\textbf{ConfigurationOfGOD}}
+
+\section{Núcleo (\godkernel)}
+
+\godkernel~ é o módulo que contém a classe que representa a estrutura básica para manipulação de dados do projeto.
+Essa classe é chamada \goddata~ contém os atributos para armazenamento comuns aos diferentes tipos de fontes de dados usados no projeto. 
+\goddata~ pode ser estendido para atender às especificidades dessas diferentes fontes de informações.\\
+Esse módulo também é responsável por gerenciar o repositório do projeto, realizando o controle de versões e suas dependências.\\
+Em caso de dúvidas, entre em contato com \emph{Higor: hamario [at] ime.usp.br}.
+
+
+\subsection{\goddata} 
+
+Classe que representa a estrutura básica a serem armazenadas das diferentes fontes de informação, comoarquivos texto, planilhas, páginas html, redes sociais,e-mails, entre outras.
+
+\subsubsection{Atributos}
+
+\begin{itemize}
+ \item \textbf{author} - autor de um conteúdo.
+ \item \textbf{content} - armazena o conteúdo principal de uma fonte de informação.
+ \item \textbf{height} - altura do objeto a ser renderizado.
+ \item \textbf{id} - valor exclusivo do objeto.
+ \item \textbf{layoutGrid} - matriz que contém objetos \goddata~ internos. Atributo que representa a posição na qual os objetos internos devem ser renderizados em uma página web.
+ \item \textbf{origin} - origem da informação.
+ \item \textbf{tags} - termos principais associados ao objeto \goddata.
+ \item \textbf{timestamp} - data do \goddata.
+ \item \textbf{title} - Titulo da informação.
+ \item \textbf{width} - largura do objeto a ser renderizado.
+\end{itemize}
+
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{addOnLayoutGrid:a\goddata~ at: aRow at: aColumn} - adiciona um \goddata~ ao layoutGrid.
+ \item \textbf{addTag:} - adiciona uma nova tag à coleção de tags.
+ \item \textbf{is\goddata} - verifica se um objeto é do tipo \goddata.
+ \item \textbf{isWho} - informa o tipo de subclasse de \goddata.
+ \item \textbf{layoutGridRowSize: rowNumber columnSize: columnNumber} - define as dimensões do layoutGrid.
+ \item \textbf{tagExists:} - verifica se uma determinada tag existe.
+\end{itemize}
+
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Preenchendo um \goddata'
+goddata := \godData~ new.
+goddata title:'titulo do objeto'.
+goddata author:'proprietario da informacao'
+goddata content: 'Conteudo que faz parte da informacao'
+goddata addTag: 'termo'.
+
+'Definindo o tamanho do layoutGrid e atribuindo objetos \goddata~ a este grid'
+goddata {layoutGridRowSize: 5 columnSize: 3.
+goddata addOnLayoutGrid: godddata1 at: 1 at: 1.
+goddata addOnLayoutGrid: godddata1 at: 3 at: 3.
+
+'Adicionando uma tag a colecao'
+goddata addTag: 'termo'.
+
+\end{godCode}
+
+
+\subsection{\configGod} 
+
+Classe responsável pelo gerenciamento dos módulos do projeto. Possui módulos para fazer o download de versões dos módulos e dependências do projeto, assim como a realização de backup do repositório.
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{backupPackages:} - realiza o backup dos módulos do projeto.
+ \item \textbf{baseline01:} -  inclui as descrições dos pacotes e dependências do projeto.
+\end{itemize}
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Baixando a ultima versao dos pacotes do projeto'
+(\configGod~ project version: '0.1-baseline01') load.
+\end{godCode}
+
+

@@ -1,0 +1,309 @@
+\def\godweb{\textbf{GODWeb}}
+\def\goddata{\textbf{GODData}}
+
+\section{Web (\godweb)}
+
+\godweb~ é o módulo responsável pela geração das interfaces web do GOD. O \godweb~ é baseado no framework Seaside.
+Usando o \godweb~ é possível gerar páginas contendo diversos componentes como formulários, tabelas, imagens e texto, praticamente sem ter que escrever código do Seaside.
+Possui também classes para importar arquivos que serão usados nas páginas, como imagens e arquivos CSS. O \godweb~ também fornece uma classe para obter o conteúdo HTML de URLs. 
+Por fim, o módulo contém as classes que formam a página principal do GOD.\\
+
+A seguir há uma descrição das classes principais, assim como uma breve descrição das classes que representam os \textit{brushes} (tags HTML), como por exemplo brushes para texto, imagem, formulários, entre outros.
+Em caso de dúvidas, entre em contato com \emph{Higor: hamario [at] ime.usp.br}.
+
+
+\subsection{WEBPage} 
+
+Classe responsável pela renderização das páginas web. Contém uma lista de elementos que serão renderizados para construir uma página web.
+
+\subsubsection{Atributos}
+
+\begin{itemize}
+ \item \textbf{html} - Conteúdo dos elementos web que serão renderizados.
+ \item \textbf{title} - Título da página.
+ \item \textbf{elements} - Lista de elementos da página.
+\end{itemize}
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{add:} - Adiciona um elemento à página.
+ \item \textbf{render:} - Chama a renderização do título e dos elementos.
+ \item \textbf{renderElements:} - Renderiza a coleção de elementos.
+ \item \textbf{renderTitle:} - Renderiza o título da página.
+\end{itemize}
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Criando um WEBPage e incluindo diversos elementos'
+page:= WEBPage new.
+page initialize.
+page title: 'Main page'.
+page add: aParagraph.
+page add: aHtmlText.
+page add: anImage.
+page add: aSpreadsheet.
+^page.
+\end{godCode}
+
+
+\subsection{WEBElement} 
+
+Classe que representa a estrutura básica de um elemento HTML. Usada para criar novos elementos.
+
+\subsubsection{Atributos}
+
+\begin{itemize}
+ \item \textbf{html} - conteúdo dos elementos web que serão renderizados.
+\end{itemize}
+
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{render} - método que contém o código a ser renderizado. Deve ser chamado pelas suas subclasses. O método \textbf{render} deve conter o código 
+ do Seaside que renderiza o elemento.
+\end{itemize}
+
+\subsubsection{Classes de uma WEBPage}
+
+As classes descritas abaixo representam os elementos básicos de uma página HTML.
+
+\begin{itemize}
+ \item \textbf{WEBForm} - representa um formulário, mais detalhes da classe são mostrados em \ref{subsec:webform}.
+ \item \textbf{WEBFormElement} - elementos que fazem parte de um formulário. Mais detalhes sobre cada um dos elementos são mostrados em \ref{subsec:webformelement}
+ \item \textbf{WEBHtmlText} - representa um texto de uma página. Permite adicionar tags html ao texto renderizado.
+ \item \textbf{WEBImage} - representa uma imagem a ser renderizada. Deve-se passar o local da imagem em \textbf{initialize:}. Pode-se também alterar a altura e largura da imagem.
+ \item \textbf{WEBMorph} - representa um objeto do tipo Morph, passado como parâmetro em \textbf{initialize:}. Também é possível redefinir sua altura e largura.
+ \item \textbf{WEBParagraph} - um parágrafo de texto da página.
+ \item \textbf{WEBSpreadsheet} - uma tabela que recebe um SSSpreadsheet para renderização na página. WEBSpreadsheet pode receber adicionalmente uma lista de imagens e/ou uma lista de links para serem renderizados como colunas adicionais da tabela. 
+ Para isso, essas listas devem ser do mesmo tamanho do número de linhas do objeto SSSpreadsheet. Para isso, há diferentes métodos de inicilização que permitem iniciar uma tabela simples, uma tabela com uma lista de links, uma tabela com uma lista de imagens ou ainda uma tabela com ambas as listas.
+ É possível ainda definir se a tabela possui cabeçalho (primeira linha de SSSpreadsheet), definir a largura das colunas e o tamanho da borda das linhas e das células.
+\end{itemize}
+
+\begin{godCode}
+'Incluindo um texto com html na pagina.'
+iHtmlText := WEBHtmlText new.
+iHtmlText value:'Texto <br> <strong>formatado</strong> </br> em HTML'.
+
+'Adicionando uma imagem.'
+iImage := WEBImage new initialize: 'caminho/do/arquivo.png'.
+iImage height: 200.
+iImage width: 400.
+
+'Criando uma tabela com cabecalho contendo uma coluna com imagens e outra com links.'
+iWebSpreadsheet := WEBSpreadSheet new initialize: spreadSheet withImages: imageList withLinks: linkList.
+iWebSpreadsheet sheetNumber: 1.
+iWebSpreadsheet header: true.
+iWebSpreadsheet width: 1000.
+iWebSpreadsheet cellBorder: 1.
+iWebSpreadsheet rowBorder: 0.
+iWebSpreadsheet imageHeader: 'Icons'.
+iWebSpreadsheet linkHeader: 'Web Page'.
+\end{godCode}
+
+
+\subsection{WEBForm} 
+\label{subsec:webform}
+Classe que representa um formulário web. Os elementos de um formulário, que são subclasses de \textbf{WEBFormElement}, devem ser adicionados nesta classe para serem utillizados.
+
+\subsubsection{Atributos}
+
+\begin{itemize}
+ \item \textbf{elements} - lista de elementos do formulário.
+\end{itemize}
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{add:} - adiciona os elementos do formulário.
+ \item \textbf{render:} - método que renderiza a coleção de elementos do formulário.
+ \item \textbf{save} - esse método recebe o objeto da classe responsável pela renderização do formulário. Os atributos dessa classe representam os campos do formulário, 
+ que podem então ser usados pela aplicação para realizar o processamento dos dados.
+\end{itemize}
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Criando um WEBForm e adicionando elementos.'
+iForm := WEBForm new.
+iForm initialize.
+iForm add: anInputText.
+iForm add: aDate.
+iForm add: aCheckbox.
+iForm add: aRadio.
+\end{godCode}
+
+
+\subsection{WEBFormElement} 
+\label{subsec:webformelement}
+Classe que representa um elemento básico de um formulário. Possui os atributos \textbf{label} e \textbf{value}. Deve ser estendida pelos elementos que serão usados em um formulário.
+
+\subsubsection{Classes de um formulário}
+
+Foram desenvolvidas classes que representam os elementos básicos de um formulário, essas classes são listadas abaixo.
+
+\begin{itemize}
+ \item \textbf{WEBAnchor} - representa um link para uma url.
+ \item \textbf{WEBCheckBox} - recebe e renderiza uma coleção de items do tipo checkbox.
+ \item \textbf{WEBCheckBoxItems} - representa cada item de um checkbox.
+ \item \textbf{WEBDate} - campo para seleção de data.
+ \item \textbf{WEBDropDownList} - classe que recebe itens do tipo string para serem incluídos em um elemento do tipo dropdown list.
+ \item \textbf{WEBFileUpload} - classe que recebe um arquivo para upload.
+ \item \textbf{WEBInputText} - recebe uma string.
+ \item \textbf{WEBRadioButton} - recebe e renderiza uma coleção de itens do tipo radio button.
+ \item \textbf{WEBRadioButtonItem} - representa cada item de um radio group.
+ \item \textbf{WEBSubmitButton} - classe que representa o botão de submit. 
+\end{itemize}
+
+ 
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Instanciando um WEBDropDownList'
+iDrop := WEBDropDownList new.
+iDrop label: 'Choose your preferred animal'.
+iDrop add:'Dog'.
+iDrop add:'Pig'.
+iDrop add:'Sheep'.
+
+'Criando itens de um checkbox e adicionando ao WEBCheckBox'
+iCheckboxItem1 := WEBCheckBoxItem new.
+iCheckboxItem1 label: 'Apples'.
+iCheckboxItem1 value: false.
+
+iCheckboxItem2 := WEBCheckBoxItem new.
+iCheckboxItem2 label: 'Bananas'.
+iCheckboxItem2 value: false.
+
+iCheckboxItem3 := WEBCheckBoxItem new.
+iCheckboxItem3 label: 'Oranges'.
+iCheckboxItem3 value: false.
+
+iCheckbox := WEBCheckBox new.
+iCheckbox label: 'Some fruit options:'.
+iCheckbox add: iCheckboxItem1.
+iCheckbox add: iCheckboxItem2.
+iCheckbox add: iCheckboxItem3.
+\end{godCode}
+
+
+
+
+\subsection{WEBFileLibrary} 
+
+Classe que permite armazenar conteúdo de arquivos texto ou binários para serem usados nas aplicações. Dessa forma, pode-se armazenar as imagens de uma aplicação ou seu CSS, tornando a aplicação independente de arquivos locais e ainda gerenciando possíveis mudanças através de sua inclusão no repositório do projeto.
+
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{add: aFilePath} - adiciona o arquivo à classe, que passa a ser um método de WEBFileLibrary. O nome do método será o nome seguido da extensão do arquivo com a primeira letra da extensão em maiúsculo (Ex: arquivoTxt).
+\end{itemize}
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Adicionando uma imagem em WEBFileLibrary'
+
+WEBFileLibrary add:'caminho/da/imagem.png'.
+
+'Usando a imagem adicionada'
+
+iImage := WEBImage new initialize: WEBFileLibrary / 'imagem.png'.
+
+\end{godCode}
+
+
+
+\subsection{WEBGodHome} 
+
+Classe que é o componente principal da aplicação GOD. As demais aplicações são definidas como links a partir desta página principal.
+
+\subsubsection{Atributos}
+
+\begin{itemize}
+ \item \textbf{MainArea:} - atributo estático que define o componente que será renderizado na área principal do GOD.
+\end{itemize}
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{renderContentOn:} - chama os demais métodos de renderização da página principal do GOD.
+ \item \textbf{renderFooterOn:} - renderiza o rodapé.
+ \item \textbf{renderHeaderOn:} - renderiza o cabeçalho do GOD, que funciona como um menu para chamar as aplicações.
+ \item \textbf{renderMainOn:} - renderiza a área principal, na qual as aplicações são renderizadas.
+\end{itemize}
+
+
+\subsection{WEBHomeView} 
+
+Classe que representa um componente que serve como uma página inicial para a área principál do projeto GOD.
+
+
+\subsection{WEBPageFetcher} 
+
+Classe que realiza a captura do conteúdo HTML de páginas.
+
+\subsubsection{Métodos}
+
+\begin{itemize}
+ \item \textbf{fetch: anURL} - retorna o string com o HTML da URL passada como parâmetro.
+\end{itemize}
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Obtendo o html de uma url'
+
+WEBPageFetcher fetch:'url'.
+
+\end{godCode}
+
+
+
+\subsection{Usando o \godweb}
+Para usar o \godweb~ é necessário criar uma classe (controladora) para fazer a renderização das páginas a serem criadas e controlar o fluxo de envio/recebimento dos dados a 
+serem processados. A classe controladora deve receber em sua inicialização o componente que representa a página que será renderizada.
+Essa classe controladora deve também conter atributos que representem os elementos de \godweb~ e que irão armazenar as informações preenchidas em um formulário para serem processadas.\\
+
+Essa classe controladora deve possuir um método \textbf{render}, que vai conter a página inicial da aplicação. Essa classe pode ser usada para criar métodos de renderização para 
+diversas páginas que existam para a aplicação. Para cada página da aplicação deve haver uma classe componente (subclasse de WAComponent). Essa classe deve conter o método 
+\textbf{renderContentOn:}. Esse método é chamado pelo próprio seaside para renderizar a página. Dentro do método deve-se instanciar a classe controladora.
+
+Um componente que representa a página inicial da aplicação deve conter um método \textbf{initialize} para registrar a aplicação no servidor web (conhecido como comanche).
+O método \textbf{renderContentOn:} desse componente inicial deve instanciar a classe controladora passando-se como parâmetro para permitir que a classe controladora chame 
+outros componentes. Portanto, a classe controladora deve ter um atributo que recebe esse componente inicial. No \textbf{renderContentOn:} deve-se também chamar o método 
+\textbf{render} da classe controladora.\\
+
+A classe controladora deve conter um método chamado \textbf{save},  que vai receber a instância da própria classe controladora com os valores preenchidos do formulário. 
+O método \textbf{save} fica responsável então por chamar o fluxo que vai processar os dados, assim como pela chamada do componente que irá renderizar o resultado do processamento.\\
+
+A classe controladora deve chamar o método \textbf{callback:}, da classe \textbf{WEBSubmitButton} pertencente ao formulário, passando ela mesma (a classe controladora) para permitir 
+que \textbf{WEBSubmitButton} chame o seu método \textbf{save}. \\
+
+No Seaside, os dados de um formulário são passados como um objeto com seus atributos modificados, e não via GET ou POST como tradicionalmente é feito na maioria dos frameworks web. 
+Por isso a necessidade de passar o objeto da classe controladora para o \textbf{WEBSubmitButton}. Nos exemplos a seguir são apresentados exemplos dos métodos \textbf{save} de 
+uma classe controladora e \textbf{renderContentOn:} de uma classe componente.
+
+
+\subsubsection{Exemplos}
+
+\begin{godCode}
+'Codigo do metodo renderContentOn: da classe componente que representa uma pagina que contem um formulario. GODApp eh o nome da classe controladora'
+
+|page|
+page := GODApp new initialize: self; render.	
+page render: html.
+
+'Codigo do metodo save de uma classe controladora. O atributo component eh a classe que contem o formulario, que por sua vez chama o componente WEBResponse que ira 
+renderizar o resultado do processamento. A classe controladora eh passada como parametro para que WEBResponse obtenha os dados preenchidos no formulario'
+
+component call: (WEBResponse new object: self).
+
+'Codigo do metodo estatico initialize de uma classe componente que representa a pagina inicial de uma aplicacao'
+
+	WAAdmin register: self asApplicationAt: 'webapplication'
+
+\end{godCode}
